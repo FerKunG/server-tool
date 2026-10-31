@@ -17,7 +17,7 @@ const RELEASES = [
     date: '2026-10-30',
     latest: true,
     zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.2.1/Server-Tool-1.2.1-win-x64.zip',
-    exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.2.1/Server Tool Setup 1.2.1.exe',
+    exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.2.1/Server.Tool.Setup.1.2.1.exe',
     format: 'ZIP · portable',
     size: '157 MB',
     sha256: '72CEF577C9A8B3747F57BA0C78CC67BA0CD840C1E8033045243786242625C580',
