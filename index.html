@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server Tool — Minecraft Server Manager by FerKunGsXD</title>
+<meta name="description" content="Server Tool is a premium Minecraft server manager for Windows. Multi-server dashboard, real metrics, safe process control, backups and Modrinth add-ons.">
+<meta name="theme-color" content="#F5F4F0">
+<meta property="og:title" content="Server Tool — by FerKunGsXD">
+<meta property="og:description" content="A premium Minecraft server manager for Windows. Multi-server, real metrics, backups and more.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314140F'/%3E%3Cpath d='M16 5l10 5.8v10.4L16 27 6 21.2V10.8L16 5z' fill='%2367E8F9'/%3E%3C/svg%3E">
+
+<!-- Typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1821900542837424" crossorigin="anonymous"></script>
+
+<noscript>
+  <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
+</noscript>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================================================
+     Sidebar / mobile header
+     ============================================================ -->
+<header class="site-header" id="site-header">
+  <div class="side-brand">
+    <a class="brand" href="#home" aria-label="Server Tool — home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="22" height="22" fill="none">
+          <path d="M16 3.2 27.4 9.6v12.8L16 28.8 4.6 22.4V9.6L16 3.2Z" fill="url(#lgSide)"/>
+          <path d="M16 3.2 27.4 9.6 16 16 4.6 9.6 16 3.2Z" fill="#67E8F9" opacity=".9"/>
+          <path d="M16 16v12.8L4.6 22.4V9.6L16 16Z" fill="#4338CA" opacity=".85"/>
+          <defs>
+            <linearGradient id="lgSide" x1="4" y1="4" x2="28" y2="29" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6366F1"/><stop offset="1" stop-color="#22D3EE"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <strong>Server Tool</strong>
+        <small>Minecraft manager</small>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-controls="nav-menu" aria-expanded="false" aria-label="Open navigation menu">
+      <i data-lucide="menu" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div class="nav-menu" id="nav-menu">
+    <a class="side-release" href="#download">
+      <span class="live-dot" aria-hidden="true"></span>
+      <span class="release-copy">
+        <strong>v1.2.1</strong>
+        <small>Windows 10 / 11 · x64</small>
+      </span>
+      <i data-lucide="arrow-down-to-line" class="release-icon" aria-hidden="true"></i>
+    </a>
+
+    <nav class="side-nav" aria-label="Main navigation">
+      <a class="nav-link is-active" href="#home">
+        <span>Overview</span><span class="cat-count">01</span>
+      </a>
+      <a class="nav-link" href="#features">
+        <span>Features</span><span class="cat-count">06</span>
+      </a>
+      <a class="nav-link" href="#download">
+        <span>Download</span><span class="cat-count">02</span>
+      </a>
+      <a class="nav-link" href="#gallery">
+        <span>Gallery</span><span class="cat-count">06</span>
+      </a>
+      <a class="nav-link" href="#about">
+        <span>About</span><span class="cat-count">01</span>
+      </a>
+    </nav>
+
+    <div class="side-bottom">
+      <a class="btn btn-dark btn-block" href="#download">
+        <i data-lucide="download" aria-hidden="true"></i>
+        Download for Windows
+      </a>
+      <p class="side-note mono">Portable ZIP + NSIS installer</p>
+
+      <div class="side-socials" aria-label="Social links">
+        <a href="https://www.youtube.com/@FerKunGsXD" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+          <svg class="yt-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z"/></svg>
+        </a>
+        <a href="https://www.pinterest.com/search/pins/?q=minecraft%20server%20ideas" target="_blank" rel="noopener noreferrer" aria-label="Pinterest" title="Pinterest">
+          <i data-lucide="image" aria-hidden="true"></i>
+        </a>
+        <a href="#gallery" aria-label="Gallery" title="Gallery">
+          <i data-lucide="images" aria-hidden="true"></i>
+        </a>
+      </div>
+
+      <p class="side-copy">Built by FerKunGsXD</p>
+    </div>
+  </div>
+</header>
+
+<main class="main" id="main">
+
+  <!-- ============================================================
+       Hero
+       ============================================================ -->
+  <section class="hero" id="home">
+    <div class="hero-grid">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Server Tool · Minecraft server manager</p>
+        <h1>Minecraft,<br>under control.</h1>
+        <p class="hero-sub">
+          Run unlimited Minecraft servers from one calm, local desktop app.
+          One-click installs, live CPU and RAM, safe stops and world backups.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-dark btn-lg" href="#download">
+            <i data-lucide="download" aria-hidden="true"></i>
+            Download for Windows
+          </a>
+          <a class="btn btn-outline btn-lg" href="https://www.youtube.com/@FerKunGsXD"
+             target="_blank" rel="noopener noreferrer">
+            <svg class="yt-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <div class="hero-meta" aria-label="Highlights">
+          <span class="mono"><i data-lucide="check" aria-hidden="true"></i> Unlimited profiles</span>
+          <span class="mono"><i data-lucide="check" aria-hidden="true"></i> One-click installs</span>
+          <span class="mono"><i data-lucide="check" aria-hidden="true"></i> 100% local</span>
+        </div>
+      </div>
+
+      <div class="hero-preview reveal" aria-hidden="true">
+        <div class="preview-head">
+          <span class="preview-label"><span class="live-dot"></span> Live dashboard</span>
+          <span class="mono preview-index">01 / 06</span>
+        </div>
+
+        <div class="preview-frame">
+          <div class="app-window">
+            <div class="app-bar">
+              <span class="win-dots"><i></i><i></i><i></i></span>
+              <span class="app-bar-title">Server Tool — Overview</span>
+              <span class="app-bar-status"><span class="live-dot"></span> Running</span>
+            </div>
+
+            <div class="app-tabs">
+              <span class="app-tab is-active">Overview</span>
+              <span class="app-tab">Console</span>
+              <span class="app-tab">Files</span>
+              <span class="app-tab">Backups</span>
+            </div>
+
+            <div class="app-body">
+              <div class="app-stats">
+                <div class="app-stat">
+                  <span class="app-stat-label">CPU</span>
+                  <strong>12<span>%</span></strong>
+                  <span class="meter"><i style="width:12%"></i></span>
+                </div>
+                <div class="app-stat">
+                  <span class="app-stat-label">Memory</span>
+                  <strong>2.1<span>/ 4 GB</span></strong>
+                  <span class="meter"><i style="width:53%"></i></span>
+                </div>
+                <div class="app-stat">
+                  <span class="app-stat-label">TPS</span>
+                  <strong class="good">20.0</strong>
+                  <span class="meter"><i style="width:100%"></i></span>
+                </div>
+              </div>
+
+              <div class="app-console">
+                <div class="line"><span class="t">22:41:08</span><span class="lvl info">INFO</span> Loading Paper 1.21.1 …</div>
+                <div class="line"><span class="t">22:41:09</span><span class="lvl ok">OK</span> World <b>world</b> loaded in 2.4s</div>
+                <div class="line"><span class="t">22:41:10</span><span class="lvl info">INFO</span> Done — listening on <b>*:25565</b></div>
+                <div class="line"><span class="t">22:41:14</span><span class="lvl player">JOIN</span> FerKunG joined the game</div>
+                <div class="line"><span class="t">22:41:19</span><span class="lvl info">INFO</span> Autosave complete <span class="dim">(3 chunks)</span></div>
+                <div class="line cursor-line"><span class="t">22:41:21</span><span class="prompt">❯</span><span class="caret"></span></div>
+              </div>
+            </div>
+
+            <div class="app-footer">
+              <span><i data-lucide="users" aria-hidden="true"></i> 3 players online</span>
+              <span><i data-lucide="hard-drive" aria-hidden="true"></i> 1.8 GB world</span>
+              <span class="app-pill">Paper 1.21.1</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-foot">
+          <span class="mono">Server Tool v1.2.1</span>
+          <span class="mono">Windows · x64</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Features
+       ============================================================ -->
+  <section class="section results" id="features">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">Features</p>
+        <h2>Everything, in one window.</h2>
+        <p class="section-sub">Every screen is built around the daily routine: start, watch, fix, back up, repeat.</p>
+      </div>
+      <span class="results-count mono">06 modules</span>
+    </div>
+
+    <div class="card-grid">
+      <a class="card feature-card reveal" href="#download">
+        <div class="card-stage stage-ink">
+          <span class="stage-num">01</span>
+          <span class="stage-icon"><i data-lucide="mouse-pointer-click" aria-hidden="true"></i></span>
+          <span class="stage-tag mono">Guided setup</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Feature</span><span class="pill">View</span></div>
+          <h3>Easy to use</h3>
+          <p>Create a server in four clicks. Pick the software, choose a version, set memory and press start — no terminal required.</p>
+        </div>
+      </a>
+
+      <a class="card feature-card reveal" href="#download">
+        <div class="card-stage stage-paper">
+          <span class="stage-num">02</span>
+          <span class="stage-icon"><i data-lucide="server" aria-hidden="true"></i></span>
+          <span class="stage-tag mono">Vanilla · Paper · Fabric</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Feature</span><span class="pill">View</span></div>
+          <h3>Minecraft server tools</h3>
+          <p>Vanilla, Paper, Purpur and Fabric installers, plus whitelist, OP and ban management in one place.</p>
+        </div>
+      </a>
+
+      <a class="card feature-card reveal" href="#download">
+        <div class="card-stage stage-mist">
+          <span class="stage-num">03</span>
+          <span class="stage-icon"><i data-lucide="layout-dashboard" aria-hidden="true"></i></span>
+          <span class="stage-tag mono">Dark UI</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Feature</span><span class="pill">View</span></div>
+          <h3>Modern interface</h3>
+          <p>A dark, focused dashboard with a live console, file browser and server.properties editor that stays readable.</p>
+        </div>
+      </a>
+
+      <a class="card feature-card reveal" href="#download">
+        <div class="card-stage stage-paper">
+          <span class="stage-num">04</span>
+          <span class="stage-icon"><i data-lucide="zap" aria-hidden="true"></i></span>
+          <span class="stage-tag mono">Low overhead</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Feature</span><span class="pill">View</span></div>
+          <h3>Fast experience</h3>
+          <p>Native Electron shell, instant navigation and console output that keeps up with a busy server.</p>
+        </div>
+      </a>
+
+      <a class="card feature-card reveal" href="#download">
+        <div class="card-stage stage-ink">
+          <span class="stage-num">05</span>
+          <span class="stage-icon"><i data-lucide="shield-check" aria-hidden="true"></i></span>
+          <span class="stage-tag mono">Crash protection</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Feature</span><span class="pill">View</span></div>
+          <h3>Safe process control</h3>
+          <p>Graceful <code>stop</code>, a 30 second wait, then only the JVM process tree is terminated. Auto-restart never loops forever.</p>
+        </div>
+      </a>
+
+      <a class="card feature-card reveal" href="#download">
+        <div class="card-stage stage-mist">
+          <span class="stage-num">06</span>
+          <span class="stage-icon"><i data-lucide="hard-drive" aria-hidden="true"></i></span>
+          <span class="stage-tag mono">Modrinth ready</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Feature</span><span class="pill">View</span></div>
+          <h3>Backups &amp; add-ons</h3>
+          <p>Cron-style ZIP backups with retention, plus Modrinth search that drops plugins or mods in the right folder.</p>
+        </div>
+      </a>
+    </div>
+
+    <aside class="ad-band reveal" aria-label="Advertisement">
+      <div class="ad-band-head">
+        <span class="mono">Advertisement</span>
+        <span class="mono">Sponsored</span>
+      </div>
+      <div class="ad-unit">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1821900542837424"
+             data-ad-slot="9015687951"
+             data-ad-format="horizontal"
+             data-full-width-responsive="false"></ins>
+      </div>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </aside>
+  </section>
+
+  <!-- ============================================================
+       Download
+       ============================================================ -->
+  <section class="section download-section" id="download">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">Download</p>
+        <h2>Get Server Tool.</h2>
+        <p class="section-sub">Grab the current Windows build. The portable ZIP needs no installer — extract it anywhere and launch the executable.</p>
+      </div>
+      <span class="results-count mono">02 builds</span>
+    </div>
+
+    <div class="download-grid">
+      <div class="card download-card reveal">
+        <div class="card-topline">
+          <span class="mono">Release details</span>
+          <span class="mono">Windows · x64</span>
+        </div>
+
+        <div class="download-body">
+          <dl class="spec-grid">
+            <div class="spec">
+              <dt>Software</dt>
+              <dd>Server Tool</dd>
+            </div>
+            <div class="spec">
+              <dt>Current version</dt>
+              <dd><span id="meta-version">v1.2.1</span></dd>
+            </div>
+            <div class="spec">
+              <dt>File size</dt>
+              <dd><span id="meta-size">157 MB</span></dd>
+            </div>
+            <div class="spec">
+              <dt>Compatibility</dt>
+              <dd>Windows 10 / 11 · x64</dd>
+            </div>
+            <div class="spec">
+              <dt>Format</dt>
+              <dd><span id="meta-format">ZIP · portable</span></dd>
+            </div>
+            <div class="spec">
+              <dt>Java</dt>
+              <dd>17 or 21+</dd>
+            </div>
+          </dl>
+
+          <div class="version-picker">
+            <label for="version-select">Choose a version</label>
+            <div class="select-wrap">
+              <select id="version-select" aria-describedby="version-help"></select>
+              <i data-lucide="chevron-down" class="select-arrow" aria-hidden="true"></i>
+            </div>
+            <p id="version-help" class="field-help">Archived versions are listed for reference only.</p>
+          </div>
+
+          <div class="download-actions">
+            <!-- Release assets are hosted on GitHub Releases. -->
+            <a class="btn btn-dark btn-lg" id="download-zip"
+               href="https://github.com/FerKunG/server-tool/releases/download/v1.2.1/Server-Tool-1.2.1-win-x64.zip"
+               download="Server-Tool-1.2.1-win-x64.zip">
+              <i data-lucide="file-archive" aria-hidden="true"></i>
+              <span>Download ZIP</span>
+            </a>
+            <a class="btn btn-outline btn-lg" id="download-exe"
+               href="https://github.com/FerKunG/server-tool/releases/download/v1.2.1/Server%20Tool%20Setup%201.2.1.exe"
+               download="Server Tool Setup 1.2.1.exe">
+              <i data-lucide="monitor-down" aria-hidden="true"></i>
+              <span>Installer (.exe)</span>
+            </a>
+          </div>
+
+          <div class="hash-box">
+            <span class="hash-label mono">SHA-256</span>
+            <code id="hash-value">—</code>
+            <button class="icon-btn" id="copy-hash" type="button" aria-label="Copy SHA-256 checksum">
+              <i data-lucide="copy" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <p class="download-note" id="download-note">Portable build. Extract the folder, then run <code>Server Tool.exe</code>.</p>
+        </div>
+      </div>
+
+      <aside class="card install-card reveal" aria-labelledby="install-title">
+        <div class="card-topline">
+          <span class="mono">Installation</span>
+          <span class="mono">05 steps</span>
+        </div>
+
+        <div class="install-body">
+          <h3 id="install-title">Up and running in five steps.</h3>
+          <ol class="steps">
+            <li>
+              <span class="step-num mono">01</span>
+              <div><strong>Download the ZIP</strong><p>Use the button on the left. Keep the file until extraction finishes.</p></div>
+            </li>
+            <li>
+              <span class="step-num mono">02</span>
+              <div><strong>Extract it</strong><p>Right-click → Extract All, or use 7-Zip, into a folder such as <code>C:\Games\Server Tool</code>.</p></div>
+            </li>
+            <li>
+              <span class="step-num mono">03</span>
+              <div><strong>Install Java</strong><p>Java 21+ for Minecraft 1.20.5 and newer, Java 17 for 1.18–1.20.4.</p></div>
+            </li>
+            <li>
+              <span class="step-num mono">04</span>
+              <div><strong>Launch the app</strong><p>Run <code>Server Tool.exe</code>. Windows SmartScreen may ask once — choose “More info → Run anyway”.</p></div>
+            </li>
+            <li>
+              <span class="step-num mono">05</span>
+              <div><strong>Create a server</strong><p>Pick software and version, accept the EULA, then press Start.</p></div>
+            </li>
+          </ol>
+          <div class="requirements">
+            <span><i data-lucide="monitor" aria-hidden="true"></i> Windows 10/11</span>
+            <span><i data-lucide="hard-drive" aria-hidden="true"></i> ~1 GB free</span>
+            <span><i data-lucide="globe" aria-hidden="true"></i> Internet</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Gallery
+       ============================================================ -->
+  <section class="section gallery-section" id="gallery">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">Gallery</p>
+        <h2>Worlds worth showing off.</h2>
+        <p class="section-sub">Voxel scenes for inspiration. Open any card on Pinterest to explore builds, landscapes and shaders.</p>
+      </div>
+      <span class="results-count mono">06 scenes</span>
+    </div>
+
+    <!-- Replace the SVG sources with your own Minecraft screenshots when you have them. -->
+    <div class="card-grid gallery-grid">
+      <a class="card gallery-card reveal" href="https://www.pinterest.com/search/pins/?q=minecraft%20sunset%20shaders"
+         target="_blank" rel="noopener noreferrer" aria-label="Sunset Plains — search Minecraft sunset shaders on Pinterest">
+        <div class="card-stage gallery-stage">
+          <img src="assets/gallery/sunset-plains.svg" alt="Voxel sunset over green Minecraft plains with blocky trees" loading="lazy" width="1200" height="800">
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Landscape</span><span class="pill">Pinterest</span></div>
+          <h3>Sunset Plains</h3>
+          <p>Golden hour over blocky plains and oak trees.</p>
+        </div>
+      </a>
+
+      <a class="card gallery-card reveal" href="https://www.pinterest.com/search/pins/?q=minecraft%20village%20night"
+         target="_blank" rel="noopener noreferrer" aria-label="Night Village — search Minecraft village night on Pinterest">
+        <div class="card-stage gallery-stage">
+          <img src="assets/gallery/village-night.svg" alt="Voxel Minecraft village with lit windows under a night sky" loading="lazy" width="1200" height="800">
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Build</span><span class="pill">Pinterest</span></div>
+          <h3>Night Village</h3>
+          <p>Lantern-lit windows and a quiet cobblestone street.</p>
+        </div>
+      </a>
+
+      <a class="card gallery-card reveal" href="https://www.pinterest.com/search/pins/?q=minecraft%20mountain%20base"
+         target="_blank" rel="noopener noreferrer" aria-label="Mountain Lake — search Minecraft mountain base on Pinterest">
+        <div class="card-stage gallery-stage">
+          <img src="assets/gallery/mountain-lake.svg" alt="Snowy voxel mountains above a blue Minecraft lake" loading="lazy" width="1200" height="800">
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Landscape</span><span class="pill">Pinterest</span></div>
+          <h3>Mountain Lake</h3>
+          <p>Snowy peaks mirrored in a still voxel lake.</p>
+        </div>
+      </a>
+
+      <a class="card gallery-card reveal" href="https://www.pinterest.com/search/pins/?q=minecraft%20nether%20build"
+         target="_blank" rel="noopener noreferrer" aria-label="Nether Portal — search Minecraft nether builds on Pinterest">
+        <div class="card-stage gallery-stage">
+          <img src="assets/gallery/nether-lava.svg" alt="Voxel Nether landscape with lava and a glowing purple portal" loading="lazy" width="1200" height="800">
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Dimension</span><span class="pill">Pinterest</span></div>
+          <h3>Nether Portal</h3>
+          <p>Lava, basalt and a portal glowing violet.</p>
+        </div>
+      </a>
+
+      <a class="card gallery-card reveal" href="https://www.pinterest.com/search/pins/?q=minecraft%20cherry%20grove"
+         target="_blank" rel="noopener noreferrer" aria-label="Cherry Grove — search Minecraft cherry grove on Pinterest">
+        <div class="card-stage gallery-stage">
+          <img src="assets/gallery/cherry-grove.svg" alt="Voxel cherry grove with pink blossom trees in Minecraft" loading="lazy" width="1200" height="800">
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Biome</span><span class="pill">Pinterest</span></div>
+          <h3>Cherry Grove</h3>
+          <p>Pink blossoms over rolling green hills.</p>
+        </div>
+      </a>
+
+      <a class="card gallery-card reveal" href="https://www.pinterest.com/search/pins/?q=minecraft%20castle%20build"
+         target="_blank" rel="noopener noreferrer" aria-label="Dusk Castle — search Minecraft castle builds on Pinterest">
+        <div class="card-stage gallery-stage">
+          <img src="assets/gallery/castle-dusk.svg" alt="Voxel stone castle on a hill at dusk" loading="lazy" width="1200" height="800">
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="mono">Build</span><span class="pill">Pinterest</span></div>
+          <h3>Dusk Castle</h3>
+          <p>A stone keep silhouetted against the last light.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="gallery-more reveal">
+      <a class="btn btn-outline" href="https://www.pinterest.com/search/pins/?q=minecraft%20builds"
+         target="_blank" rel="noopener noreferrer">
+        <i data-lucide="sparkles" aria-hidden="true"></i>
+        Browse more Minecraft inspiration
+        <i data-lucide="arrow-right" class="icon-end" aria-hidden="true"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       About
+       ============================================================ -->
+  <section class="section about-section" id="about">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">About</p>
+        <h2>Made by a server owner.</h2>
+        <p class="section-sub">Built for the daily routine of running Minecraft worlds — not for a product demo.</p>
+      </div>
+      <span class="results-count mono">01 maker</span>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-copy reveal">
+        <p>
+          I’m <strong>FerKunGsXD</strong>, a developer and Minecraft server owner from Thailand.
+          I built Server Tool because the tools I used were split across ten windows, half-finished
+          scripts and a lot of guesswork.
+        </p>
+        <p>
+          Server Tool brings the daily routine into one desktop app: create a server,
+          see what it is doing, fix what broke and keep the world safe. The interface ships
+          in Thai and English.
+        </p>
+
+        <div class="about-actions">
+          <a class="btn btn-dark" href="https://www.youtube.com/@FerKunGsXD"
+             target="_blank" rel="noopener noreferrer">
+            <svg class="yt-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z"/></svg>
+            Watch on YouTube
+          </a>
+          <a class="btn btn-outline" href="#download">
+            <i data-lucide="download" aria-hidden="true"></i> Get the app
+          </a>
+        </div>
+      </div>
+
+      <aside class="card creator-card reveal" aria-label="Creator profile">
+        <div class="creator-top">
+          <span class="avatar" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="36" height="36" fill="none">
+              <path d="M16 3.2 27.4 9.6v12.8L16 28.8 4.6 22.4V9.6L16 3.2Z" fill="url(#lgCreator)"/>
+              <path d="M16 3.2 27.4 9.6 16 16 4.6 9.6 16 3.2Z" fill="#67E8F9" opacity=".9"/>
+              <path d="M16 16v12.8L4.6 22.4V9.6L16 16Z" fill="#4338CA" opacity=".85"/>
+              <defs>
+                <linearGradient id="lgCreator" x1="4" y1="4" x2="28" y2="29" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#6366F1"/><stop offset="1" stop-color="#22D3EE"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </span>
+          <div class="creator-id">
+            <strong>FerKunGsXD</strong>
+            <span>Creator &amp; Developer</span>
+          </div>
+          <span class="badge-live"><span class="live-dot"></span> Active</span>
+        </div>
+
+        <p class="creator-bio">
+          Building Minecraft tools, server setups and the occasional redstone accident.
+          Server Tool is the app I wanted to use myself.
+        </p>
+
+        <div class="creator-stats">
+          <div><strong>1.2.1</strong><span>current build</span></div>
+          <div><strong>Windows</strong><span>x64 desktop</span></div>
+          <div><strong>TH / EN</strong><span>languages</span></div>
+        </div>
+
+        <div class="creator-links">
+          <a href="https://www.youtube.com/@FerKunGsXD" target="_blank" rel="noopener noreferrer" aria-label="FerKunGsXD on YouTube">
+            <svg class="yt-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z"/></svg> YouTube
+          </a>
+          <a href="https://www.pinterest.com/search/pins/?q=minecraft%20server%20ideas" target="_blank" rel="noopener noreferrer" aria-label="Minecraft server ideas on Pinterest">
+            <i data-lucide="image" aria-hidden="true"></i> Pinterest
+          </a>
+          <a href="#gallery">
+            <i data-lucide="images" aria-hidden="true"></i> Gallery
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="mono foot-brand">SERVER TOOL</span>
+    <span class="foot-note">Minecraft server manager, built local-first.</span>
+    <span class="foot-copy">© <span id="year">2026</span> FerKunGsXD · <a href="privacy.html">Privacy</a></span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="Back to top">
+  <i data-lucide="arrow-up" aria-hidden="true"></i>
+</button>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Lucide icons (served locally so the page also works offline) -->
+<script src="vendor/lucide.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
