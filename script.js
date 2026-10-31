@@ -1,5 +1,5 @@
 /* ============================================================
-   SERVER TOOL — FerKunGsXD
+   FERNODE — FerKunGsXD
    Vanilla JavaScript (ES6+)
    ------------------------------------------------------------
    Replace the values below when you publish a new build or
@@ -21,8 +21,8 @@ const RELEASES = [
     format: 'ZIP · portable',
     size: '157 MB',
     sha256: '72CEF577C9A8B3747F57BA0C78CC67BA0CD840C1E8033045243786242625C580',
-    note: 'Portable build. Extract the folder, then run Server Tool.exe.',
-    noteHtml: 'Portable build. Extract the folder, then run <code>Server Tool.exe</code>.'
+    note: 'Portable build. Extract the folder, then run the app.',
+    noteHtml: 'Portable build. Extract the folder, then run the app.'
   },
   {
     version: '1.2.0',
@@ -195,7 +195,7 @@ function wireVersionPicker() {
         toast(`v${currentVersion} is not uploaded yet`);
         return;
       }
-      toast(`Starting download · SERVER TOOL v${currentVersion}`);
+      toast(`Starting download · FERNODE v${currentVersion}`);
     });
   });
 

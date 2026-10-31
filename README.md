@@ -1,6 +1,10 @@
-# Server Tool website
+# FerNode website
 
-Public download site for **Server Tool** by **FerKunGsXD**.
+Public download site for **FerNode** by **FerKunGsXD**.
+
+> **Brand note:** the website is branded FerNode. The current 1.2.1 downloads still contain
+> `Server Tool.exe` and use the original asset filenames. Rebuild and rename the app before
+> changing those download paths.
 
 - Site: https://ferkung.github.io/server-tool/
 - Downloads: [GitHub Releases](https://github.com/FerKunG/server-tool/releases)
