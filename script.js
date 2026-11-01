@@ -1,9 +1,6 @@
 /* ============================================================
-   FERNODE — FerKunGsXD
+   FERNODE — site behaviour
    Vanilla JavaScript (ES6+)
-   ------------------------------------------------------------
-   Replace the values below when you publish a new build or
-   move the files to another host.
    ============================================================ */
 
 'use strict';
@@ -59,24 +56,26 @@ const RELEASES = [
   }
 ];
 
-const latestRelease = RELEASES.find((r) => r.latest) || RELEASES[0];
+const latestRelease = RELEASES.find((release) => release.latest) || RELEASES[0];
 
-/* ---------- Tiny helpers ---------- */
+/* ---------- Helpers ---------- */
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
-const getRelease = (version) => RELEASES.find((r) => r.version === version) || latestRelease;
+const getRelease = (version) => RELEASES.find((release) => release.version === version) || latestRelease;
 const isAvailable = (release) => Boolean(release && (release.zip || release.exe));
 const fileName = (path) => path.split('/').pop();
 
 let toastTimer = null;
+
 function toast(message) {
-  const el = $('#toast');
-  if (!el) return;
-  el.textContent = message;
-  el.classList.add('is-visible');
+  const element = $('#toast');
+  if (!element) return;
+
+  element.textContent = message;
+  element.classList.add('is-visible');
   window.clearTimeout(toastTimer);
-  toastTimer = window.setTimeout(() => el.classList.remove('is-visible'), 2600);
+  toastTimer = window.setTimeout(() => element.classList.remove('is-visible'), 2600);
 }
 
 /* ---------- Version picker ---------- */
@@ -94,22 +93,23 @@ function renderVersionOptions() {
   }).join('');
 }
 
-function setDownloadButton(button, path, label) {
-  if (!button) return;
-  const text = $('span', button);
+function setDownloadLink(link, path, availableLabel, unavailableLabel) {
+  if (!link) return;
+
+  const text = $('span', link);
 
   if (path) {
-    button.href = encodeURI(path);
-    button.setAttribute('download', fileName(path));
-    button.classList.remove('is-disabled');
-    button.removeAttribute('aria-disabled');
-    if (text) text.textContent = label;
+    link.href = encodeURI(path);
+    link.setAttribute('download', fileName(path));
+    link.classList.remove('is-disabled');
+    link.removeAttribute('aria-disabled');
+    if (text) text.textContent = availableLabel;
   } else {
-    button.removeAttribute('href');
-    button.removeAttribute('download');
-    button.classList.add('is-disabled');
-    button.setAttribute('aria-disabled', 'true');
-    if (text) text.textContent = 'Unavailable';
+    link.removeAttribute('href');
+    link.removeAttribute('download');
+    link.classList.add('is-disabled');
+    link.setAttribute('aria-disabled', 'true');
+    if (text) text.textContent = unavailableLabel;
   }
 }
 
@@ -130,26 +130,28 @@ function applyVersion(version, options = {}) {
   if (metaVersion) metaVersion.textContent = 'v' + release.version;
   if (metaSize) metaSize.textContent = release.size || 'Not uploaded';
   if (metaFormat) metaFormat.textContent = release.format;
+
   if (hashValue) {
     hashValue.textContent = release.sha256 || 'No checksum on file';
     hashValue.title = release.sha256 || '';
   }
+
   if (copyButton) {
     copyButton.disabled = !release.sha256;
     copyButton.setAttribute('aria-disabled', String(!release.sha256));
   }
 
-  setDownloadButton($('#download-zip'), release.zip, 'Download ZIP');
-  setDownloadButton($('#download-exe'), release.exe, 'Installer (.exe)');
+  setDownloadLink($('#download-zip'), release.zip, 'Download tool', 'Not uploaded');
+  setDownloadLink($('#download-exe'), release.exe, 'Or download the installer (.exe)', 'Installer not uploaded');
 
   if (note) {
-    // Static strings from RELEASES only — safe to use for the inline <code> detail.
+    // Static strings from RELEASES only — safe to use for the inline detail.
     note.innerHTML = release.noteHtml || release.note;
     note.classList.toggle('is-warn', !isAvailable(release));
   }
 
   try {
-    localStorage.setItem('server-tool-version', release.version);
+    localStorage.setItem('fernode-version', release.version);
   } catch (error) { /* private mode — ignore */ }
 
   if (options.updateUrl !== false) {
@@ -166,13 +168,12 @@ function applyVersion(version, options = {}) {
 function initialVersion() {
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get('v');
-  if (fromUrl && RELEASES.some((r) => r.version === fromUrl)) return fromUrl;
+  if (fromUrl && RELEASES.some((release) => release.version === fromUrl)) return fromUrl;
 
   try {
-    // Only restore versions that still have a downloadable file. A shared
-    // ?v= link can still point at an archived build for reference.
-    const saved = localStorage.getItem('server-tool-version');
-    if (saved && RELEASES.some((r) => r.version === saved && isAvailable(r))) return saved;
+    // Only restore versions that still have a downloadable file.
+    const saved = localStorage.getItem('fernode-version');
+    if (saved && RELEASES.some((release) => release.version === saved && isAvailable(release))) return saved;
   } catch (error) { /* ignore */ }
 
   return latestRelease.version;
@@ -185,17 +186,19 @@ function wireVersionPicker() {
   }
 
   const zip = $('#download-zip');
-  const exe = $('#download-exe');
+  const installer = $('#download-exe');
 
-  [zip, exe].forEach((button) => {
-    if (!button) return;
-    button.addEventListener('click', (event) => {
-      if (button.classList.contains('is-disabled')) {
+  [zip, installer].forEach((link) => {
+    if (!link) return;
+    link.addEventListener('click', (event) => {
+      if (link.classList.contains('is-disabled')) {
         event.preventDefault();
         toast(`v${currentVersion} is not uploaded yet`);
         return;
       }
-      toast(`Starting download · FERNODE v${currentVersion}`);
+      if (link.id === 'download-zip') {
+        toast(`Starting download · FERNODE v${currentVersion}`);
+      }
     });
   });
 
@@ -222,167 +225,145 @@ async function copyText(text, label) {
     area.style.top = '-1000px';
     document.body.appendChild(area);
     area.select();
+
     try {
       document.execCommand('copy');
       toast(label + ' copied');
     } catch (fallbackError) {
       toast('Could not copy — select the checksum manually');
     }
+
     area.remove();
   }
 }
 
-/* ---------- Mobile navigation ---------- */
-function wireNavigation() {
-  const toggle = $('#nav-toggle');
-  const menu = $('#nav-menu');
-  const header = $('#site-header');
-  if (!toggle || !menu) return;
+/* ---------- Plugin library ---------- */
+let activeCategory = 'all';
 
-  const isOpen = () => header.classList.contains('menu-open');
+function updatePluginCards() {
+  const grid = $('#plugin-grid');
+  const empty = $('#plugin-empty');
+  const count = $('#plugin-count');
+  const search = $('#plugin-search');
+  const versionSelect = $('#mc-version');
+  if (!grid || !empty || !count || !search || !versionSelect) return;
 
-  const setIcon = (open) => {
-    toggle.innerHTML = `<i data-lucide="${open ? 'x' : 'menu'}" aria-hidden="true"></i>`;
-    if (window.lucide) window.lucide.createIcons();
-  };
+  const query = search.value.trim().toLowerCase();
+  const version = versionSelect.value;
+  const cards = $$('.plugin-card', grid);
+  let shown = 0;
 
-  const setOpen = (open) => {
-    header.classList.toggle('menu-open', open);
-    document.body.classList.toggle('menu-open', open);
-    toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-    setIcon(open);
+  cards.forEach((card) => {
+    const categories = (card.dataset.category || '').toLowerCase();
+    const versions = (card.dataset.versions || '').split(/\s+/);
+    const haystack = (card.dataset.search || '').toLowerCase();
 
-    if (open) {
-      const firstLink = $('.nav-link', menu);
-      if (firstLink) window.setTimeout(() => firstLink.focus(), 180);
-    }
-  };
+    const matchesCategory = activeCategory === 'all' || categories === activeCategory.toLowerCase();
+    const matchesVersion = versions.includes(version);
+    const matchesQuery = !query || haystack.includes(query);
+    const visible = matchesCategory && matchesVersion && matchesQuery;
 
-  toggle.addEventListener('click', () => setOpen(!isOpen()));
+    card.hidden = !visible;
+    if (!visible) return;
 
-  $$('a', menu).forEach((link) => {
-    link.addEventListener('click', () => setOpen(false));
-  });
+    shown += 1;
+    $$('.js-selected-version', card).forEach((label) => {
+      label.textContent = version;
+    });
 
-  document.addEventListener('keydown', (event) => {
-    if (!isOpen()) return;
-
-    if (event.key === 'Escape') {
-      setOpen(false);
-      toggle.focus();
-      return;
-    }
-
-    // Keep keyboard focus inside the open menu (toggle + links + CTA).
-    if (event.key !== 'Tab') return;
-
-    const focusables = [toggle, ...$$('a, button', menu)]
-      .filter((el) => !el.hasAttribute('disabled') && el.getClientRects().length > 0);
-    if (!focusables.length) return;
-
-    const first = focusables[0];
-    const last = focusables[focusables.length - 1];
-
-    if (event.shiftKey && (document.activeElement === first || document.activeElement === document.body)) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
+    const download = $('.plugin-download', card);
+    if (download) {
+      download.setAttribute(
+        'aria-label',
+        `Download plugin: ${download.dataset.plugin || 'FerNode plugin'} for Minecraft ${version}`
+      );
     }
   });
 
-  window.matchMedia('(min-width: 1401px)').addEventListener('change', (event) => {
-    if (event.matches) setOpen(false);
-  });
+  count.textContent = `Showing ${shown} of ${cards.length} plugins`;
+  empty.hidden = shown !== 0;
 }
 
-/* ---------- Scroll behaviour ---------- */
-function wireScroll() {
-  const header = $('#site-header');
-  const toTop = $('#to-top');
-  let ticking = false;
-
-  const update = () => {
-    const y = window.scrollY || window.pageYOffset;
-    if (header) header.classList.toggle('is-scrolled', y > 12);
-    if (toTop) toTop.classList.toggle('is-visible', y > 700);
-    ticking = false;
-  };
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      ticking = true;
-      window.requestAnimationFrame(update);
-    }
-  }, { passive: true });
-
-  update();
-
-  if (toTop) {
-    toTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+function setCategory(category) {
+  activeCategory = category;
+  $$('.chip[data-category]').forEach((chip) => {
+    const active = chip.dataset.category === category;
+    chip.classList.toggle('is-active', active);
+    chip.setAttribute('aria-pressed', String(active));
+  });
+  updatePluginCards();
 }
 
-/* ---------- Scroll spy ---------- */
-function wireScrollSpy() {
-  const links = $$('.nav-link');
-  const sections = $$('main section[id]');
-  if (!links.length || !sections.length || !('IntersectionObserver' in window)) return;
+function resetPluginFilters() {
+  const search = $('#plugin-search');
+  const version = $('#mc-version');
+  if (search) search.value = '';
+  if (version) version.value = '1.21.x';
+  setCategory('all');
+}
 
-  const setActive = (id) => {
-    links.forEach((link) => {
-      const active = link.getAttribute('href') === '#' + id;
-      link.classList.toggle('is-active', active);
-      if (active) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
+function wirePluginLibrary() {
+  const search = $('#plugin-search');
+  const version = $('#mc-version');
+  const reset = $('#reset-filters');
+  const bundle = $('.bundle-link');
+
+  search?.addEventListener('input', updatePluginCards);
+  version?.addEventListener('change', updatePluginCards);
+
+  $$('.chip[data-category]').forEach((chip) => {
+    chip.addEventListener('click', () => setCategory(chip.dataset.category || 'all'));
+  });
+
+  reset?.addEventListener('click', resetPluginFilters);
+
+  $$('.plugin-download').forEach((link) => {
+    link.addEventListener('click', () => {
+      const card = link.closest('.plugin-card');
+      const name = $('h3', card)?.textContent || 'Plugin';
+      toast(`Downloading ${name}`);
     });
-  };
+  });
+
+  bundle?.addEventListener('click', () => {
+    toast('Downloading all 3 FerNode plugins');
+  });
+
+  updatePluginCards();
+}
+
+function wirePluginVideos() {
+  const videos = $$('.plugin-video');
+  if (!videos.length) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reduceMotion.matches || !('IntersectionObserver' in window)) return;
 
   const observer = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter((entry) => entry.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-    if (visible[0]) setActive(visible[0].target.id);
+    entries.forEach((entry) => {
+      const video = entry.target;
+      if (entry.isIntersecting) {
+        const play = video.play();
+        if (play && typeof play.catch === 'function') play.catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
   }, {
-    rootMargin: '-42% 0px -50% 0px',
-    threshold: [0, 0.2, 0.6]
+    rootMargin: '120px 0px',
+    threshold: 0.3
   });
 
-  sections.forEach((section) => observer.observe(section));
-}
-
-/* ---------- Reveal on scroll ---------- */
-function wireReveal() {
-  const items = $$('.reveal');
-  if (!items.length) return;
-
-  if (!('IntersectionObserver' in window)) {
-    items.forEach((item) => item.classList.add('is-visible'));
-    return;
-  }
-
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
-      obs.unobserve(entry.target);
-    });
-  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-
-  items.forEach((item) => observer.observe(item));
+  videos.forEach((video) => {
+    video.muted = true;
+    video.loop = true;
+    observer.observe(video);
+  });
 }
 
 /* ---------- Misc ---------- */
 function wireMisc() {
-  const year = $('#year');
-  if (year) year.textContent = String(new Date().getFullYear());
-
-  // Deep links: re-align after the version picker has rendered.
+  // Deep links: re-align after dynamic content has rendered.
   if (window.location.hash.length > 1) {
     let target = null;
     try {
@@ -403,15 +384,11 @@ function wireMisc() {
 
 /* ---------- Boot ---------- */
 function init() {
-  if (window.lucide) window.lucide.createIcons();
-
   renderVersionOptions();
   wireVersionPicker();
   applyVersion(initialVersion());
-  wireNavigation();
-  wireScroll();
-  wireScrollSpy();
-  wireReveal();
+  wirePluginLibrary();
+  wirePluginVideos();
   wireMisc();
 }
 
