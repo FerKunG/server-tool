@@ -269,7 +269,12 @@ function updatePluginCards() {
     const visible = matchesCategory && matchesVersion && matchesQuery;
 
     card.hidden = !visible;
-    if (visible) shown += 1;
+    if (visible) {
+      shown += 1;
+    } else {
+      const video = $('.plugin-video', card);
+      if (video && !video.paused) video.pause();
+    }
   });
 
   count.textContent = `Showing ${shown} of ${cards.length} plugins`;
@@ -332,6 +337,49 @@ function wirePluginLibrary() {
   $('.bundle-download')?.addEventListener('click', () => toast('Downloading the FerNode plugin bundle'));
 
   updatePluginCards();
+}
+
+/* ---------- Plugin demos ---------- */
+function wirePluginVideos() {
+  const videos = $$('.plugin-video');
+  if (!videos.length) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canAutoplay = !reduceMotion && 'IntersectionObserver' in window;
+
+  if (!canAutoplay) {
+    // Leave the preview paused and let the visitor start it themselves.
+    videos.forEach((video) => { video.controls = true; });
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target;
+      const card = video.closest('.plugin-card');
+      const visible = !card || !card.hidden;
+
+      if (entry.isIntersecting && visible && !document.hidden) {
+        const play = video.play();
+        if (play && typeof play.catch === 'function') play.catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, {
+    rootMargin: '120px 0px',
+    threshold: 0.3
+  });
+
+  videos.forEach((video) => {
+    video.muted = true;
+    video.loop = true;
+    observer.observe(video);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) videos.forEach((video) => video.pause());
+  });
 }
 
 /* ---------- Mobile menu ---------- */
@@ -449,6 +497,7 @@ function init() {
   wireVersionPicker();
   applyVersion(initialVersion());
   wirePluginLibrary();
+  wirePluginVideos();
   wireMenu();
   wireFaq();
   wireReveal();

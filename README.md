@@ -25,7 +25,8 @@ website/
 ├─ assets/
 │  ├─ favicon.svg             FerNode favicon
 │  ├─ hero-wide.webp          wide hero banner (2048 × 768)
-│  └─ gallery/                voxel artwork for the gallery cards
+│  ├─ gallery/                voxel artwork for the gallery cards
+│  └─ plugins/                muted plugin demo clips
 └─ downloads/
    ├─ Server-Tool-1.2.1-win-x64.zip     portable build (157 MB)
    ├─ Server Tool Setup 1.2.1.exe       NSIS installer (117 MB)
@@ -68,6 +69,10 @@ Plugin cards live in `index.html`. Each card carries:
 
 `script.js` filters cards by search text, category and selected Minecraft version. If
 JavaScript is unavailable, every plugin card and download link is still present in the HTML.
+
+Each plugin card has a short muted demo clip in `assets/plugins/`. Clips autoplay only while
+the card is in the viewport, pause when it leaves or is filtered out, and remain paused with
+native controls when the visitor prefers reduced motion.
 
 Current build targets:
 
