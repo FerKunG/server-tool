@@ -17,15 +17,15 @@ The site has two main jobs:
 
 ```text
 website/
-├─ index.html                 homepage: app + plugins + gallery
-├─ style.css                  light blue theme, layout, responsive states
-├─ script.js                  version picker, plugin filters, checksums
+├─ index.html                 homepage: hero, plugins, principles, app, gallery, FAQ
+├─ style.css                  dark Manrope/DM Mono design system and responsive states
+├─ script.js                  version picker, plugin filters, checksum, menu, FAQ
 ├─ privacy.html               privacy policy (AdSense disclosure)
 ├─ ads.txt                    AdSense publisher authorization
 ├─ assets/
-│  ├─ hero.webp               homepage hero artwork
-│  ├─ gallery/                voxel artwork for the gallery cards
-│  └─ plugins/                plugin demo videos
+│  ├─ favicon.svg             FerNode favicon
+│  ├─ hero-wide.webp          wide hero banner (2048 × 768)
+│  └─ gallery/                voxel artwork for the gallery cards
 └─ downloads/
    ├─ Server-Tool-1.2.1-win-x64.zip     portable build (157 MB)
    ├─ Server Tool Setup 1.2.1.exe       NSIS installer (117 MB)
@@ -38,7 +38,24 @@ website/
 ```
 
 Open `index.html` directly in a browser, or upload the folder to any static host
-(GitHub Pages, Netlify, Cloudflare Pages, nginx).
+(GitHub Pages, Netlify, Cloudflare Pages, nginx). The deployed GitHub Pages copy uses
+`?v=1.3.0-dark` on `style.css` and `script.js` to bust the previous light-theme cache.
+
+## Visual system
+
+The page is a static port of the dark FerNode design reference:
+
+- Near-black background (`#09090a`) with layered panels and a blue radial glow.
+- Manrope for UI and headings, DM Mono for labels, metadata and the console panel.
+- Floating blurred top bar, oversized editorial headings, and plugin cards with grid art.
+- Inline SVG icon sprite in `index.html` and `privacy.html`; no icon library is loaded.
+- Scroll-reveal, hero boot-in and compatibility bar animations; all disabled under
+  `prefers-reduced-motion`.
+- Sections: hero, compatibility bar, plugin library, principles, server-tool panel,
+  gallery, bundle strip, FAQ, advertisement and footer.
+
+The custom favicon is `assets/favicon.svg`. The gallery images are local SVGs, so the
+homepage does not depend on remote artwork.
 
 ## Plugin library
 
@@ -61,7 +78,8 @@ Current build targets:
 | UltraTreeFeller | 1.1.0 | Paper/Spigot 1.21.x | 17+ |
 
 To add a plugin, copy its JAR into `downloads/plugins/`, add a card, and update the bundle
-ZIP if you want it included.
+ZIP if you want it included. Also add the new version to `data-versions` and the Minecraft
+version menu in the library toolbar when needed.
 
 ## App downloads
 
@@ -70,19 +88,21 @@ Release data lives at the top of `script.js`:
 ```js
 {
   version: '1.2.1',
-  zip: 'downloads/Server-Tool-1.2.1-win-x64.zip',
-  exe: 'downloads/Server Tool Setup 1.2.1.exe',
+  zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.2.1/Server-Tool-1.2.1-win-x64.zip',
+  exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.2.1/Server.Tool.Setup.1.2.1.exe',
   size: '157 MB',
   sha256: '72CEF577C9A8B3747F57BA0C78CC67BA0CD840C1E8033045243786242625C580',
   ...
 }
 ```
 
-The public GitHub Pages copy uses GitHub Release URLs so the large binaries are not stored
-in the site repository. The local source copy points at `downloads/` for offline testing.
+Both the local source and the public GitHub Pages copy use absolute GitHub Release URLs,
+so the large binaries are never stored in the site repository. Versions with `zip: null`
+and `exe: null` show as `(archived)` and disable the download buttons. The selected
+version is stored in `localStorage` and in `?v=…`.
 
-Versions with `zip: null` and `exe: null` show as `(archived)` and disable the download
-buttons. The selected version is stored in `localStorage` and in `?v=…`.
+The download panel is in the **Server tool** section; the hero CTA scrolls to it. The
+SHA-256 row has a copy button with a clipboard fallback and a toast confirmation.
 
 ## Google AdSense
 
@@ -91,7 +111,7 @@ buttons. The selected version is stored in `localStorage` and in `?v=…`.
 - Ad slot: `9015687951`
 
 The loader is in the `<head>` of `index.html`; one responsive horizontal unit sits below
-the gallery. `ads.txt` must be served from the domain root, so a custom domain is still
+the FAQ. `ads.txt` must be served from the domain root, so a custom domain is still
 needed for AdSense verification.
 
 AdSense does not fill ads on `localhost`; a local preview may show an empty container and a
@@ -99,7 +119,9 @@ AdSense does not fill ads on `localhost`; a local preview may show an empty cont
 
 ## Notes
 
-- The site is responsive and keyboard accessible.
-- Videos are muted, play when they enter the viewport, and pause when they leave.
+- The site is responsive and keyboard accessible: skip link, visible focus states,
+  labelled controls, `aria-live` result counts, and a focus-managed mobile menu.
+- The mobile menu closes with Escape, on link selection, and when the viewport grows.
+- The FAQ is a single-open accordion with `aria-expanded` and `aria-controls`.
 - The large app files are not committed to the GitHub Pages repository; they live in GitHub
   Releases. Plugin JARs are small enough to serve directly from the site.

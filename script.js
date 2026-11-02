@@ -6,7 +6,7 @@
 'use strict';
 
 /* ---------- Release data ---------- */
-/* Newest first. `zip` and `exe` are relative to this page (or absolute URLs).
+/* Newest first. `zip` and `exe` are absolute URLs or paths relative to this page.
    Set them to null for versions that are not uploaded yet. */
 const RELEASES = [
   {
@@ -30,7 +30,8 @@ const RELEASES = [
     format: 'ZIP · archived',
     size: null,
     sha256: null,
-    note: 'This build is archived and its installer has not been uploaded yet. Choose v1.2.1 from the version menu.'
+    note: 'This build is archived and its installer has not been uploaded yet. Choose v1.2.1 from the version menu.',
+    noteHtml: 'This build is archived and its installer has not been uploaded yet. Choose v1.2.1 from the version menu.'
   },
   {
     version: '1.1.0',
@@ -41,7 +42,8 @@ const RELEASES = [
     format: 'ZIP · archived',
     size: null,
     sha256: null,
-    note: 'This build is archived and its installer has not been uploaded yet. Choose v1.2.1 from the version menu.'
+    note: 'This build is archived and its installer has not been uploaded yet. Choose v1.2.1 from the version menu.',
+    noteHtml: 'This build is archived and its installer has not been uploaded yet. Choose v1.2.1 from the version menu.'
   },
   {
     version: '1.0.0',
@@ -52,7 +54,8 @@ const RELEASES = [
     format: 'ZIP · archived',
     size: null,
     sha256: null,
-    note: 'The first public release is archived and no longer distributed. Choose v1.2.1 from the version menu.'
+    note: 'The first public release is archived and no longer distributed. Choose v1.2.1 from the version menu.',
+    noteHtml: 'The first public release is archived and no longer distributed. Choose v1.2.1 from the version menu.'
   }
 ];
 
@@ -99,7 +102,7 @@ function setDownloadLink(link, path, availableLabel, unavailableLabel) {
   const text = $('span', link);
 
   if (path) {
-    link.href = encodeURI(path);
+    link.setAttribute('href', path);
     link.setAttribute('download', fileName(path));
     link.classList.remove('is-disabled');
     link.removeAttribute('aria-disabled');
@@ -142,7 +145,7 @@ function applyVersion(version, options = {}) {
   }
 
   setDownloadLink($('#download-zip'), release.zip, 'Download tool', 'Not uploaded');
-  setDownloadLink($('#download-exe'), release.exe, 'Or download the installer (.exe)', 'Installer not uploaded');
+  setDownloadLink($('#download-exe'), release.exe, 'Installer (.exe)', 'Installer not uploaded');
 
   if (note) {
     // Static strings from RELEASES only — safe to use for the inline detail.
@@ -197,7 +200,9 @@ function wireVersionPicker() {
         return;
       }
       if (link.id === 'download-zip') {
-        toast(`Starting download · FERNODE v${currentVersion}`);
+        toast(`Starting download · FerNode v${currentVersion}`);
+        link.classList.add('is-downloading');
+        window.setTimeout(() => link.classList.remove('is-downloading'), 1700);
       }
     });
   });
@@ -254,30 +259,17 @@ function updatePluginCards() {
   let shown = 0;
 
   cards.forEach((card) => {
-    const categories = (card.dataset.category || '').toLowerCase();
+    const categories = (card.dataset.category || '').toLowerCase().split(/\s+/);
     const versions = (card.dataset.versions || '').split(/\s+/);
     const haystack = (card.dataset.search || '').toLowerCase();
 
-    const matchesCategory = activeCategory === 'all' || categories === activeCategory.toLowerCase();
+    const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory.toLowerCase());
     const matchesVersion = versions.includes(version);
     const matchesQuery = !query || haystack.includes(query);
     const visible = matchesCategory && matchesVersion && matchesQuery;
 
     card.hidden = !visible;
-    if (!visible) return;
-
-    shown += 1;
-    $$('.js-selected-version', card).forEach((label) => {
-      label.textContent = version;
-    });
-
-    const download = $('.plugin-download', card);
-    if (download) {
-      download.setAttribute(
-        'aria-label',
-        `Download plugin: ${download.dataset.plugin || 'FerNode plugin'} for Minecraft ${version}`
-      );
-    }
+    if (visible) shown += 1;
   });
 
   count.textContent = `Showing ${shown} of ${cards.length} plugins`;
@@ -306,7 +298,6 @@ function wirePluginLibrary() {
   const search = $('#plugin-search');
   const version = $('#mc-version');
   const reset = $('#reset-filters');
-  const bundle = $('.bundle-link');
 
   search?.addEventListener('input', updatePluginCards);
   version?.addEventListener('change', updatePluginCards);
@@ -320,50 +311,120 @@ function wirePluginLibrary() {
   $$('.plugin-download').forEach((link) => {
     link.addEventListener('click', () => {
       const card = link.closest('.plugin-card');
-      const name = $('h3', card)?.textContent || 'Plugin';
+      const name = $('h3', card)?.textContent || 'plugin';
+      const label = $('.download-label', link);
+
+      if (label) {
+        const original = label.textContent;
+        label.textContent = 'Starting…';
+        link.classList.add('is-downloading');
+        window.setTimeout(() => {
+          label.textContent = original;
+          link.classList.remove('is-downloading');
+        }, 1600);
+      }
+
       toast(`Downloading ${name}`);
     });
   });
 
-  bundle?.addEventListener('click', () => {
-    toast('Downloading all 3 FerNode plugins');
-  });
+  $('.bundle-link')?.addEventListener('click', () => toast('Downloading all 3 FerNode plugins'));
+  $('.bundle-download')?.addEventListener('click', () => toast('Downloading the FerNode plugin bundle'));
 
   updatePluginCards();
 }
 
-function wirePluginVideos() {
-  const videos = $$('.plugin-video');
-  if (!videos.length) return;
+/* ---------- Mobile menu ---------- */
+function wireMenu() {
+  const toggle = $('#menu-toggle');
+  const nav = $('#mobile-nav');
+  if (!toggle || !nav) return;
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (reduceMotion.matches || !('IntersectionObserver' in window)) return;
+  const query = window.matchMedia('(max-width: 700px)');
+
+  const setMenu = (open) => {
+    nav.hidden = !open;
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+
+  toggle.addEventListener('click', () => setMenu(nav.hidden));
+
+  $$('a', nav).forEach((link) => {
+    link.addEventListener('click', () => setMenu(false));
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !nav.hidden) {
+      setMenu(false);
+      toggle.focus();
+    }
+  });
+
+  const handleViewportChange = () => {
+    if (!query.matches) setMenu(false);
+  };
+
+  if (typeof query.addEventListener === 'function') {
+    query.addEventListener('change', handleViewportChange);
+  } else if (typeof query.addListener === 'function') {
+    query.addListener(handleViewportChange);
+  }
+}
+
+/* ---------- FAQ ---------- */
+function wireFaq() {
+  const items = $$('.faq-item');
+  if (!items.length) return;
+
+  const setItem = (item, open) => {
+    const button = $('button', item);
+    item.classList.toggle('open', open);
+    button?.setAttribute('aria-expanded', String(open));
+  };
+
+  items.forEach((item) => {
+    const button = $('button', item);
+    if (!button) return;
+
+    button.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      items.forEach((other) => setItem(other, false));
+      if (!isOpen) setItem(item, true);
+    });
+  });
+}
+
+/* ---------- Scroll reveal ---------- */
+function wireReveal() {
+  const elements = $$('.reveal');
+  if (!elements.length) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    elements.forEach((element) => element.classList.add('is-visible'));
+    return;
+  }
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      const video = entry.target;
-      if (entry.isIntersecting) {
-        const play = video.play();
-        if (play && typeof play.catch === 'function') play.catch(() => {});
-      } else {
-        video.pause();
-      }
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
     });
   }, {
-    rootMargin: '120px 0px',
-    threshold: 0.3
+    threshold: 0.12,
+    rootMargin: '0px 0px -8% 0px'
   });
 
-  videos.forEach((video) => {
-    video.muted = true;
-    video.loop = true;
-    observer.observe(video);
-  });
+  elements.forEach((element) => observer.observe(element));
 }
 
 /* ---------- Misc ---------- */
 function wireMisc() {
-  // Deep links: re-align after dynamic content has rendered.
+  // Deep links: re-align after fonts and dynamic content have settled.
   if (window.location.hash.length > 1) {
     let target = null;
     try {
@@ -388,7 +449,9 @@ function init() {
   wireVersionPicker();
   applyVersion(initialVersion());
   wirePluginLibrary();
-  wirePluginVideos();
+  wireMenu();
+  wireFaq();
+  wireReveal();
   wireMisc();
 }
 

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FerNode">
+  <rect width="64" height="64" rx="16" fill="#0B0B0D"/>
+  <path d="M32 9 53 20.5v23L32 55 11 43.5v-23L32 9Z" fill="#83A8FF"/>
+  <path d="M32 9 53 20.5 32 32 11 20.5 32 9Z" fill="#C2D3FF"/>
+  <path d="M32 32v23L11 43.5v-23L32 32Z" fill="#5D82D8"/>
+  <path d="M32 32 53 20.5v23L32 55V32Z" fill="#7FA2EE"/>
+</svg>
