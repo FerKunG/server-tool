@@ -39,8 +39,27 @@ website/
 ```
 
 Open `index.html` directly in a browser, or upload the folder to any static host
-(GitHub Pages, Netlify, Cloudflare Pages, nginx). The deployed GitHub Pages copy uses
-`?v=1.3.0-dark` on `style.css` and `script.js` to bust the previous light-theme cache.
+(GitHub Pages, Netlify, Cloudflare Pages, nginx). The live site is
+<https://fernode.online/>, served by GitHub Pages from the `FerKunG/server-tool`
+repository (`main /`) with a root `CNAME` file containing `fernode.online`. The deployed copy
+uses `?v=1.3.0-dark` on `style.css` and `script.js` to bust the previous light-theme cache.
+
+### Domain and DNS
+
+`fernode.online` is registered at Spaceship and uses Spaceship's nameservers. GitHub Pages
+needs these records:
+
+| Type | Name | Value |
+| --- | --- | --- |
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| CNAME | `www` | `ferkung.github.io` |
+
+Do not point the apex at Spaceship parking and do not use Spaceship's Connect or URL-redirect
+features for GitHub Pages. Keep the `CNAME` file in the site root; GitHub Pages uses it to
+serve the custom domain and to redirect `www` and `http://` to `https://fernode.online/`.
 
 ## Visual system
 
@@ -116,11 +135,11 @@ SHA-256 row has a copy button with a clipboard fallback and a toast confirmation
 - Ad slot: `9015687951`
 
 The loader is in the `<head>` of `index.html`; one responsive horizontal unit sits below
-the FAQ. `ads.txt` must be served from the domain root, so a custom domain is still
-needed for AdSense verification.
+the FAQ. `ads.txt` is served from the domain root at <https://fernode.online/ads.txt>, so
+AdSense can verify the custom domain once `fernode.online` is added to the AdSense account.
 
 AdSense does not fill ads on `localhost`; a local preview may show an empty container and a
-`googleads` 400 message. That is expected until the site is served from its public domain.
+`googleads` 400 message. That is expected until AdSense approves the public domain.
 
 ## Notes
 
