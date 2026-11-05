@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix common FerNode plugin and server problems — FerNode Guides</title>
+<meta name="description" content="Troubleshoot FerNode plugins and Paper servers: plugin not loading, version errors, startup crashes, TreeFeller lag, items not stacking, AutoRefill and connection failures.">
+<link rel="canonical" href="https://fernode.online/guides/troubleshooting.html">
+<meta name="theme-color" content="#09090A">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="Fix common FerNode plugin and server problems">
+<meta property="og:description" content="What to check when a plugin will not load, the server crashes, or players cannot connect.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://fernode.online/guides/troubleshooting.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="../guides.css?v=1.0">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1821900542837424" crossorigin="anonymous"></script>
+</head>
+<body class="guide-page">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+</svg>
+
+<header class="guide-header">
+  <a class="brand" href="../index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+  <nav class="guide-nav" aria-label="Main navigation">
+    <a href="../index.html#plugins">Plugins</a>
+    <a href="index.html" aria-current="page">Guides</a>
+    <a href="../about.html">About</a>
+    <a href="../index.html#server-tool">Download</a>
+  </nav>
+</header>
+
+<main class="guide-main" id="main">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="index.html">Guides</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Troubleshooting</span>
+  </nav>
+
+  <h1>Fix the problems that actually happen.</h1>
+  <p class="guide-lede">
+    Most plugin problems are version mismatches, duplicate JARs, a config typo or a server that
+    was not restarted. Work from the log first, change one thing at a time, and keep the backup
+    you made before the change.
+  </p>
+  <div class="guide-meta">
+    <span>Updated 5 November 2026</span>
+    <span>9 min read</span>
+    <span>Support</span>
+  </div>
+
+  <div class="guide-layout">
+    <article class="article-content">
+      <section id="log">
+        <h2>Start with the log, not the plugin list</h2>
+        <p>
+          The server log tells you whether a plugin failed to load, which class was missing and
+          which file caused the exception. Open <code>logs/latest.log</code> and search for the
+          plugin name or for words such as <code>Could not load</code>, <code>Unsupported</code>,
+          <code>NoClassDefFoundError</code> or <code>Exception</code>.
+        </p>
+        <p>
+          Read the first error, not the last one. Later lines are often consequences of the first
+          failure. If the server will not start at all, the useful line is usually within the last
+          screen of output before it exits.
+        </p>
+        <div class="callout">
+          <p><strong>Change one thing at a time.</strong> If you update Java, replace two plugins and edit a config in the same restart, you will not know which change fixed or caused the problem.</p>
+        </div>
+      </section>
+
+      <section id="missing">
+        <h2>The plugin does not appear in /plugins</h2>
+        <p>Check these in order:</p>
+        <ol>
+          <li><strong>Wrong folder.</strong> The JAR must be directly inside the server's <code>plugins/</code> folder, not in a subfolder and not in the server root.</li>
+          <li><strong>Nested archive.</strong> If you downloaded a ZIP, extract it. A ZIP placed in <code>plugins/</code> is ignored.</li>
+          <li><strong>Duplicate versions.</strong> Two JARs of the same plugin can prevent one from enabling. Remove the older file.</li>
+          <li><strong>No restart.</strong> Plugins are loaded at startup. Copying a JAR into a running server does nothing until you restart.</li>
+          <li><strong>Java too old.</strong> These builds require Java 17 or newer. An older runtime can fail before the plugin registers.</li>
+        </ol>
+      </section>
+
+      <section id="version">
+        <h2>Version and API errors</h2>
+        <p>
+          A plugin compiled for Minecraft 1.21.x will not run on a 1.20.x server. The console may
+          report an unsupported API version, a missing class or a <code>NoSuchMethodError</code>.
+          Check the compatibility table before changing configs:
+        </p>
+        <table>
+          <thead>
+            <tr><th>Plugin</th><th>Supported Minecraft</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>UltraTreeFeller 1.1.0</td><td>1.21.x</td></tr>
+            <tr><td>AutoRefill 1.1.0</td><td>1.21.x</td></tr>
+            <tr><td>FerKunG Stacker 1.3.0</td><td>1.20.x – 1.21.x</td></tr>
+          </tbody>
+        </table>
+        <p>
+          If you run 1.20.x, use FerKunG Stacker and skip the other two until you upgrade the
+          server. Do not edit <code>api-version</code> in <code>plugin.yml</code> to force a load;
+          it may start but fail later with harder-to-diagnose errors.
+        </p>
+      </section>
+
+      <section id="crash">
+        <h2>The server crashes after installing a plugin</h2>
+        <ol>
+          <li>Stop the server completely.</li>
+          <li>Move the newest JAR out of <code>plugins/</code>.</li>
+          <li>Start the server again.</li>
+          <li>If it starts, the new plugin is the cause. Check its version and the log entry that names it.</li>
+          <li>If it still fails, restore the <code>plugins/</code> folder and world from your backup.</li>
+        </ol>
+        <p>
+          A crash on startup is usually easier to recover from than a corrupted world. That is why
+          the install guide puts the backup before the file copy.
+        </p>
+      </section>
+
+      <div class="article-ad">
+        <div class="ad-head">
+          <span>Advertisement</span>
+          <span>Sponsored</span>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1821900542837424"
+             data-ad-slot="9015687951"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <section id="lag">
+        <h2>Lag when someone fells a large tree</h2>
+        <p>
+          UltraTreeFeller removes logs in batches. A large tree, or several players felling at
+          once, can briefly exceed what the server can process in a tick.
+        </p>
+        <ul>
+          <li>Lower <code>blocks_per_tick</code> from <code>20</code> to <code>10</code> or <code>5</code>.</li>
+          <li>Lower <code>max_logs_per_tree</code> from <code>250</code> to <code>100</code>.</li>
+          <li>Keep <code>require_leaves: true</code> so only natural trees are affected.</li>
+          <li>Disable particles or sound if the client effects are part of the stutter.</li>
+        </ul>
+        <p>
+          If the whole server freezes for several seconds, check whether the world is on a slow
+          disk or whether another plugin is also reacting to block breaks. The log and a timing
+          profiler will show more than guessing at config values.
+        </p>
+      </section>
+
+      <section id="stacking">
+        <h2>Items are not stacking</h2>
+        <p>FerKunG Stacker only merges items that are eligible under the current config:</p>
+        <ul>
+          <li><code>stack-all: false</code> means only items listed under <code>items</code> are stacked.</li>
+          <li>The item may be in <code>blacklist</code>.</li>
+          <li><code>preserve-custom-metadata: true</code> keeps renamed, enchanted or lore-tagged items separate, even when the material matches.</li>
+          <li>The drops may be farther apart than <code>stacking-radius</code>.</li>
+          <li>Tools, armour and other unstackable items are never merged.</li>
+        </ul>
+        <p>
+          Test with plain, newly dropped items before changing the radius. Raising the radius to
+          cover a large farm increases the scan area and can cost more than it saves.
+        </p>
+      </section>
+
+      <section id="autorefill">
+        <h2>AutoRefill does not refill the hand</h2>
+        <ul>
+          <li>Check <code>enabled: true</code> in <code>plugins/AutoRefill/config.yml</code>.</li>
+          <li>Check whether the item is listed under <code>ignored-items</code>.</li>
+          <li>Confirm the player has <code>autorefill.use</code>; it defaults to true, but a permissions plugin may override it.</li>
+          <li>Make sure there is another matching stack in the inventory. AutoRefill moves items; it does not create them.</li>
+        </ul>
+        <p>
+          After editing the config, run <code>/autorefill reload</code> or restart the server. If
+          the command is not recognized, the plugin did not enable; go back to the log.
+        </p>
+      </section>
+
+      <section id="connection">
+        <h2>Players cannot connect</h2>
+        <table>
+          <thead>
+            <tr><th>Symptom</th><th>Check</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Works on the same PC but not from another device</td><td>Windows Firewall, the PC's LAN IP and whether the server is bound to the right interface.</td></tr>
+            <tr><td>Works on LAN but not from the internet</td><td>Router port forward for TCP <code>25565</code>, public IP and carrier-grade NAT.</td></tr>
+            <tr><td>Connection times out</td><td>Port forward, ISP blocking and whether the server is actually listening.</td></tr>
+            <tr><td>“Failed to verify username”</td><td><code>online-mode</code> and the player's Microsoft account session.</td></tr>
+            <tr><td>“You are not whitelisted”</td><td>Add the exact player name and run <code>whitelist on</code>.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Test locally first, then LAN, then the internet. If the local connection fails, port
+          forwarding is not the problem yet.
+        </p>
+      </section>
+
+      <section id="restore">
+        <h2>Restoring a world backup</h2>
+        <ol>
+          <li>Stop the server and confirm it has exited.</li>
+          <li>Rename the current world folders instead of deleting them, for example <code>world_broken</code>.</li>
+          <li>Copy the backup world folders back into the server directory.</li>
+          <li>Start the server and check the console for chunk or region errors.</li>
+          <li>Join and verify the spawn, inventory and recent builds before deleting the renamed copy.</li>
+        </ol>
+        <p>
+          Restore the matching <code>plugins/</code> folder too if the backup was taken before a
+          plugin change. A world from a newer Minecraft version may not open on an older server.
+        </p>
+      </section>
+
+      <section id="help">
+        <h2>Asking for help without wasting time</h2>
+        <p>
+          When you open an issue on the <a href="https://github.com/FerKunG/server-tool/issues" target="_blank" rel="noopener noreferrer">FerNode repository</a>,
+          include:
+        </p>
+        <ul>
+          <li>Server platform and exact version, for example Paper 1.21.4 build number.</li>
+          <li>Plugin name and version.</li>
+          <li>Java version from <code>java -version</code>.</li>
+          <li>The first error from <code>logs/latest.log</code>, with any IP addresses or tokens removed.</li>
+          <li>What you changed immediately before the problem appeared.</li>
+        </ul>
+        <p>
+          That is usually enough to identify the cause without a back-and-forth. Never post your
+          hosting password, console access or private server address.
+        </p>
+      </section>
+
+      <section class="guide-related">
+        <h2>Related guides</h2>
+        <div class="related-list">
+          <a href="install-plugins.html">Install plugins safely<span>Backups, version checks and rollback.</span></a>
+          <a href="plugin-settings.html">Plugin settings reference<span>Defaults for every config key.</span></a>
+        </div>
+      </section>
+    </article>
+
+    <aside class="guide-toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#log">Read the log</a></li>
+        <li><a href="#missing">Plugin not listed</a></li>
+        <li><a href="#version">Version errors</a></li>
+        <li><a href="#crash">Startup crash</a></li>
+        <li><a href="#lag">TreeFeller lag</a></li>
+        <li><a href="#stacking">Items not stacking</a></li>
+        <li><a href="#autorefill">AutoRefill</a></li>
+        <li><a href="#connection">Connection problems</a></li>
+        <li><a href="#restore">Restore a backup</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="legal-footer">
+  <div class="legal-footer-inner">
+    <span>&copy; 2026 FerKunGsXD &middot; FerNode</span>
+    <a href="../index.html">Back to site</a>
+  </div>
+</footer>
+
+</body>
+</html>

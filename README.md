@@ -17,11 +17,21 @@ The site has two main jobs:
 
 ```text
 website/
-├─ index.html                 homepage: hero, plugins, principles, app, gallery, FAQ
-├─ style.css                  dark Manrope/DM Mono design system and responsive states
-├─ script.js                  version picker, plugin filters, checksum, menu, FAQ
+├─ index.html                 homepage: hero, plugins, principles, app, gallery, guides, FAQ
+├─ about.html                 project background, funding and support
 ├─ privacy.html               privacy policy (AdSense disclosure)
+├─ style.css                  dark Manrope/DM Mono design system and responsive states
+├─ guides.css                 guide cards, article layout, tables and callouts
+├─ script.js                  version picker, plugin filters, checksum, menu, FAQ
 ├─ ads.txt                    AdSense publisher authorization
+├─ robots.txt                 crawl rules and sitemap location
+├─ sitemap.xml                canonical page list
+├─ guides/
+│  ├─ index.html              guide hub
+│  ├─ install-plugins.html    safe plugin install and rollback
+│  ├─ setup-server.html       first Paper server walkthrough
+│  ├─ plugin-settings.html    config, command and permission reference
+│  └─ troubleshooting.html    common plugin and server failures
 ├─ assets/
 │  ├─ favicon.svg             FerNode favicon
 │  ├─ hero-wide.webp          wide hero banner (2048 × 768)
@@ -72,7 +82,7 @@ The page is a static port of the dark FerNode design reference:
 - Scroll-reveal, hero boot-in and compatibility bar animations; all disabled under
   `prefers-reduced-motion`.
 - Sections: hero, compatibility bar, plugin library, principles, server-tool panel,
-  gallery, bundle strip, FAQ, advertisement and footer.
+  gallery, bundle strip, guides, FAQ and footer.
 
 The custom favicon is `assets/favicon.svg`. The gallery images are local SVGs, so the
 homepage does not depend on remote artwork.
@@ -105,6 +115,18 @@ To add a plugin, copy its JAR into `downloads/plugins/`, add a card, and update 
 ZIP if you want it included. Also add the new version to `data-versions` and the Minecraft
 version menu in the library toolbar when needed.
 
+## Guides
+
+`guides/` holds the long-form content: safe plugin installation, first Paper server setup, a
+config/command/permission reference and troubleshooting. Each article is standalone HTML and
+shares `style.css` plus `guides.css`. The homepage links to the four articles from the Guides
+section.
+
+The guide pages are also the only pages that carry ad units. Do not add ads to the homepage,
+the guide hub, the about page, the privacy page or a download screen; those lack the publisher
+content that AdSense expects around an ad. If a guide is shortened or replaced with a stub,
+remove its ad unit as well.
+
 ## App downloads
 
 Release data lives at the top of `script.js`:
@@ -134,9 +156,14 @@ SHA-256 row has a copy button with a clipboard fallback and a toast confirmation
 - Client ID: `ca-pub-1821900542837424`
 - Ad slot: `9015687951`
 
-The loader is in the `<head>` of `index.html`; one responsive horizontal unit sits below
-the FAQ. `ads.txt` is served from the domain root at <https://fernode.online/ads.txt>, so
-AdSense can verify the custom domain once `fernode.online` is added to the AdSense account.
+The loader is in the `<head>` of the guide articles; one responsive unit sits inside each
+long-form article, surrounded by the guide text. `ads.txt` is served from the domain root at
+<https://fernode.online/ads.txt>.
+
+Ads are deliberately not placed on the homepage, the download panel, the guide hub, the about
+page or the privacy page. Those screens are navigational or download-oriented, and Google's
+"ads on screens without publisher content" policy does not allow ad units there. Keep it that
+way: if you add a new page, give it substantial original content before adding an ad unit.
 
 AdSense does not fill ads on `localhost`; a local preview may show an empty container and a
 `googleads` 400 message. That is expected until AdSense approves the public domain.

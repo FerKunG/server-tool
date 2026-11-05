@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About FerNode — who builds it and why</title>
+<meta name="description" content="About FerNode, the Windows Minecraft server app and small Paper/Spigot plugin library built by FerKunGsXD, including how the site is funded and how to get support.">
+<link rel="canonical" href="https://fernode.online/about.html">
+<meta name="theme-color" content="#09090A">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="About FerNode">
+<meta property="og:description" content="A focused Windows server app and a small plugin library, built by FerKunGsXD.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fernode.online/about.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="guides.css?v=1.0">
+</head>
+<body class="guide-page">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+</svg>
+
+<header class="guide-header">
+  <a class="brand" href="index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+  <nav class="guide-nav" aria-label="Main navigation">
+    <a href="index.html#plugins">Plugins</a>
+    <a href="guides/index.html">Guides</a>
+    <a href="about.html" aria-current="page">About</a>
+    <a href="index.html#server-tool">Download</a>
+  </nav>
+</header>
+
+<main class="guide-main" id="main">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">About</span>
+  </nav>
+
+  <h1>A small project for people who run servers.</h1>
+  <p class="guide-lede">
+    FerNode is a Windows desktop app and a small plugin library for Minecraft servers. It is
+    built and maintained by FerKunGsXD as an independent project, not a company or a hosting
+    platform.
+  </p>
+
+  <div class="article-content">
+    <section>
+      <h2>What FerNode is</h2>
+      <p>
+        The app collects the routine parts of running a server: starting and stopping a server,
+        watching CPU and memory, taking backups and installing Modrinth add-ons. The goal is not
+        to replace a control panel or a hosting service. It is to make a server on your own PC
+        easier to run without hiding what is happening underneath.
+      </p>
+      <p>
+        The plugin library is deliberately small. UltraTreeFeller, AutoRefill and FerKunG Stacker
+        each do one job, ship with documented defaults and work as standalone JARs. You do not
+        need the FerNode app to use them, and you can install them on any compatible Paper or
+        Spigot server.
+      </p>
+    </section>
+
+    <section>
+      <h2>Who builds it</h2>
+      <p>
+        FerNode is developed by FerKunGsXD. Releases, source code and issue tracking live on the
+        <a href="https://github.com/FerKunG/server-tool" target="_blank" rel="noopener noreferrer">FerKunG/server-tool</a>
+        GitHub repository. Video demos and project updates are posted on the
+        <a href="https://www.youtube.com/@FerKunGsXD" target="_blank" rel="noopener noreferrer">FerKunGsXD YouTube channel</a>.
+      </p>
+      <p>
+        The app is tested on Windows 10 and 11. The plugins target Java 17+ and the Minecraft
+        versions listed on the plugin cards. If a build does not match your server version, it is
+        better to wait for a compatible release than to force it to load.
+      </p>
+    </section>
+
+    <section>
+      <h2>How the project is funded</h2>
+      <p>
+        The app and plugins are free to download. This website shows advertising through Google
+        AdSense to cover the cost of keeping the site and downloads online. Advertising is
+        separate from the downloads: you can use the app and plugins without creating an account,
+        and the desktop app does not require you to visit the site.
+      </p>
+      <p>
+        The site does not sell personal information. The
+        <a href="privacy.html">privacy policy</a> explains what the hosting provider and Google
+        may collect, and how to control personalised advertising.
+      </p>
+    </section>
+
+    <section>
+      <h2>Support and bug reports</h2>
+      <p>
+        For a bug in the app or a plugin, open an issue on
+        <a href="https://github.com/FerKunG/server-tool/issues" target="_blank" rel="noopener noreferrer">GitHub</a>
+        with your server version, Java version and the first relevant error from
+        <code>logs/latest.log</code>. The
+        <a href="guides/troubleshooting.html">troubleshooting guide</a> covers the problems that
+        come up most often.
+      </p>
+      <p>
+        For privacy questions or anything that does not fit an issue, contact through the YouTube
+        channel. Please do not send account passwords, hosting credentials or other secrets.
+      </p>
+    </section>
+
+    <section>
+      <h2>Not affiliated with Mojang or Microsoft</h2>
+      <p>
+        FerNode is an independent project. Minecraft is a trademark of Mojang Synergies AB.
+        FerNode is not approved by, associated with or endorsed by Mojang or Microsoft. Server
+        software such as Paper and Spigot is maintained by its own project, not by FerNode.
+      </p>
+    </section>
+  </div>
+
+  <section class="guide-related">
+    <h2>Start here</h2>
+    <div class="related-list">
+      <a href="guides/setup-server.html">Set up your first Paper server<span>Java, memory, EULA and ports.</span></a>
+      <a href="guides/install-plugins.html">Install a FerNode plugin<span>The safe install and rollback process.</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="legal-footer">
+  <div class="legal-footer-inner">
+    <span>&copy; 2026 FerKunGsXD &middot; FerNode</span>
+    <a href="index.html">Back to site</a>
+  </div>
+</footer>
+
+</body>
+</html>

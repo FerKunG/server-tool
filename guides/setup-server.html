@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Run your first Paper server with FerNode — FerNode Guides</title>
+<meta name="description" content="Set up a Paper Minecraft server on Windows with FerNode: install Java, verify the download, choose memory, accept the EULA, join locally and open the port safely.">
+<link rel="canonical" href="https://fernode.online/guides/setup-server.html">
+<meta name="theme-color" content="#09090A">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="Run your first Paper server with FerNode">
+<meta property="og:description" content="Java, memory, EULA, ports, backups and the checks to run before you invite anyone in.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://fernode.online/guides/setup-server.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="../guides.css?v=1.0">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1821900542837424" crossorigin="anonymous"></script>
+</head>
+<body class="guide-page">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+</svg>
+
+<header class="guide-header">
+  <a class="brand" href="../index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+  <nav class="guide-nav" aria-label="Main navigation">
+    <a href="../index.html#plugins">Plugins</a>
+    <a href="index.html" aria-current="page">Guides</a>
+    <a href="../about.html">About</a>
+    <a href="../index.html#server-tool">Download</a>
+  </nav>
+</header>
+
+<main class="guide-main" id="main">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="index.html">Guides</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Set up a server</span>
+  </nav>
+
+  <h1>Run your first Paper server.</h1>
+  <p class="guide-lede">
+    A first server usually fails for boring reasons: the wrong Java version, too little memory,
+    a port that is already in use or a world with no backup. This walkthrough covers those first,
+    then gets you into the game.
+  </p>
+  <div class="guide-meta">
+    <span>Updated 5 November 2026</span>
+    <span>10 min read</span>
+    <span>Server setup</span>
+  </div>
+
+  <div class="guide-layout">
+    <article class="article-content">
+      <section id="requirements">
+        <h2>What you need</h2>
+        <ul>
+          <li><strong>Windows 10 or 11, 64-bit.</strong> The current FerNode build targets Windows x64.</li>
+          <li><strong>Java 17 or newer.</strong> Java 21 LTS is a good default for current Paper builds.</li>
+          <li><strong>4 GB of RAM minimum.</strong> 8 GB is more comfortable if you plan to run plugins or a few friends.</li>
+          <li><strong>Free disk space.</strong> A small world plus backups fits in a few GB, but leave room to grow.</li>
+          <li><strong>A wired or stable connection</strong> if other people will join from outside your network.</li>
+        </ul>
+        <div class="callout">
+          <p><strong>Hosting from home is fine for friends.</strong> For a public server that must stay online, a paid Minecraft host is usually cheaper than leaving a PC running all day.</p>
+        </div>
+      </section>
+
+      <section id="java">
+        <h2>1. Install Java and check it</h2>
+        <p>
+          Install a 64-bit Java 21 build, such as Eclipse Temurin. During installation, enable the
+          option that adds Java to <code>PATH</code>. Then open PowerShell and run:
+        </p>
+        <pre><code>java -version</code></pre>
+        <p>
+          You should see a version line starting with <code>17</code>, <code>21</code> or newer.
+          If Windows reports that Java is not recognized, the install did not add it to
+          <code>PATH</code>; reinstall with that option or point FerNode at the Java executable
+          manually.
+        </p>
+      </section>
+
+      <section id="download">
+        <h2>2. Download FerNode and verify it</h2>
+        <p>
+          Use the <a href="../index.html#server-tool">download panel</a>. The portable ZIP is the
+          simplest option: extract it to a short path such as <code>C:\FerNode</code> and run the
+          app. The installer is convenient if you want a Start menu entry.
+        </p>
+        <p>
+          The download panel publishes a SHA-256 checksum. To compare it in PowerShell:
+        </p>
+        <pre><code>Get-FileHash .\Server-Tool-1.2.1-win-x64.zip -Algorithm SHA256</code></pre>
+        <p>
+          The hash must match the value shown on the site exactly. If it does not, delete the file
+          and download it again. Windows SmartScreen may warn about an unsigned app; only continue
+          when the hash matches and the file came from the official release page.
+        </p>
+      </section>
+
+      <section id="create">
+        <h2>3. Create the server</h2>
+        <p>
+          Open FerNode and create a new server. Give it a name, choose Paper, pick the Minecraft
+          version you want, and select an empty folder for the server files. Keep the path simple:
+        </p>
+        <pre><code>C:\Minecraft\Survival</code></pre>
+        <p>
+          Avoid a folder inside OneDrive or another syncing service. Sync tools can lock files
+          while the server is writing them and corrupt a world.
+        </p>
+        <p>
+          Allocate memory based on the whole machine, not just the server. Leave at least 2 GB for
+          Windows. A useful starting point is 4 GB for a small vanilla-style server and 6–8 GB if
+          you add plugins or several players.
+        </p>
+      </section>
+
+      <section id="first-start">
+        <h2>4. Accept the EULA and start once</h2>
+        <p>
+          Minecraft servers require you to accept the Mojang EULA before the first successful
+          start. FerNode shows the prompt and writes <code>eula=true</code> to
+          <code>eula.txt</code> after you accept. If you start the server outside the app, edit
+          <code>eula.txt</code> yourself.
+        </p>
+        <p>
+          Start the server and watch the console. The first run generates the world, which can
+          take a minute. Wait for a line containing <code>Done</code> before you connect. If the
+          console closes immediately, read <code>logs/latest.log</code> for the actual error.
+        </p>
+      </section>
+
+      <div class="article-ad">
+        <div class="ad-head">
+          <span>Advertisement</span>
+          <span>Sponsored</span>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1821900542837424"
+             data-ad-slot="9015687951"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <section id="join">
+        <h2>5. Join the server</h2>
+        <p>
+          On the same PC, open Minecraft and connect to <code>localhost</code>. On another device
+          on the same network, use the PC's IPv4 address. Find it with:
+        </p>
+        <pre><code>ipconfig</code></pre>
+        <p>
+          Use the address next to the active adapter, for example <code>192.168.1.20</code>. If
+          Windows Firewall prompts you, allow Java on private networks. Do not allow it on public
+          networks unless you understand the risk.
+        </p>
+        <p>
+          For friends outside your network, forward TCP port <code>25565</code> on your router to
+          the PC's local address. Give them your public IP, not the <code>192.168.x.x</code>
+          address. If your ISP uses carrier-grade NAT, port forwarding will not work and you will
+          need a tunnel or a hosted server instead.
+        </p>
+      </section>
+
+      <section id="tune">
+        <h2>6. Tune the basics before inviting people</h2>
+        <p>
+          Open <code>server.properties</code> while the server is stopped. These settings keep a
+          small server stable:
+        </p>
+        <table>
+          <thead>
+            <tr><th>Setting</th><th>Suggested</th><th>Why</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>view-distance</code></td><td>8</td><td>Lower values reduce CPU and bandwidth; raise it only if you have headroom.</td></tr>
+            <tr><td><code>simulation-distance</code></td><td>6</td><td>Controls how far farms and mobs tick; lower values help on small machines.</td></tr>
+            <tr><td><code>online-mode</code></td><td>true</td><td>Verifies Minecraft accounts. Keep it on unless you run a proxy.</td></tr>
+            <tr><td><code>white-list</code></td><td>true</td><td>Only approved players can join. Add yourself before enabling it.</td></tr>
+            <tr><td><code>max-players</code></td><td>5–10</td><td>A realistic limit for the RAM you allocated.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Add yourself to the whitelist with <code>whitelist add YourName</code> in the console,
+          then run <code>whitelist on</code>. Test with a second account or a friend before you
+          announce the address.
+        </p>
+      </section>
+
+      <section id="backups">
+        <h2>7. Back up before you need to</h2>
+        <p>
+          A backup only counts if you have restored one. Stop the server, copy the world folders
+          and <code>plugins/</code> somewhere else, then start the server again. Repeat on a
+          schedule you will actually keep, and keep at least one copy off the machine.
+        </p>
+        <p>
+          FerNode can take backups from its dashboard. Use them, but also keep a manual copy
+          before major changes such as a Minecraft version upgrade or a plugin replacement.
+        </p>
+      </section>
+
+      <section id="security">
+        <h2>8. Security basics</h2>
+        <ul>
+          <li>Do not run the server as a Windows administrator.</li>
+          <li>Use <code>online-mode=true</code> and a whitelist on any server that is reachable from the internet.</li>
+          <li>Give operator status only to people who need it.</li>
+          <li>Keep Java, Paper and plugins updated, and read release notes before jumping versions.</li>
+          <li>Never share your console, hosting panel or remote access credentials.</li>
+        </ul>
+      </section>
+
+      <section class="guide-related">
+        <h2>Related guides</h2>
+        <div class="related-list">
+          <a href="install-plugins.html">Install your first plugin<span>Add UltraTreeFeller, AutoRefill or FerKunG Stacker safely.</span></a>
+          <a href="troubleshooting.html">Troubleshooting<span>Fix startup errors, connection failures and lag.</span></a>
+        </div>
+      </section>
+    </article>
+
+    <aside class="guide-toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#requirements">What you need</a></li>
+        <li><a href="#java">Install Java</a></li>
+        <li><a href="#download">Download FerNode</a></li>
+        <li><a href="#create">Create the server</a></li>
+        <li><a href="#first-start">First start</a></li>
+        <li><a href="#join">Join the server</a></li>
+        <li><a href="#tune">Tune the basics</a></li>
+        <li><a href="#backups">Backups</a></li>
+        <li><a href="#security">Security</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="legal-footer">
+  <div class="legal-footer-inner">
+    <span>&copy; 2026 FerKunGsXD &middot; FerNode</span>
+    <a href="../index.html">Back to site</a>
+  </div>
+</footer>
+
+</body>
+</html>

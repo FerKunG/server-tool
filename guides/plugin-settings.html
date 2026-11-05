@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FerNode plugin settings, commands and permissions — FerNode Guides</title>
+<meta name="description" content="Reference for UltraTreeFeller, AutoRefill and FerKunG Stacker: config keys, defaults, commands, permission nodes and safe reload behaviour.">
+<link rel="canonical" href="https://fernode.online/guides/plugin-settings.html">
+<meta name="theme-color" content="#09090A">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="FerNode plugin settings, commands and permissions">
+<meta property="og:description" content="Every config key, command and permission node for the three FerNode plugins.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://fernode.online/guides/plugin-settings.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="../guides.css?v=1.0">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1821900542837424" crossorigin="anonymous"></script>
+</head>
+<body class="guide-page">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+</svg>
+
+<header class="guide-header">
+  <a class="brand" href="../index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+  <nav class="guide-nav" aria-label="Main navigation">
+    <a href="../index.html#plugins">Plugins</a>
+    <a href="index.html" aria-current="page">Guides</a>
+    <a href="../about.html">About</a>
+    <a href="../index.html#server-tool">Download</a>
+  </nav>
+</header>
+
+<main class="guide-main" id="main">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="index.html">Guides</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Plugin settings</span>
+  </nav>
+
+  <h1>Plugin settings, commands and permissions.</h1>
+  <p class="guide-lede">
+    The reference page for the three FerNode plugins. Defaults below are the values generated on
+    first start in the current 1.1.0 and 1.3.0 builds.
+  </p>
+  <div class="guide-meta">
+    <span>Updated 5 November 2026</span>
+    <span>7 min read</span>
+    <span>Reference</span>
+  </div>
+
+  <div class="guide-layout">
+    <article class="article-content">
+      <section id="files">
+        <h2>Where the config files live</h2>
+        <p>
+          Each plugin creates a folder named after the plugin inside <code>plugins/</code>. The
+          file you edit is always <code>config.yml</code>:
+        </p>
+        <pre><code>plugins/
+├─ UltraTreeFeller/config.yml
+├─ AutoRefill/config.yml
+└─ FerKunGStacker/config.yml</code></pre>
+        <p>
+          Stop the server before editing, or change the file and use the plugin's own reload
+          command. YAML is indentation-sensitive: use spaces, not tabs, and keep the existing
+          nesting. A malformed file usually makes the plugin fall back to defaults or fail to
+          enable, so keep a copy before editing.
+        </p>
+      </section>
+
+      <section id="treefeller">
+        <h2>UltraTreeFeller 1.1.0</h2>
+        <p>
+          UltraTreeFeller activates with SHIFT rather than a command. Hold an axe, press SHIFT
+          five times, then break a tree. The action bar fills while you activate it, and a
+          cooldown prevents immediate reuse.
+        </p>
+        <h3>How activation works</h3>
+        <ul>
+          <li><code>required_shift_presses: 5</code> — number of SHIFT presses needed while holding an axe.</li>
+          <li><code>cooldown_seconds: 3</code> — wait time after activation before it can be triggered again.</li>
+          <li>The action bar label and bar characters are configurable with <code>&amp;</code> colour codes.</li>
+        </ul>
+        <h3>Config keys</h3>
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Default</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>required_shift_presses</code></td><td>5</td><td>SHIFT presses required to arm Tree Feller.</td></tr>
+            <tr><td><code>cooldown_seconds</code></td><td>3</td><td>Cooldown between activations.</td></tr>
+            <tr><td><code>max_logs_per_tree</code></td><td>250</td><td>Hard cap on logs removed from one tree.</td></tr>
+            <tr><td><code>blocks_per_tick</code></td><td>20</td><td>Logs broken per server tick. Lower it if large trees cause lag.</td></tr>
+            <tr><td><code>require_leaves</code></td><td>true</td><td>Only fells logs that have leaves nearby, which avoids consuming built structures.</td></tr>
+            <tr><td><code>leaf_radius</code></td><td>6</td><td>Search radius used by the leaf check.</td></tr>
+            <tr><td><code>durability_enabled</code></td><td>true</td><td>Applies axe durability while felling.</td></tr>
+            <tr><td><code>particle_enabled</code></td><td>true</td><td>Toggles particle effects.</td></tr>
+            <tr><td><code>sound_enabled</code></td><td>true</td><td>Toggles sound effects.</td></tr>
+            <tr><td><code>actionbar_label</code></td><td><code>&amp;eTree Feller: </code></td><td>Text shown before the progress bar.</td></tr>
+            <tr><td><code>bar_filled</code> / <code>bar_empty</code></td><td><code>&amp;a|</code> / <code>&amp;7.</code></td><td>Characters used to draw the progress bar.</td></tr>
+          </tbody>
+        </table>
+        <h3>Reducing lag on big trees</h3>
+        <p>
+          A jungle tree or a large custom tree can contain hundreds of logs. If the server stutters
+          when someone fells one, lower <code>blocks_per_tick</code> to <code>10</code> or
+          <code>5</code> and reduce <code>max_logs_per_tree</code> to <code>100</code>. Keep
+          <code>require_leaves: true</code> so player-built log walls are not treated as trees.
+        </p>
+        <h3>Permissions and commands</h3>
+        <p>
+          <code>treefeller.use</code> defaults to <code>true</code>. This build registers no
+          command, so there is nothing to reload with a slash command; restart the server after
+          editing its config.
+        </p>
+      </section>
+
+      <div class="article-ad">
+        <div class="ad-head">
+          <span>Advertisement</span>
+          <span>Sponsored</span>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1821900542837424"
+             data-ad-slot="9015687951"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <section id="autorefill">
+        <h2>AutoRefill 1.1.0</h2>
+        <p>
+          AutoRefill watches the player's main hand. When the stack runs out, it pulls the same
+          item from the inventory into the hand. It does not create items and it does not bypass
+          inventory limits.
+        </p>
+        <h3>Config keys</h3>
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Default</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>enabled</code></td><td>true</td><td>Turns the refill behaviour on or off.</td></tr>
+            <tr><td><code>ignored-items</code></td><td>empty list</td><td>Items that should never be refilled automatically.</td></tr>
+          </tbody>
+        </table>
+        <p>Example: keep disposable or dangerous items out of the refill:</p>
+        <pre><code>enabled: true
+ignored-items:
+  - TNT
+  - LAVA_BUCKET
+  - ENDER_PEARL</code></pre>
+        <h3>Commands and permissions</h3>
+        <table>
+          <thead>
+            <tr><th>Command</th><th>Permission</th><th>Default</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>/autorefill</code></td><td><code>autorefill.use</code></td><td>true</td></tr>
+            <tr><td><code>/autorefill reload</code></td><td><code>autorefill.reload</code></td><td>op</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="stacker">
+        <h2>FerKunG Stacker 1.3.0</h2>
+        <p>
+          FerKunG Stacker merges nearby dropped items into larger stacks, stabilises them so they
+          stop sliding, and can display the stack amount in the item name. It supports 1.20.x
+          through 1.21.x, unlike the other two plugins.
+        </p>
+        <h3>Config keys</h3>
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Default</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>stacking-radius</code></td><td>2.5</td><td>Block radius searched for matching drops.</td></tr>
+            <tr><td><code>max-stack-size</code></td><td>9999</td><td>Maximum items in one stack (2–9999).</td></tr>
+            <tr><td><code>stabilize-items</code></td><td>true</td><td>Stops items moving sideways when they spawn.</td></tr>
+            <tr><td><code>stack-all</code></td><td>true</td><td>Stacks every stackable item except the blacklist.</td></tr>
+            <tr><td><code>blacklist</code></td><td>two entries</td><td>Items excluded when <code>stack-all</code> is true.</td></tr>
+            <tr><td><code>items</code></td><td>example entries</td><td>Items to stack when <code>stack-all</code> is false.</td></tr>
+            <tr><td><code>preserve-custom-metadata</code></td><td>true</td><td>Keeps items with different names, lore or enchantments separate.</td></tr>
+            <tr><td><code>display.enabled</code></td><td>true</td><td>Shows the amount in the item name.</td></tr>
+            <tr><td><code>display.format</code></td><td><code>&amp;b&amp;l{amount}x &amp;f{name}</code></td><td>Name format; <code>{amount}</code> and <code>{name}</code> are replaced.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          The default blacklist contains <code>NETHERITE_SWORD</code> and
+          <code>DIAMOND_CHESTPLATE</code>. Tools, armour and other unstackable items are never
+          merged even when <code>stack-all</code> is true.
+        </p>
+        <h3>Choosing a radius and stack size</h3>
+        <p>
+          A small radius is easier on the server. <code>2.5</code> blocks is enough for a normal
+          drop pile; raising it to 8 or more makes the plugin scan a much larger area on busy
+          farms. A very large <code>max-stack-size</code> is mostly cosmetic, but it can make a
+          single item entity represent thousands of items, so test your farm output and backup
+          before changing it.
+        </p>
+        <h3>Commands and permissions</h3>
+        <table>
+          <thead>
+            <tr><th>Command</th><th>Permission</th><th>Default</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>/fkstacker</code></td><td><code>ferkungstacker.use</code></td><td>true</td></tr>
+            <tr><td><code>/fkstacker reload</code></td><td><code>ferkungstacker.reload</code></td><td>op</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="reload">
+        <h2>Reloading safely</h2>
+        <p>
+          Use the plugin's own reload command when it has one. Reloading a single plugin is
+          predictable; reloading the whole server with <code>/reload</code> is not. A global reload
+          re-runs enable logic for every plugin while the server is live, which can duplicate
+          listeners or leave scheduled tasks pointing at old state.
+        </p>
+        <table>
+          <thead>
+            <tr><th>Plugin</th><th>Apply config changes with</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>AutoRefill</td><td><code>/autorefill reload</code></td></tr>
+            <tr><td>FerKunG Stacker</td><td><code>/fkstacker reload</code></td></tr>
+            <tr><td>UltraTreeFeller</td><td>Stop and restart the server</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="guide-related">
+        <h2>Related guides</h2>
+        <div class="related-list">
+          <a href="install-plugins.html">Install the plugins<span>The safe install and rollback process.</span></a>
+          <a href="troubleshooting.html">Troubleshooting<span>What to check when a setting does not take effect.</span></a>
+        </div>
+      </section>
+    </article>
+
+    <aside class="guide-toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#files">Config locations</a></li>
+        <li><a href="#treefeller">UltraTreeFeller</a></li>
+        <li><a href="#autorefill">AutoRefill</a></li>
+        <li><a href="#stacker">FerKunG Stacker</a></li>
+        <li><a href="#reload">Reload safely</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="legal-footer">
+  <div class="legal-footer-inner">
+    <span>&copy; 2026 FerKunGsXD &middot; FerNode</span>
+    <a href="../index.html">Back to site</a>
+  </div>
+</footer>
+
+</body>
+</html>
