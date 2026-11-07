@@ -233,6 +233,88 @@
         </ul>
       </section>
 
+      <section id="folder">
+        <h2>What is inside the server folder</h2>
+        <p>
+          The first start creates a set of files and folders. Knowing what each one is prevents
+          most accidental damage later.
+        </p>
+        <table>
+          <thead>
+            <tr><th>Item</th><th>What it is</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>server.jar</code></td><td>The server software. Replacing it is how you change version or platform.</td></tr>
+            <tr><td><code>eula.txt</code></td><td>Records that you accepted the Mojang EULA.</td></tr>
+            <tr><td><code>server.properties</code></td><td>Ports, whitelist, view distance and the other server-wide settings.</td></tr>
+            <tr><td><code>world/</code></td><td>The overworld. The Nether and End use separate folders.</td></tr>
+            <tr><td><code>plugins/</code></td><td>Plugin JARs and, after first start, one config folder per plugin.</td></tr>
+            <tr><td><code>logs/</code></td><td>Session logs. The first place to look when something fails.</td></tr>
+            <tr><td><code>config/</code></td><td>Paper's own configuration files, when present.</td></tr>
+            <tr><td><code>ops.json</code>, <code>whitelist.json</code></td><td>Operators and whitelisted players.</td></tr>
+            <tr><td><code>crash-reports/</code></td><td>Reports written when the server crashes hard.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Deleting a world folder deletes that world. Renaming it is a safer way to "start over":
+          the server generates a fresh world with the new name while the old one stays on disk.
+        </p>
+      </section>
+
+      <section id="software">
+        <h2>Paper, Spigot or Vanilla?</h2>
+        <p>
+          FerNode creates Paper servers by default because Paper runs Spigot plugins and performs
+          better under load. Spigot is the compatibility baseline and is the right choice only
+          when a plugin explicitly requires it. Vanilla has no plugin support at all.
+        </p>
+        <p>
+          Switching later is mostly a matter of replacing the server JAR for the same Minecraft
+          version. See <a href="paper-vs-spigot.html">the server software comparison</a> before you
+          move a world between them.
+        </p>
+      </section>
+
+      <section id="firstweek">
+        <h2>Your first week</h2>
+        <ol>
+          <li><strong>Take a backup before inviting anyone.</strong> A fresh world is easy to lose and easy to protect.</li>
+          <li><strong>Test a restore.</strong> Copy the world to another folder and start a server from it on a different port.</li>
+          <li><strong>Watch the console at peak time.</strong> Look for <code>Can't keep up</code> warnings and plugin errors.</li>
+          <li><strong>Add a permissions plugin before you add staff.</strong> Operator status should be rare.</li>
+          <li><strong>Write down the Java, Paper and plugin versions.</strong> You will need them for bug reports.</li>
+          <li><strong>Decide an update policy.</strong> Update on a schedule, not the hour a new version releases.</li>
+        </ol>
+        <p>
+          Most first-week problems are configuration, not hardware. Read the log before you buy more
+          RAM, and change one setting at a time so you know what helped.
+        </p>
+      </section>
+
+      <section id="startup-errors">
+        <h2>If the first start fails</h2>
+        <p>
+          A first start that closes immediately is almost always one of four problems. Read the last
+          few lines of the console before it exits, then match it here.
+        </p>
+        <table>
+          <thead>
+            <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>"Java is not recognized"</td><td>Java is missing or not on <code>PATH</code>.</td><td>Install a 64-bit JDK and select its executable in FerNode.</td></tr>
+            <tr><td>"You need to agree to the EULA"</td><td><code>eula.txt</code> is missing or false.</td><td>Accept the EULA once; the file should contain <code>eula=true</code>.</td></tr>
+            <tr><td>"Address already in use"</td><td>Another server or program holds the port.</td><td>Stop the other process or change <code>server-port</code>.</td></tr>
+            <tr><td>Console stops with no "Done"</td><td>World generation or a plugin error.</td><td>Wait a minute, then read <code>logs/latest.log</code> for the first error.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Do not fix these by deleting files at random. Each message points at a specific cause, and
+          the log keeps the detail that the console scrolls past. If the window closes too quickly
+          to read, start the server from a terminal so the output stays visible.
+        </p>
+      </section>
+
       <section class="guide-related">
         <h2>Related guides</h2>
         <div class="related-list">
@@ -254,6 +336,10 @@
         <li><a href="#tune">Tune the basics</a></li>
         <li><a href="#backups">Backups</a></li>
         <li><a href="#security">Security</a></li>
+        <li><a href="#folder">Server folder</a></li>
+        <li><a href="#software">Server software</a></li>
+        <li><a href="#firstweek">First week</a></li>
+        <li><a href="#startup-errors">First start errors</a></li>
       </ol>
     </aside>
   </div>

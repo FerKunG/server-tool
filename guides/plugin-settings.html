@@ -252,6 +252,104 @@ ignored-items:
         </table>
       </section>
 
+      <section id="yaml">
+        <h2>YAML basics that prevent most config errors</h2>
+        <p>
+          All three plugins use YAML. It looks simple and fails quietly. These rules cover almost
+          every mistake:
+        </p>
+        <ul>
+          <li><strong>Use spaces, never tabs.</strong> A tab is invalid indentation and is the single most common cause of a broken config.</li>
+          <li><strong>Put one space after the colon:</strong> <code>enabled: true</code>, not <code>enabled:true</code>.</li>
+          <li><strong>Indent children consistently.</strong> Two spaces per level is a common convention; the exact width matters less than being consistent.</li>
+          <li><strong>Lists use a dash and a space:</strong> <code>- TNT</code>.</li>
+          <li><strong>Quote values that start with special characters.</strong> Colour codes begin with <code>&amp;</code>, which YAML reads as an anchor. Write <code>actionbar_label: "&amp;eTree Feller: "</code>.</li>
+          <li><strong>Keep keys exactly as documented.</strong> YAML keys are case-sensitive.</li>
+          <li><strong><code>#</code> starts a comment.</strong> Everything after it on the line is ignored.</li>
+        </ul>
+        <pre><code>enabled: true
+ignored-items:
+  - TNT
+  - LAVA_BUCKET
+display:
+  enabled: true
+  format: "&amp;b&amp;l{amount}x &amp;f{name}"</code></pre>
+        <p>
+          Keep a copy of the working file before editing. A diff between the old and new version
+          shows exactly what changed, which is faster than re-reading the whole file.
+        </p>
+      </section>
+
+      <section id="errors">
+        <h2>What a broken config looks like</h2>
+        <p>
+          An invalid YAML file usually produces one of three outcomes: the plugin logs a parse error
+          and falls back to defaults, the plugin fails to enable, or it enables with empty settings.
+          The last one is the most confusing because there is no obvious crash.
+        </p>
+        <p>Check the console for lines such as:</p>
+        <pre><code>while parsing a block mapping
+expected &lt;block end&gt;, but found ...
+could not load configuration</code></pre>
+        <p>
+          Then open the file and look at the line number if the message gives one. If it does not,
+          the usual suspects are a tab, a missing space after a colon, or a list item at the wrong
+          indentation level.
+        </p>
+        <div class="callout">
+          <p><strong>Do not "fix" YAML by deleting lines.</strong> Removing a key makes the plugin use its built-in default, which may not be what you expect. Comment the line out or set it explicitly instead.</p>
+        </div>
+      </section>
+
+      <section id="changes">
+        <h2>Change defaults deliberately</h2>
+        <p>
+          The defaults shipped in these builds are balanced for a small server. Change them when
+          you can name the problem you are solving:
+        </p>
+        <table>
+          <thead>
+            <tr><th>Problem</th><th>Setting to change</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Lag when a large tree is felled</td><td>Lower <code>blocks_per_tick</code> and <code>max_logs_per_tree</code>.</td></tr>
+            <tr><td>Trees are not being detected</td><td>Check <code>require_leaves</code> and <code>leaf_radius</code>.</td></tr>
+            <tr><td>Items merge that should stay separate</td><td>Keep <code>preserve-custom-metadata: true</code> and review the blacklist.</td></tr>
+            <tr><td>Drop piles are not merging</td><td>Check <code>stack-all</code>, the blacklist and <code>stacking-radius</code>.</td></tr>
+            <tr><td>AutoRefill pulls the wrong items</td><td>Add them to <code>ignored-items</code>.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Record what you changed and why. When a setting causes a new problem later, you need to
+          know which value is not the default. Restarting or using the plugin's reload command
+          applies changes; a global <code>/reload</code> is never the right tool.
+        </p>
+      </section>
+
+      <section id="backup-configs">
+        <h2>Keep and version your configs</h2>
+        <p>
+          Config changes accumulate. After a few months nobody remembers which values are defaults
+          and which were tuned for a problem that no longer exists. A small versioning habit avoids
+          that.
+        </p>
+        <ul>
+          <li>Copy the config folder before editing, with a date in the folder name.</li>
+          <li>Keep the previous copy until the change has run for a few days without problems.</li>
+          <li>Write one line in a notes file describing why the value changed.</li>
+          <li>Compare the old and new file after a plugin update, not just before.</li>
+        </ul>
+        <pre><code>plugins/AutoRefill/config.yml
+backups/AutoRefill-2026-11-07/config.yml
+backups/AutoRefill-2026-10-28/config.yml</code></pre>
+        <p>
+          A plugin update can add new keys and ignore old ones. Diffing the file shows what the
+          update introduced and whether a key you relied on was renamed or removed. If a setting
+          seems to have stopped working after an update, compare the two files before you assume
+          the plugin is broken.
+        </p>
+      </section>
+
       <section class="guide-related">
         <h2>Related guides</h2>
         <div class="related-list">
@@ -269,6 +367,10 @@ ignored-items:
         <li><a href="#autorefill">AutoRefill</a></li>
         <li><a href="#stacker">FerKunG Stacker</a></li>
         <li><a href="#reload">Reload safely</a></li>
+        <li><a href="#yaml">YAML basics</a></li>
+        <li><a href="#errors">Broken configs</a></li>
+        <li><a href="#changes">Change defaults</a></li>
+        <li><a href="#backup-configs">Version your configs</a></li>
       </ol>
     </aside>
   </div>

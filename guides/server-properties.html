@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>server.properties explained: every setting that matters — FerNode Guides</title>
+<meta name="description" content="A practical reference to Minecraft server.properties: ports, online-mode, whitelist, view distance, simulation distance, performance and security settings, with safe values.">
+<link rel="canonical" href="https://fernode.online/guides/server-properties.html">
+<meta name="theme-color" content="#09090A">
+<meta name="google-adsense-account" content="ca-pub-1821900542837424">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="server.properties explained: every setting that matters">
+<meta property="og:description" content="Ports, whitelist, view distance, simulation distance and the settings worth changing.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://fernode.online/guides/server-properties.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="../guides.css?v=1.0">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1821900542837424" crossorigin="anonymous"></script>
+</head>
+<body class="guide-page">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+</svg>
+
+<header class="guide-header">
+  <a class="brand" href="../index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+  <nav class="guide-nav" aria-label="Main navigation">
+    <a href="../index.html#plugins">Plugins</a>
+    <a href="index.html" aria-current="page">Guides</a>
+    <a href="../about.html">About</a>
+    <a href="../index.html#server-tool">Download</a>
+  </nav>
+</header>
+
+<main class="guide-main" id="main">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="index.html">Guides</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">server.properties</span>
+  </nav>
+
+  <h1>The settings in server.properties that matter.</h1>
+  <p class="guide-lede">
+    Most of this file can stay on its defaults. A dozen keys decide whether players can connect,
+    whether the world is safe and whether the server keeps up. This is what those keys do and
+    what to change them to.
+  </p>
+  <div class="guide-meta">
+    <span>Updated 7 November 2026</span>
+    <span>11 min read</span>
+    <span>Configuration</span>
+  </div>
+
+  <div class="guide-layout">
+    <article class="article-content">
+      <section id="file">
+        <h2>Where the file is and how to edit it</h2>
+        <p>
+          <code>server.properties</code> sits in the same folder as the server JAR. It is a plain
+          text file of <code>key=value</code> lines with <code>#</code> comments. Edit it while the
+          server is stopped; changes are read at startup.
+        </p>
+        <p>
+          Two rules prevent most mistakes. First, do not add spaces around the <code>=</code>.
+          Second, keep the keys exactly as written: they are case-sensitive and an unknown key is
+          ignored without an error. If a change seems to do nothing, check the spelling.
+        </p>
+        <div class="callout">
+          <p><strong>Defaults vary by version.</strong> Paper can generate a different default than Vanilla for the same key. Treat the values below as sensible starting points, not as universal constants.</p>
+        </div>
+      </section>
+
+      <section id="network">
+        <h2>Network and access</h2>
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Typical</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>server-port</code></td><td>25565</td><td>TCP port players connect to. Change it only if it is already used.</td></tr>
+            <tr><td><code>server-ip</code></td><td>blank</td><td>Interface to bind. Leave blank unless the machine has several addresses.</td></tr>
+            <tr><td><code>online-mode</code></td><td>true</td><td>Verifies Microsoft accounts. Turning it off allows cracked clients and is unsafe on a public server.</td></tr>
+            <tr><td><code>max-players</code></td><td>20</td><td>Connection cap. Set it to what your RAM and CPU can actually carry.</td></tr>
+            <tr><td><code>motd</code></td><td>custom</td><td>The line shown in the multiplayer list. Colour codes with <code>&amp;</code> work on Paper.</td></tr>
+            <tr><td><code>enable-status</code></td><td>true</td><td>Answers the server-list ping. Leave on so players see online status.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          If <code>online-mode</code> is false, anyone using an offline client can join under any
+          name, and permissions tied to a username become unreliable. Keep it true unless the
+          server is behind a proxy that handles authentication.
+        </p>
+      </section>
+
+      <section id="world">
+        <h2>World settings</h2>
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Typical</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>level-name</code></td><td>world</td><td>Folder name of the main world. Changing it points the server at a different world.</td></tr>
+            <tr><td><code>level-seed</code></td><td>blank</td><td>Seed used when a world is first generated. Ignored for an existing world.</td></tr>
+            <tr><td><code>level-type</code></td><td>normal</td><td>World generator: normal, flat, large biomes, amplified or a custom type.</td></tr>
+            <tr><td><code>difficulty</code></td><td>easy</td><td>Peaceful, easy, normal or hard.</td></tr>
+            <tr><td><code>hardcore</code></td><td>false</td><td>Hardcore mode: death is permanent. Do not enable it by accident.</td></tr>
+            <tr><td><code>spawn-protection</code></td><td>16</td><td>Radius around spawn where non-operators cannot build.</td></tr>
+            <tr><td><code>allow-nether</code></td><td>true</td><td>Whether portals can open the Nether.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          <code>level-seed</code> only matters when the world does not exist yet. If you set a new
+          seed on an existing world, nothing happens: the world is already generated. To change
+          it you need a new world folder, which means starting over or moving players with an
+          inventory tool.
+        </p>
+      </section>
+
+      <section id="performance">
+        <h2>Performance-related settings</h2>
+        <p>
+          Two keys explain most of the difference between a smooth server and a struggling one:
+        </p>
+        <ul>
+          <li><strong><code>view-distance</code></strong> — how far chunks are sent to clients. Defaults around 10. Lowering it to 8 or 6 reduces bandwidth and CPU a lot.</li>
+          <li><strong><code>simulation-distance</code></strong> — how far the server ticks farms, mobs and redstone. Lowering it to 6 or 4 helps a busy world more than it hurts gameplay.</li>
+        </ul>
+        <p>
+          These are not the same setting. View distance is about what players can see; simulation
+          distance is about what the server actually updates. Cutting simulation distance is the
+          cheaper way to reduce load without making the world look empty.
+        </p>
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Typical</th><th>Effect</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>max-tick-time</code></td><td>60000</td><td>Watchdog threshold. <code>-1</code> disables the watchdog; not recommended.</td></tr>
+            <tr><td><code>network-compression-threshold</code></td><td>256</td><td>Packet size before compression. Lower saves bandwidth, costs CPU.</td></tr>
+            <tr><td><code>entity-broadcast-range-percentage</code></td><td>100</td><td>How far entity updates are sent. Lower reduces bandwidth.</td></tr>
+            <tr><td><code>sync-chunk-writes</code></td><td>true</td><td>Forces chunk writes to disk. <code>false</code> can help I/O but risks data loss.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="security">
+        <h2>Security and moderation</h2>
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Typical</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>white-list</code></td><td>false</td><td>Only listed players may join. Enable it on any public server.</td></tr>
+            <tr><td><code>enforce-whitelist</code></td><td>false</td><td>Kicks players who are removed from the whitelist while online.</td></tr>
+            <tr><td><code>op-permission-level</code></td><td>4</td><td>Default permission level for operators. Lower it if you use a permissions plugin.</td></tr>
+            <tr><td><code>enable-command-block</code></td><td>false</td><td>Enables command blocks. Leave off unless your maps need them.</td></tr>
+            <tr><td><code>allow-flight</code></td><td>false</td><td>Allows flight. Turning it on weakens anti-cheat checks; use a permissions plugin instead.</td></tr>
+            <tr><td><code>player-idle-timeout</code></td><td>0</td><td>Minutes before an idle player is kicked. <code>0</code> disables it.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          A whitelist is not a substitute for permissions. It controls who can connect, not what a
+          connected player can do. Use a permissions plugin to decide which commands and plugin
+          features each group gets.
+        </p>
+      </section>
+
+      <div class="article-ad" aria-label="Advertisement">
+        <div class="ad-head">
+          <span>Advertisement</span>
+          <span>Sponsored</span>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1821900542837424"
+             data-ad-slot="9015687951"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <section id="gameplay">
+        <h2>Gameplay toggles</h2>
+        <ul>
+          <li><code>gamemode</code> — survival, creative, adventure or spectator for new players.</li>
+          <li><code>force-gamemode</code> — forces the gamemode each time a player joins.</li>
+          <li><code>pvp</code> — enables player-versus-player damage.</li>
+          <li><code>spawn-monsters</code> / <code>spawn-animals</code> / <code>spawn-npcs</code> — world spawn toggles.</li>
+          <li><code>generate-structures</code> — whether structures generate in new chunks.</li>
+          <li><code>max-world-size</code> — caps the world border radius in blocks.</li>
+        </ul>
+        <p>
+          Some of these only affect newly generated chunks. Turning off structure generation on an
+          existing world does not remove structures that already exist, and turning it back on does
+          not add them to chunks that were already generated.
+        </p>
+      </section>
+
+      <section id="rcon">
+        <h2>RCON and remote console</h2>
+        <p>
+          RCON lets an external tool send console commands over a TCP port. If you use it, set a
+          long random <code>rcon.password</code>, keep <code>rcon.port</code> closed to the public
+          internet, and enable <code>rcon</code> only while you need it.
+        </p>
+        <pre><code>enable-rcon=true
+rcon.port=25575
+rcon.password=change-this-to-a-long-random-value</code></pre>
+        <p>
+          An open RCON port with a weak password is a full server takeover. If you do not use
+          RCON, leave it disabled.
+        </p>
+      </section>
+
+      <section id="mistakes">
+        <h2>Common mistakes</h2>
+        <ol>
+          <li><strong>Editing while the server runs.</strong> The file is read at startup; your change is ignored until a restart, and the server may overwrite the file on shutdown.</li>
+          <li><strong>Changing <code>level-name</code> to "reset" a world.</strong> It points at a different folder; it does not delete anything.</li>
+          <li><strong>Setting <code>max-players</code> to a number the hardware cannot carry.</strong> The cap does not create RAM.</li>
+          <li><strong>Disabling <code>online-mode</code> to "let friends in".</strong> That is a security change, not a connectivity fix.</li>
+          <li><strong>Copying a whole properties file from an old version.</strong> New keys will be missing and old values may be invalid.</li>
+        </ol>
+      </section>
+
+      <section id="summary">
+        <h2>The short version</h2>
+        <p>
+          Keep the defaults until something needs changing. Set a realistic <code>max-players</code>,
+          enable <code>white-list</code> for public servers, keep <code>online-mode=true</code>, and
+          tune <code>view-distance</code> and <code>simulation-distance</code> before you buy more
+          RAM. Back up the file before editing so you can compare what you changed.
+        </p>
+      </section>
+
+      <section id="resourcepack">
+        <h2>Resource packs</h2>
+        <p>
+          A server can offer or require a resource pack. The server sends the pack URL to the
+          client, and the client downloads it before joining.
+        </p>
+        <table>
+          <thead>
+            <tr><th>Key</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>resource-pack</code></td><td>Direct URL to the pack ZIP. Must be reachable by players.</td></tr>
+            <tr><td><code>resource-pack-sha1</code></td><td>SHA-1 of the pack, used to detect a changed file.</td></tr>
+            <tr><td><code>require-resource-pack</code></td><td>Kicks players who decline the pack.</td></tr>
+            <tr><td><code>resource-pack-prompt</code></td><td>Custom message shown when the pack is offered.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          A pack hosted on a slow or private URL is a common cause of long join times. Test the URL
+          from outside your network before enabling <code>require-resource-pack</code>.
+        </p>
+      </section>
+
+      <section id="minimal">
+        <h2>A minimal safe starting point</h2>
+        <p>
+          For a small private server that friends will join, these values cover the important
+          decisions. Leave the rest at their defaults.
+        </p>
+        <pre><code>online-mode=true
+white-list=true
+enforce-whitelist=true
+max-players=8
+view-distance=8
+simulation-distance=6
+difficulty=normal
+pvp=true
+allow-flight=false
+enable-command-block=false
+enable-rcon=false</code></pre>
+        <p>
+          Add yourself to the whitelist before enabling it, or you will lock yourself out of your
+          own server. Then test with a second account and read the log once more before you announce
+          the address.
+        </p>
+      </section>
+
+      <section class="guide-related">
+        <h2>Related guides</h2>
+        <div class="related-list">
+          <a href="setup-server.html">Run your first Paper server<span>From Java install to a joinable world.</span></a>
+          <a href="paper-vs-spigot.html">Paper vs Spigot vs Vanilla<span>Which server software to choose.</span></a>
+          <a href="troubleshooting.html">Troubleshooting<span>Connection failures, memory errors and lag.</span></a>
+        </div>
+      </section>
+    </article>
+
+    <aside class="guide-toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#file">Editing the file</a></li>
+        <li><a href="#network">Network and access</a></li>
+        <li><a href="#world">World settings</a></li>
+        <li><a href="#performance">Performance</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#gameplay">Gameplay toggles</a></li>
+        <li><a href="#rcon">RCON</a></li>
+        <li><a href="#mistakes">Common mistakes</a></li>
+        <li><a href="#resourcepack">Resource packs</a></li>
+        <li><a href="#minimal">Minimal safe config</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="legal-footer">
+  <div class="legal-footer-inner">
+    <span>&copy; 2026 FerKunGsXD &middot; FerNode</span>
+    <a href="../index.html">Back to site</a>
+  </div>
+</footer>
+
+</body>
+</html>

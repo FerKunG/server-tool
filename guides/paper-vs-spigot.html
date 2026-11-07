@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paper vs Spigot vs Vanilla: which server software should you run? — FerNode Guides</title>
+<meta name="description" content="Compare Vanilla, Spigot and Paper Minecraft server software: performance, plugin compatibility, Java requirements and how to switch without breaking your world or plugins.">
+<link rel="canonical" href="https://fernode.online/guides/paper-vs-spigot.html">
+<meta name="theme-color" content="#09090A">
+<meta name="google-adsense-account" content="ca-pub-1821900542837424">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="Paper vs Spigot vs Vanilla: which server software should you run?">
+<meta property="og:description" content="Performance, plugins, Java requirements and a safe way to switch between server types.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://fernode.online/guides/paper-vs-spigot.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="../guides.css?v=1.0">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1821900542837424" crossorigin="anonymous"></script>
+</head>
+<body class="guide-page">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+</svg>
+
+<header class="guide-header">
+  <a class="brand" href="../index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+  <nav class="guide-nav" aria-label="Main navigation">
+    <a href="../index.html#plugins">Plugins</a>
+    <a href="index.html" aria-current="page">Guides</a>
+    <a href="../about.html">About</a>
+    <a href="../index.html#server-tool">Download</a>
+  </nav>
+</header>
+
+<main class="guide-main" id="main">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="index.html">Guides</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Server software</span>
+  </nav>
+
+  <h1>Paper, Spigot or Vanilla?</h1>
+  <p class="guide-lede">
+    The three names get used as if they were the same thing. They are not. The choice decides
+    which plugins you can run, how much CPU a busy world costs and how much work an update
+    takes. Here is the practical difference and how to switch safely.
+  </p>
+  <div class="guide-meta">
+    <span>Updated 7 November 2026</span>
+    <span>10 min read</span>
+    <span>Server software</span>
+  </div>
+
+  <div class="guide-layout">
+    <article class="article-content">
+      <section id="quick">
+        <h2>The short answer</h2>
+        <table>
+          <thead>
+            <tr><th>Software</th><th>Plugins</th><th>Performance</th><th>Best for</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Vanilla</td><td>No</td><td>Baseline</td><td>A private world with no add-ons and no plugin needs</td></tr>
+            <tr><td>Spigot</td><td>Yes</td><td>Improved</td><td>Compatibility with older Bukkit/Spigot plugins</td></tr>
+            <tr><td>Paper</td><td>Yes</td><td>Best of the three</td><td>Almost every server that wants plugins and stable TPS</td></tr>
+          </tbody>
+        </table>
+        <p>
+          For most people running a server with plugins, <strong>Paper</strong> is the sensible
+          default. It runs Spigot plugins, adds performance work and ships a ready-to-run JAR.
+          Spigot matters when a specific plugin only works there. Vanilla matters when you want
+          no plugins at all.
+        </p>
+      </section>
+
+      <section id="vanilla">
+        <h2>Vanilla: the official server</h2>
+        <p>
+          Vanilla is the server JAR published by Mojang. It matches the client exactly, so redstone,
+          mob behaviour and world generation are the reference implementation. It has no plugin
+          API and no configuration beyond <code>server.properties</code> and the game rules.
+        </p>
+        <p>
+          If you only want to play survival with friends and never install a plugin, Vanilla is
+          the least surprising choice. The trade-off is that you cannot add permissions, economy,
+          anti-cheat or quality-of-life tools, and a large world with many players will use more
+          CPU than the same world on Paper.
+        </p>
+      </section>
+
+      <section id="spigot">
+        <h2>Spigot: the plugin baseline</h2>
+        <p>
+          Spigot is a fork of CraftBukkit and the origin of the Bukkit/Spigot plugin API that most
+          plugins target. A JAR built against the Spigot API expects the classes and events that
+          Spigot provides. That is why Spigot is the compatibility baseline: if a plugin says it
+          supports Spigot, it will usually run on Spigot.
+        </p>
+        <p>
+          Spigot includes performance patches over Vanilla, but it is conservative. It does not
+          distribute prebuilt JARs from its own site; builds are produced with BuildTools from
+          source. That extra step is one reason people move to Paper, which publishes builds
+          directly.
+        </p>
+      </section>
+
+      <section id="paper">
+        <h2>Paper: Spigot plus performance</h2>
+        <p>
+          Paper is a fork of Spigot. It keeps the Spigot plugin API, so Spigot plugins generally
+          run unchanged, and adds optimisations: asynchronous chunk loading, better entity and
+          hopper handling, configurable behaviour and a large set of bug fixes. On a busy server
+          the difference in tick rate is usually noticeable.
+        </p>
+        <p>
+          Paper also publishes builds you can download and run directly, which removes the
+          BuildTools step. Its configuration files are more detailed than Spigot's, so there are
+          more knobs to tune and more places to make a mistake. The defaults are sane; change them
+          only when you have a reason.
+        </p>
+        <div class="callout">
+          <p><strong>Paper is not Spigot with a different name.</strong> A plugin that uses Paper-only API will not run on Spigot. Moving from Paper back to Spigot can therefore break plugins even though the reverse direction is usually safe.</p>
+        </div>
+      </section>
+
+      <section id="forks">
+        <h2>Forks: Purpur and friends</h2>
+        <p>
+          Purpur is a fork of Paper that exposes extra gameplay and configuration options. Other
+          forks exist for specific needs such as proxies or large networks. A fork inherits the
+          plugin API of its parent, so a Paper plugin usually runs on Purpur.
+        </p>
+        <p>
+          Forks are not automatically better. Every layer adds its own update cadence and its own
+          bugs. If you do not need a fork's specific features, staying on Paper means fewer moving
+          parts when a new Minecraft version lands.
+        </p>
+      </section>
+
+      <section id="performance">
+        <h2>Why Paper is faster</h2>
+        <p>
+          The performance difference is not one trick. It is a long list of small changes:
+        </p>
+        <ul>
+          <li><strong>Chunk work is spread out.</strong> Loading and saving chunks is handled with less main-thread blocking.</li>
+          <li><strong>Entity and hopper logic is cheaper.</strong> Large farms and item piles cost less per tick.</li>
+          <li><strong>Pathfinding and AI are tuned.</strong> Mobs spend less CPU when many are loaded.</li>
+          <li><strong>Network handling is improved.</strong> Player movement packets are processed with less overhead.</li>
+          <li><strong>Configurable limits.</strong> You can cap behaviours that a specific world does not need.</li>
+        </ul>
+        <p>
+          None of this fixes a bad setup. If the server has 2 GB of RAM for 20 players, or the world
+          sits on a slow disk, Paper will still struggle. Performance software buys headroom; it
+          does not replace adequate hardware.
+        </p>
+      </section>
+
+      <div class="article-ad" aria-label="Advertisement">
+        <div class="ad-head">
+          <span>Advertisement</span>
+          <span>Sponsored</span>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1821900542837424"
+             data-ad-slot="9015687951"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <section id="plugins">
+        <h2>Plugin compatibility in practice</h2>
+        <p>Compatibility runs in one direction more than the other:</p>
+        <ul>
+          <li><strong>Spigot plugin on Paper:</strong> usually works. Paper keeps the Spigot API.</li>
+          <li><strong>Paper plugin on Spigot:</strong> may fail if it imports Paper-only classes.</li>
+          <li><strong>Bukkit plugin on either:</strong> usually works, but very old plugins can break on new Minecraft versions.</li>
+          <li><strong>Plugin on Vanilla:</strong> does not work at all. Vanilla has no plugin loader.</li>
+        </ul>
+        <p>
+          The Minecraft version matters as much as the server type. A plugin built for 1.21.x will
+          not load on 1.20.x regardless of whether the server is Paper or Spigot. Check the plugin
+          card or its documentation before you download.
+        </p>
+      </section>
+
+      <section id="choose">
+        <h2>How to choose</h2>
+        <ol>
+          <li><strong>No plugins, just survival with friends:</strong> Vanilla is enough.</li>
+          <li><strong>You need plugins and want the simplest path:</strong> Paper.</li>
+          <li><strong>A plugin explicitly requires Spigot and fails on Paper:</strong> Spigot.</li>
+          <li><strong>You want Paper plus extra gameplay toggles:</strong> Purpur, if you accept the extra layer.</li>
+          <li><strong>You run a network with a proxy:</strong> Paper behind Velocity or BungeeCord is the common setup.</li>
+        </ol>
+        <p>
+          The FerNode plugins (UltraTreeFeller, AutoRefill and FerKunG Stacker) are Bukkit-style
+          plugins. They run on Paper and Spigot. They do not require a fork and they do not use
+          Paper-only API.
+        </p>
+      </section>
+
+      <section id="java">
+        <h2>Java versions</h2>
+        <p>
+          The FerNode plugins are compiled for Java 17 or newer. That is the minimum for the
+          plugins themselves. The server software can require more: recent Paper and Minecraft
+          releases need a newer runtime than older versions did.
+        </p>
+        <p>
+          Check the requirement for the exact server build you download. If the server refuses to
+          start with an <code>UnsupportedClassVersionError</code>, the runtime is too old. Install a
+          current 64-bit JDK (Temurin 21 is a common choice) and point the server or FerNode at it.
+        </p>
+      </section>
+
+      <section id="switch">
+        <h2>Switching server software safely</h2>
+        <ol>
+          <li>Stop the server and confirm it has exited.</li>
+          <li>Back up the world folders and <code>plugins/</code>.</li>
+          <li>Keep the old server JAR; you may need it to roll back.</li>
+          <li>Download the matching build of the new software for the same Minecraft version.</li>
+          <li>Replace only the server JAR. Keep <code>server.properties</code>, <code>world/</code> and <code>plugins/</code>.</li>
+          <li>Start once and read the console for plugin errors before inviting players.</li>
+        </ol>
+        <p>
+          Going from Spigot to Paper is the low-risk direction. Going from Paper to Spigot can
+          break Paper-specific plugins and Paper configuration files, so test on a copy first if
+          the world matters.
+        </p>
+      </section>
+
+      <section id="summary">
+        <h2>The takeaway</h2>
+        <p>
+          Use Paper unless a concrete reason stops you. It is the pragmatic default for a plugin
+          server: Spigot compatibility, better performance and a direct download. Use Vanilla when
+          you want the reference game with no add-ons, and Spigot when a specific plugin demands
+          it. Whichever you pick, match the Minecraft version to your plugins and back up before
+          you switch.
+        </p>
+      </section>
+
+      <section id="proxy">
+        <h2>Proxies and multi-server networks</h2>
+        <p>
+          A proxy such as Velocity or BungeeCord sits in front of several Paper servers. Players
+          connect to the proxy, and the proxy sends them to a backend server. This is how networks
+          offer a lobby, survival and minigames with separate worlds.
+        </p>
+        <p>
+          A single server does not need a proxy. If you add one, the network changes the security
+          model:
+        </p>
+        <ul>
+          <li><strong>The proxy handles authentication.</strong> Backend servers usually run with <code>online-mode=false</code> and accept only connections forwarded by the proxy.</li>
+          <li><strong>Backend ports must not be public.</strong> If players can reach a backend directly, they can bypass the proxy's checks.</li>
+          <li><strong>Forwarding must match.</strong> Velocity modern forwarding and legacy BungeeCord forwarding are configured differently; mixing them causes "invalid session" or "not authenticated" errors.</li>
+          <li><strong>Use one Paper build across backends.</strong> Mixed versions complicate plugins and world transfer.</li>
+        </ul>
+        <p>
+          Velocity is the current choice for new networks; BungeeCord still works but is older. Both
+          expect Paper on the backend. Set this up only when you actually need more than one server,
+          because it adds a component that can fail on its own.
+        </p>
+      </section>
+
+      <section class="guide-related">
+        <h2>Related guides</h2>
+        <div class="related-list">
+          <a href="setup-server.html">Set up your first Paper server<span>Java, memory, EULA, ports and first start.</span></a>
+          <a href="server-properties.html">server.properties explained<span>The settings that actually change behaviour.</span></a>
+          <a href="install-plugins.html">Install a plugin safely<span>Version checks, backups and rollback.</span></a>
+        </div>
+      </section>
+    </article>
+
+    <aside class="guide-toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#quick">Short answer</a></li>
+        <li><a href="#vanilla">Vanilla</a></li>
+        <li><a href="#spigot">Spigot</a></li>
+        <li><a href="#paper">Paper</a></li>
+        <li><a href="#forks">Forks</a></li>
+        <li><a href="#performance">Performance</a></li>
+        <li><a href="#plugins">Plugin compatibility</a></li>
+        <li><a href="#choose">How to choose</a></li>
+        <li><a href="#java">Java versions</a></li>
+        <li><a href="#switch">Switch safely</a></li>
+        <li><a href="#proxy">Proxies</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="legal-footer">
+  <div class="legal-footer-inner">
+    <span>&copy; 2026 FerKunGsXD &middot; FerNode</span>
+    <a href="../index.html">Back to site</a>
+  </div>
+</footer>
+
+</body>
+</html>

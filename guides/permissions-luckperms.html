@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Permissions and LuckPerms for FerNode plugins — FerNode Guides</title>
+<meta name="description" content="How Minecraft permissions work, what default true and default op mean, and how to grant or block FerNode plugin permissions with LuckPerms groups, nodes and negation.">
+<link rel="canonical" href="https://fernode.online/guides/permissions-luckperms.html">
+<meta name="theme-color" content="#09090A">
+<meta name="google-adsense-account" content="ca-pub-1821900542837424">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="Permissions and LuckPerms for FerNode plugins">
+<meta property="og:description" content="Grant or block plugin features with groups, nodes and negation.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://fernode.online/guides/permissions-luckperms.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="../guides.css?v=1.0">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1821900542837424" crossorigin="anonymous"></script>
+</head>
+<body class="guide-page">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+</svg>
+
+<header class="guide-header">
+  <a class="brand" href="../index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+  <nav class="guide-nav" aria-label="Main navigation">
+    <a href="../index.html#plugins">Plugins</a>
+    <a href="index.html" aria-current="page">Guides</a>
+    <a href="../about.html">About</a>
+    <a href="../index.html#server-tool">Download</a>
+  </nav>
+</header>
+
+<main class="guide-main" id="main">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="index.html">Guides</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Permissions</span>
+  </nav>
+
+  <h1>Permissions and LuckPerms, without the guesswork.</h1>
+  <p class="guide-lede">
+    The three FerNode plugins ship with player permissions enabled and admin permissions limited
+    to operators. On a public server you usually want more control than that. This is how the
+    permission system works and how to shape it with LuckPerms.
+  </p>
+  <div class="guide-meta">
+    <span>Updated 7 November 2026</span>
+    <span>11 min read</span>
+    <span>Permissions</span>
+  </div>
+
+  <div class="guide-layout">
+    <article class="article-content">
+      <section id="basics">
+        <h2>How permissions work</h2>
+        <p>
+          A permission is a string such as <code>autorefill.use</code>. A plugin registers each
+          node with a default value, and the server checks the node when a player uses a feature or
+          command. A permissions plugin sits between the player and the server and answers those
+          checks.
+        </p>
+        <p>There are three default values a plugin can register:</p>
+        <table>
+          <thead>
+            <tr><th>Default</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>true</code></td><td>Every player has it, even without a permissions plugin.</td></tr>
+            <tr><td><code>op</code></td><td>Granted to operators. Non-operators do not have it.</td></tr>
+            <tr><td><code>false</code></td><td>Nobody has it until a permissions plugin grants it.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          The FerNode plugins use <code>true</code> for player-facing features and <code>op</code>
+          for reload commands. That is convenient on a private server and too loose on a public
+          one, where you may not want every visitor to use tree felling or automatic refill.
+        </p>
+      </section>
+
+      <section id="nodes">
+        <h2>The nodes you will use</h2>
+        <table>
+          <thead>
+            <tr><th>Node</th><th>Plugin default</th><th>Controls</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>treefeller.use</code></td><td>true</td><td>Activating UltraTreeFeller</td></tr>
+            <tr><td><code>autorefill.use</code></td><td>true</td><td>Automatic hand refill</td></tr>
+            <tr><td><code>autorefill.reload</code></td><td>op</td><td><code>/autorefill reload</code></td></tr>
+            <tr><td><code>ferkungstacker.use</code></td><td>true</td><td>Using FerKunG Stacker features</td></tr>
+            <tr><td><code>ferkungstacker.reload</code></td><td>op</td><td><code>/fkstacker reload</code></td></tr>
+          </tbody>
+        </table>
+        <p>
+          A <code>true</code> default is not a promise. A permissions plugin can still return
+          <code>false</code> for a specific player or group, and that answer wins. To block a node
+          for a group, set it to <code>false</code> or use a negated node such as
+          <code>-treefeller.use</code>.
+        </p>
+      </section>
+
+      <section id="install">
+        <h2>Installing LuckPerms</h2>
+        <ol>
+          <li>Stop the server.</li>
+          <li>Download the Bukkit/Paper build of LuckPerms that matches your Minecraft version.</li>
+          <li>Place the JAR in <code>plugins/</code> and start the server.</li>
+          <li>Check that LuckPerms enabled and that <code>plugins/LuckPerms/</code> was created.</li>
+        </ol>
+        <p>
+          LuckPerms stores data in a local H2 database by default, which is fine for one server.
+          A network with several servers should use a shared MySQL/MariaDB database so every
+          server sees the same groups. Do not enable that until you have one server working.
+        </p>
+      </section>
+
+      <section id="commands">
+        <h2>Core LuckPerms commands</h2>
+        <p>These can be run from the console without the leading slash:</p>
+        <pre><code>/lp creategroup member
+/lp creategroup staff
+/lp group member permission set treefeller.use true
+/lp group member permission set autorefill.use true
+/lp group member permission set ferkungstacker.use true
+/lp group staff parent add member
+/lp group staff permission set autorefill.reload true
+/lp group staff permission set ferkungstacker.reload true
+/lp user Steve parent add member
+/lp user Alex parent add staff</code></pre>
+        <p>
+          The <code>default</code> group already exists. New players join it unless you change their
+          group. A common setup is to put basic features on <code>default</code>, extra features on
+          a rank group, and staff commands on a staff group that inherits the lower groups.
+        </p>
+      </section>
+
+      <div class="article-ad" aria-label="Advertisement">
+        <div class="ad-head">
+          <span>Advertisement</span>
+          <span>Sponsored</span>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1821900542837424"
+             data-ad-slot="9015687951"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <section id="example">
+        <h2>A worked example</h2>
+        <p>
+          Say you want everyone to use AutoRefill and FerKunG Stacker, but only a donors group to
+          use UltraTreeFeller, and only admins to reload plugins. Turn the plugin defaults off at
+          the group level and grant explicitly:
+        </p>
+        <pre><code>/lp group default permission set autorefill.use true
+/lp group default permission set ferkungstacker.use true
+/lp group default permission set treefeller.use false
+
+/lp creategroup donor
+/lp group donor parent add default
+/lp group donor permission set treefeller.use true
+
+/lp creategroup admin
+/lp group admin parent add donor
+/lp group admin permission set autorefill.reload true
+/lp group admin permission set ferkungstacker.reload true</code></pre>
+        <p>
+          Because <code>donor</code> inherits <code>default</code>, it gets the two enabled nodes
+          and the tree felling node it adds. <code>admin</code> inherits everything and adds the
+          reload commands. Each group only states what it changes.
+        </p>
+      </section>
+
+      <section id="negation">
+        <h2>Negation, wildcards and order</h2>
+        <p>
+          A node written with a leading dash, such as <code>-treefeller.use</code>, is a negation.
+          It removes the permission even if another group grants it. Use negation sparingly: it is
+          easy to create a rule nobody remembers, and it can make inheritance hard to reason about.
+        </p>
+        <p>
+          Wildcards expand to every node under a prefix. <code>ferkungstacker.*</code> covers both
+          the use and reload nodes. Be careful with wildcards on staff groups: they are convenient
+          and also broad. If a future plugin version adds a destructive node under the same prefix,
+          the wildcard grants it automatically.
+        </p>
+        <p>
+          When two sources disagree, LuckPerms resolves by the most specific answer and by group
+          weight. If a player has both <code>true</code> and <code>false</code> for the same node,
+          the negative usually wins unless you have arranged the weights deliberately.
+        </p>
+      </section>
+
+      <section id="check">
+        <h2>Checking what a player actually has</h2>
+        <p>
+          Do not guess. LuckPerms can tell you the result of a check:
+        </p>
+        <pre><code>/lp user Steve permission check treefeller.use
+/lp verbose on</code></pre>
+        <p>
+          <code>permission check</code> answers for one node. <code>/lp verbose on</code> prints
+          permission checks to your chat as they happen, which is useful when a plugin behaves as
+          if a node is missing. Turn it off with <code>/lp verbose off</code> when you are done.
+        </p>
+        <p>
+          Changes apply immediately. LuckPerms does not require a server restart, and a global
+          <code>/reload</code> is not the fix for a permission problem. If a change does not take
+          effect, check that you edited the right user or group and that no negation is overriding
+          it.
+        </p>
+      </section>
+
+      <section id="mistakes">
+        <h2>Common mistakes</h2>
+        <ol>
+          <li><strong>Editing the plugin YAML instead of using LuckPerms.</strong> Changing <code>default:</code> in <code>plugin.yml</code> inside a JAR is not how you manage live permissions.</li>
+          <li><strong>Granting <code>*</code> to staff.</strong> It grants every node from every plugin, including ones you have not reviewed.</li>
+          <li><strong>Forgetting that <code>default: true</code> already grants the node.</strong> To restrict a feature you must set it to <code>false</code>, not just "not grant" it.</li>
+          <li><strong>Using uppercase node names.</strong> Nodes are case-sensitive and conventionally lowercase.</li>
+          <li><strong>Blaming the plugin for a permission result.</strong> Check the node with LuckPerms before editing configs.</li>
+        </ol>
+      </section>
+
+      <section id="summary">
+        <h2>The short version</h2>
+        <p>
+          Player-facing FerNode nodes default to <code>true</code> and reload nodes default to
+          <code>op</code>. On a public server, set the ones you want to restrict to <code>false</code>
+          and grant them through LuckPerms groups. Keep inheritance simple, avoid broad wildcards
+          for staff, and verify with <code>permission check</code> instead of guessing.
+        </p>
+      </section>
+
+      <section id="contexts">
+        <h2>Contexts, weights and tracks</h2>
+        <p>
+          A permission does not have to apply everywhere. LuckPerms supports contexts, which scope
+          a node to a server, world or gamemode. This is useful when a feature should be allowed in
+          a creative plot world but not in survival.
+        </p>
+        <pre><code>/lp user Steve permission set treefeller.use true world=world_creative
+/lp group default permission set treefeller.use false world=world</code></pre>
+        <p>
+          The rule of thumb is to keep contexts few. Every extra context is another condition that
+          has to be true, and a permission problem becomes much harder to read when five contexts
+          are in play.
+        </p>
+        <p>
+          Groups can have a weight. When two groups grant or deny the same node, the higher weight
+          usually wins. Set weights deliberately instead of relying on creation order:
+        </p>
+        <pre><code>/lp group member setweight 10
+/lp group donor setweight 20
+/lp group staff setweight 50</code></pre>
+        <p>
+          Tracks are ordered lists of groups used for promotions. A common track runs from
+          <code>member</code> to <code>donor</code> to <code>staff</code>; promoting a player moves
+          them along it without editing each group by hand.
+        </p>
+        <h3>The web editor</h3>
+        <p>
+          <code>/lp editor</code> prints a link to a web editor for the current data. It is easier
+          for reviewing a large permission table than typing commands, but changes still apply to
+          the server when you save. Treat the link as sensitive: anyone who has it can read and
+          change permissions until it expires.
+        </p>
+      </section>
+
+      <section class="guide-related">
+        <h2>Related guides</h2>
+        <div class="related-list">
+          <a href="plugin-settings.html">Plugin settings reference<span>Defaults for every config key and node.</span></a>
+          <a href="server-properties.html">server.properties explained<span>Whitelist and operator settings.</span></a>
+          <a href="troubleshooting.html">Troubleshooting<span>When a command or feature does nothing.</span></a>
+        </div>
+      </section>
+    </article>
+
+    <aside class="guide-toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#basics">How permissions work</a></li>
+        <li><a href="#nodes">The FerNode nodes</a></li>
+        <li><a href="#install">Install LuckPerms</a></li>
+        <li><a href="#commands">Core commands</a></li>
+        <li><a href="#example">Worked example</a></li>
+        <li><a href="#negation">Negation and wildcards</a></li>
+        <li><a href="#check">Check a player</a></li>
+        <li><a href="#mistakes">Common mistakes</a></li>
+        <li><a href="#contexts">Contexts and tracks</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="legal-footer">
+  <div class="legal-footer-inner">
+    <span>&copy; 2026 FerKunGsXD &middot; FerNode</span>
+    <a href="../index.html">Back to site</a>
+  </div>
+</footer>
+
+</body>
+</html>

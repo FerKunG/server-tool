@@ -247,6 +247,101 @@
         </ol>
       </section>
 
+      <section id="sources">
+        <h2>Get the JAR from a source you can verify</h2>
+        <p>
+          A plugin is executable code inside the server process. It can read the world, the player
+          data and, on a badly configured machine, the filesystem. Download from the official
+          FerNode plugin library or the project repository, not from a mirror or a "plugin pack"
+          site that reuploads other people's work.
+        </p>
+        <ul>
+          <li><strong>Check the filename and version.</strong> The file you expect is <code>ultratreefeller-1.1.0.jar</code>, not <code>UltraTreeFeller-latest-final(2).jar</code>.</li>
+          <li><strong>Check the hash if one is published.</strong> Download the SHA-256 from the same page and compare it locally.</li>
+          <li><strong>Do not run a JAR from an email attachment or a chat link.</strong> That is how most server compromises start.</li>
+        </ul>
+        <p>On Windows, compare the checksum in PowerShell:</p>
+        <pre><code>Get-FileHash .\ultratreefeller-1.1.0.jar -Algorithm SHA256</code></pre>
+        <p>
+          The hash must match exactly. If it does not, delete the file and download it again from
+          the official page. A mismatch is not a warning to ignore; it means the bytes are not the
+          bytes the publisher signed off on.
+        </p>
+      </section>
+
+      <section id="pluginyml">
+        <h2>What "loaded" actually means</h2>
+        <p>
+          Every Bukkit-style plugin is a ZIP archive with a <code>plugin.yml</code> at its root.
+          That file tells the server the plugin's name, version and entry class. When the server
+          starts, it reads the file, loads the main class and calls its enable method. If any of
+          those steps fail, the plugin never reaches the enabled state.
+        </p>
+        <table>
+          <thead>
+            <tr><th>plugin.yml key</th><th>Why it matters</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>name</code></td><td>The name shown in <code>/plugins</code> and in logs.</td></tr>
+            <tr><td><code>version</code></td><td>Used to spot duplicates and to report bugs.</td></tr>
+            <tr><td><code>main</code></td><td>The class the server instantiates. A typo here fails the load.</td></tr>
+            <tr><td><code>api-version</code></td><td>Which Minecraft API the plugin was built against.</td></tr>
+            <tr><td><code>commands</code></td><td>Registers slash commands such as <code>/autorefill</code>.</td></tr>
+            <tr><td><code>permissions</code></td><td>Declares the nodes and their defaults.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          A plugin that appears in the console as "enabled" but has no commands usually has a
+          command registration problem or a permission result. A plugin that is missing from
+          <code>/plugins</code> did not get past the load step. Those are different failures and
+          lead to different fixes.
+        </p>
+      </section>
+
+      <section id="updates">
+        <h2>Updating a plugin later</h2>
+        <p>
+          A plugin update is a small upgrade and deserves the same care as a server upgrade. The
+          JAR can change config keys, data formats and behaviour.
+        </p>
+        <ol>
+          <li><strong>Read the changelog.</strong> Look for removed keys, renamed commands and data migrations.</li>
+          <li><strong>Back up the plugin's config folder</strong> before replacing the JAR.</li>
+          <li><strong>Stop the server.</strong> Replacing a loaded JAR on Windows can fail or leave a half-updated file.</li>
+          <li><strong>Replace the JAR, keep the config folder.</strong> The plugin migrates or adds keys on start.</li>
+          <li><strong>Start and read the console.</strong> Compare the new config with the backup if a setting stopped working.</li>
+        </ol>
+        <p>
+          If the new build does not support your Minecraft version, stay on the old build. A
+          plugin that works on an older version is more useful than a newer one that refuses to
+          load.
+        </p>
+      </section>
+
+      <section id="dependencies">
+        <h2>Plugins that need other plugins</h2>
+        <p>
+          Some plugins are not standalone. They expect a library or an API provider to be present,
+          such as an economy plugin, a permissions plugin or a packet library. If the dependency is
+          missing, the plugin fails to enable or disables itself after a warning.
+        </p>
+        <ul>
+          <li><strong>Read the plugin's requirements</strong> before you copy the JAR. Most project pages list hard and soft dependencies.</li>
+          <li><strong>Install dependencies first</strong> and restart once so they register before the dependent plugin loads.</li>
+          <li><strong>Match versions.</strong> A plugin built for an older API provider can fail even when the provider is installed.</li>
+        </ul>
+        <p>
+          The three FerNode plugins are standalone. They do not require Vault, LuckPerms or a
+          packet library, and they do not depend on each other. You can install one, two or all
+          three in any order.
+        </p>
+        <p>
+          If the console mentions <code>Unknown dependency</code> or a missing class from another
+          plugin's package, treat it as a dependency problem before you edit any config. Replacing
+          the config will not install the missing class.
+        </p>
+      </section>
+
       <section class="guide-related">
         <h2>Related guides</h2>
         <div class="related-list">
@@ -268,6 +363,10 @@
         <li><a href="#configure">Configure and reload</a></li>
         <li><a href="#permissions">Permissions</a></li>
         <li><a href="#rollback">Roll back</a></li>
+        <li><a href="#sources">Verify the download</a></li>
+        <li><a href="#pluginyml">What loaded means</a></li>
+        <li><a href="#updates">Update later</a></li>
+        <li><a href="#dependencies">Plugin dependencies</a></li>
       </ol>
     </aside>
   </div>

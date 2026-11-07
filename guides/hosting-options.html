@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hosting a Minecraft server: home PC vs VPS vs managed host — FerNode Guides</title>
+<meta name="description" content="Compare running a Minecraft server on your own PC, a VPS and a managed Minecraft host: control, cost, performance, DDoS exposure, backups and how much RAM you actually need.">
+<link rel="canonical" href="https://fernode.online/guides/hosting-options.html">
+<meta name="theme-color" content="#09090A">
+<meta name="google-adsense-account" content="ca-pub-1821900542837424">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="Hosting a Minecraft server: home PC vs VPS vs managed host">
+<meta property="og:description" content="Control, cost, performance and security of the three common ways to host.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://fernode.online/guides/hosting-options.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="../guides.css?v=1.0">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1821900542837424" crossorigin="anonymous"></script>
+</head>
+<body class="guide-page">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+</svg>
+
+<header class="guide-header">
+  <a class="brand" href="../index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+  <nav class="guide-nav" aria-label="Main navigation">
+    <a href="../index.html#plugins">Plugins</a>
+    <a href="index.html" aria-current="page">Guides</a>
+    <a href="../about.html">About</a>
+    <a href="../index.html#server-tool">Download</a>
+  </nav>
+</header>
+
+<main class="guide-main" id="main">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="index.html">Guides</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Hosting options</span>
+  </nav>
+
+  <h1>Home PC, VPS or managed host?</h1>
+  <p class="guide-lede">
+    All three run the same server software. They differ in who keeps the machine alive, how much
+    control you get and what happens when something breaks at 2 a.m. Here is how to choose
+    without overpaying or over-committing.
+  </p>
+  <div class="guide-meta">
+    <span>Updated 7 November 2026</span>
+    <span>11 min read</span>
+    <span>Hosting</span>
+  </div>
+
+  <div class="guide-layout">
+    <article class="article-content">
+      <section id="what">
+        <h2>What "hosting" really means</h2>
+        <p>
+          A Minecraft server is a Java program that needs a machine that stays on, an internet
+          connection players can reach and storage that survives a restart. "Hosting" is just a
+          decision about which machine provides those three things.
+        </p>
+        <p>
+          The software, plugins and world are the same everywhere. Moving hosts is mostly copying
+          the server folder and adjusting the address players connect to. That means you are not
+          locked in by the choice, but the trade-offs are real.
+        </p>
+      </section>
+
+      <section id="home">
+        <h2>Your own PC</h2>
+        <p>
+          Running the server on a computer you already own is the cheapest way to start and the
+          only option that gives you full local access to every file.
+        </p>
+        <p><strong>Strengths</strong></p>
+        <ul>
+          <li>No monthly server bill.</li>
+          <li>Direct access to the files, console and hardware.</li>
+          <li>Easy to test plugins and restore backups locally.</li>
+        </ul>
+        <p><strong>Weaknesses</strong></p>
+        <ul>
+          <li>The PC must stay on, and electricity is a real cost over a year.</li>
+          <li>Windows updates and restarts interrupt the server.</li>
+          <li>Home upload bandwidth limits how many players can join smoothly.</li>
+          <li>Your public IP is exposed unless you use a tunnel or proxy.</li>
+          <li>Many ISPs use carrier-grade NAT, which makes port forwarding impossible.</li>
+        </ul>
+        <p>
+          For friends on the same network, no configuration is needed beyond the local IP. For
+          players outside the network, forward TCP port <code>25565</code> on the router to the
+          PC's local address. If the router's public IP and the IP the PC sees do not match, you
+          are probably behind carrier-grade NAT and will need a tunnel or a hosted server.
+        </p>
+      </section>
+
+      <section id="vps">
+        <h2>A VPS</h2>
+        <p>
+          A virtual private server is a rented virtual machine with root access. You install Java,
+          upload the server and manage it yourself. It is the middle ground: more reliable than a
+          home PC, more control than a managed host.
+        </p>
+        <p><strong>Strengths</strong></p>
+        <ul>
+          <li>Runs in a data centre with better uptime and upload bandwidth.</li>
+          <li>Full control over the OS, Java version and firewall.</li>
+          <li>Easy to resize or move to another machine.</li>
+        </ul>
+        <p><strong>Weaknesses</strong></p>
+        <ul>
+          <li>You are the system administrator. Updates, firewall and backups are your job.</li>
+          <li>DDoS protection varies; a cheap VPS may null-route your IP under attack.</li>
+          <li>You still need to install and secure the server software.</li>
+        </ul>
+        <p>
+          Choose a location near your players. A server with good hardware on another continent
+          will still feel laggy because of round-trip time. Prefer fast single-core CPU performance,
+          an SSD or NVMe disk and a provider with a clear network policy.
+        </p>
+      </section>
+
+      <section id="managed">
+        <h2>A managed Minecraft host</h2>
+        <p>
+          A managed host sells Minecraft servers specifically. You get a control panel, a slot or
+          RAM-based plan, and often one-click plugin installs, scheduled backups and support. You
+          usually do not get root access to the machine.
+        </p>
+        <p><strong>Strengths</strong></p>
+        <ul>
+          <li>The provider handles uptime, hardware and the operating system.</li>
+          <li>Backups and restarts are built into the panel.</li>
+          <li>Support can help when the server will not start.</li>
+        </ul>
+        <p><strong>Weaknesses</strong></p>
+        <ul>
+          <li>Less control over Java flags, ports and the filesystem.</li>
+          <li>Pricing per GB of RAM can be higher than a comparable VPS.</li>
+          <li>Quality varies a lot; oversold hardware shows up as lag at peak times.</li>
+        </ul>
+        <p>
+          This is the right choice if you want the server to stay online and do not want to manage
+          a Linux machine. Read the plan's CPU and disk limits, not just the RAM number.
+        </p>
+      </section>
+
+      <section id="specs">
+        <h2>How much RAM and CPU?</h2>
+        <p>
+          RAM is the number hosts advertise, but single-core CPU performance and disk speed matter
+          just as much for Minecraft. Use these as rough starting points:
+        </p>
+        <table>
+          <thead>
+            <tr><th>Players</th><th>RAM</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1–5, vanilla-ish</td><td>2–4 GB</td><td>Enough for a small world and a few plugins.</td></tr>
+            <tr><td>5–15, plugins</td><td>4–8 GB</td><td>Leave headroom for world size and backups.</td></tr>
+            <tr><td>15–40, heavy plugins</td><td>8–16 GB</td><td>CPU and disk become the limit before RAM does.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          Always leave memory for the operating system. Giving a server all the RAM on the machine
+          causes swapping, which is slower than having a smaller heap. For a desktop that also runs
+          Windows, leave at least 2 GB free.
+        </p>
+      </section>
+
+      <div class="article-ad" aria-label="Advertisement">
+        <div class="ad-head">
+          <span>Advertisement</span>
+          <span>Sponsored</span>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1821900542837424"
+             data-ad-slot="9015687951"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <section id="security">
+        <h2>Security and DDoS</h2>
+        <p>
+          A public server will be scanned and sometimes attacked. The basics apply everywhere:
+          keep the game server updated, do not expose RCON to the internet, use strong panel
+          passwords and avoid running the server as an administrator or root.
+        </p>
+        <p>
+          On a home connection, a DDoS targets your whole internet line, not just the server. A
+          tunnel or a proxy can hide the home IP, but it adds a dependency. A VPS or managed host
+          absorbs this better, though cheap plans may still suspend an IP under a large attack.
+        </p>
+      </section>
+
+      <section id="cost">
+        <h2>Comparing cost honestly</h2>
+        <p>
+          A home server is not free if the PC would otherwise be off. Add up electricity, the
+          hardware you would not have bought, and the time you spend on maintenance. A VPS and a
+          managed host have a visible monthly bill but include the electricity and the machine.
+        </p>
+        <ul>
+          <li><strong>Home:</strong> lowest cash cost, highest time and reliability cost.</li>
+          <li><strong>VPS:</strong> middle cash cost, most flexibility, most admin work.</li>
+          <li><strong>Managed:</strong> highest cash cost, least admin work, least control.</li>
+        </ul>
+        <p>
+          Start with what you already have if the server is private. Move to a VPS or managed host
+          when uptime starts to matter more than saving money.
+        </p>
+      </section>
+
+      <section id="choose">
+        <h2>Which one should you pick?</h2>
+        <ol>
+          <li><strong>Playing with a few friends, learning the ropes:</strong> your own PC.</li>
+          <li><strong>A public server that must stay up, and you can follow Linux guides:</strong> a VPS.</li>
+          <li><strong>A public server you do not want to administer:</strong> a managed host.</li>
+          <li><strong>You need mods, custom Java flags or unusual ports:</strong> a VPS or your own PC.</li>
+          <li><strong>You expect attacks or a large player count:</strong> a provider with real DDoS protection.</li>
+        </ol>
+        <p>
+          Whichever you choose, keep a copy of the server folder off the machine. Hosting decides
+          how the server runs; backups decide whether you keep it.
+        </p>
+      </section>
+
+      <section id="summary">
+        <h2>The takeaway</h2>
+        <p>
+          Use your own PC to start, a VPS when you want uptime and control, and a managed host when
+          you want someone else to keep it running. Match RAM to players, prioritise CPU and disk,
+          and remember that moving later is mostly a file copy.
+        </p>
+      </section>
+
+      <section id="latency">
+        <h2>Latency, location and migrating</h2>
+        <p>
+          Lag has two different meanings. <strong>Server lag</strong> is the tick rate falling
+          below 20; it affects everyone equally. <strong>Latency</strong> is the round-trip time
+          between a player and the server; it affects one player, or everyone far from the machine.
+        </p>
+        <p>
+          Location matters more than most specs. A powerful server on another continent still gives
+          every action a delay. Choose a region near your players, and prefer a provider with decent
+          network peering over one that is merely cheap.
+        </p>
+        <p>If you move hosts, the process is mostly a file copy:</p>
+        <ol>
+          <li>Stop the old server cleanly and confirm it exited.</li>
+          <li>Copy the entire server folder, including worlds and <code>plugins/</code>.</li>
+          <li>Start the server on the new machine and confirm the world loads.</li>
+          <li>Test with a local connection before pointing players at it.</li>
+          <li>Update the address players use, and keep the old server stopped so two copies never run at once.</li>
+        </ol>
+        <p>
+          Never run two copies of the same world at the same time. Whichever saves last wins, and
+          the result is a corrupted or rolled-back world. Keep the old machine's copy until the new
+          one has run for a few days.
+        </p>
+      </section>
+
+      <section class="guide-related">
+        <h2>Related guides</h2>
+        <div class="related-list">
+          <a href="setup-server.html">Run your first Paper server<span>Java, memory, EULA and first start.</span></a>
+          <a href="backups-upgrades.html">Backups and upgrades<span>Keep the world safe wherever it runs.</span></a>
+          <a href="server-properties.html">server.properties explained<span>Ports, whitelist and performance.</span></a>
+        </div>
+      </section>
+    </article>
+
+    <aside class="guide-toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#what">What hosting means</a></li>
+        <li><a href="#home">Your own PC</a></li>
+        <li><a href="#vps">A VPS</a></li>
+        <li><a href="#managed">Managed host</a></li>
+        <li><a href="#specs">RAM and CPU</a></li>
+        <li><a href="#security">Security and DDoS</a></li>
+        <li><a href="#cost">Cost</a></li>
+        <li><a href="#choose">Which to pick</a></li>
+        <li><a href="#latency">Latency and moving</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="legal-footer">
+  <div class="legal-footer-inner">
+    <span>&copy; 2026 FerKunGsXD &middot; FerNode</span>
+    <a href="../index.html">Back to site</a>
+  </div>
+</footer>
+
+</body>
+</html>

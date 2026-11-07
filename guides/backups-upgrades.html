@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minecraft server backups and safe version upgrades — FerNode Guides</title>
+<meta name="description" content="What to back up on a Minecraft server, how to schedule and test restores, and a step-by-step process for upgrading Minecraft or Paper without losing worlds or plugin data.">
+<link rel="canonical" href="https://fernode.online/guides/backups-upgrades.html">
+<meta name="theme-color" content="#09090A">
+<meta name="google-adsense-account" content="ca-pub-1821900542837424">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:title" content="Minecraft server backups and safe version upgrades">
+<meta property="og:description" content="Back up the right files, test a restore, and upgrade Minecraft or Paper without losing your world.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://fernode.online/guides/backups-upgrades.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="../guides.css?v=1.0">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1821900542837424" crossorigin="anonymous"></script>
+</head>
+<body class="guide-page">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+</svg>
+
+<header class="guide-header">
+  <a class="brand" href="../index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+  <nav class="guide-nav" aria-label="Main navigation">
+    <a href="../index.html#plugins">Plugins</a>
+    <a href="index.html" aria-current="page">Guides</a>
+    <a href="../about.html">About</a>
+    <a href="../index.html#server-tool">Download</a>
+  </nav>
+</header>
+
+<main class="guide-main" id="main">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="index.html">Guides</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Backups and upgrades</span>
+  </nav>
+
+  <h1>Backups that work, upgrades that do not break.</h1>
+  <p class="guide-lede">
+    A backup you have never restored is a guess. An upgrade you did not plan is a gamble. This
+    guide covers what to copy, how to prove the copy works and how to move a server to a new
+    Minecraft or Paper version without losing the world.
+  </p>
+  <div class="guide-meta">
+    <span>Updated 7 November 2026</span>
+    <span>12 min read</span>
+    <span>Maintenance</span>
+  </div>
+
+  <div class="guide-layout">
+    <article class="article-content">
+      <section id="why">
+        <h2>Why this matters more than performance</h2>
+        <p>
+          Performance problems are annoying. Data loss ends the server. The two events that cause
+          most losses are an upgrade that a plugin could not survive and a restore that turned out
+          to be incomplete. Both are avoidable with a small amount of preparation.
+        </p>
+        <p>
+          The goal is not a perfect backup system. It is a copy you can restore, on a schedule you
+          will actually keep, stored somewhere other than the disk the server uses.
+        </p>
+      </section>
+
+      <section id="what">
+        <h2>What to back up</h2>
+        <ul>
+          <li><strong>The world folders:</strong> <code>world/</code>, <code>world_nether/</code> and <code>world_the_end/</code> if they exist.</li>
+          <li><strong><code>plugins/</code>:</strong> the JARs and, more importantly, the config folders that hold each plugin's settings and data.</li>
+          <li><strong><code>server.properties</code>:</strong> small file, large consequences if lost.</li>
+          <li><strong>Server configs:</strong> Paper's <code>config/</code> folder if present, plus <code>bukkit.yml</code>, <code>spigot.yml</code> and <code>paper-global.yml</code>.</li>
+          <li><strong>Player data:</strong> <code>ops.json</code>, <code>whitelist.json</code>, <code>banned-*.json</code>, and <code>usercache.json</code> for reference.</li>
+          <li><strong>The server JAR and its exact version:</strong> so you can roll back to the same build.</li>
+        </ul>
+        <div class="callout">
+          <p><strong>Configs are data too.</strong> Restoring only <code>world/</code> after a plugin change can leave the world and the plugin data out of sync. Copy both, or neither.</p>
+        </div>
+      </section>
+
+      <section id="schedule">
+        <h2>How often, and where</h2>
+        <p>
+          A workable default is a daily backup plus a manual backup before any change to the
+          server JAR, plugins or a Minecraft version. Keep several generations rather than one
+          file, because a corruption that happens before your backup runs will be copied into the
+          next one.
+        </p>
+        <p>
+          Follow the 3-2-1 idea in a simplified form: at least three copies, on two kinds of
+          storage, with one copy off the machine. In practice that can be a local folder, a second
+          drive and an upload to cloud storage.
+        </p>
+        <ul>
+          <li><strong>Local copy:</strong> fast to restore, useless if the disk dies.</li>
+          <li><strong>Second drive:</strong> survives a disk failure, not a fire or theft.</li>
+          <li><strong>Off-site copy:</strong> survives most disasters, slower to download.</li>
+        </ul>
+        <p>
+          Stop the server, or let the backup tool trigger a save first, before copying world files.
+          A copy of a world that is being written can contain a half-finished region file.
+        </p>
+      </section>
+
+      <section id="restore">
+        <h2>Prove the backup works</h2>
+        <p>
+          Once a month, restore a backup to a temporary folder and start a server from it on a
+          different port. Join it, check the spawn, open a chest and walk a few chunks. Then stop
+          it and delete the copy.
+        </p>
+        <pre><code>C:\Minecraft\Survival            normal server
+C:\Minecraft\Survival-restore    copy used for a restore test</code></pre>
+        <p>
+          Testing on the same port while the real server is running will fail with a bind error.
+          Change <code>server-port</code> in the test copy so the two can run side by side, or stop
+          the real server first.
+        </p>
+      </section>
+
+      <div class="article-ad" aria-label="Advertisement">
+        <div class="ad-head">
+          <span>Advertisement</span>
+          <span>Sponsored</span>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1821900542837424"
+             data-ad-slot="9015687951"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <section id="upgrade-prep">
+        <h2>Planning an upgrade</h2>
+        <p>
+          An "upgrade" can mean a new Minecraft version, a new Paper build or a new plugin version.
+          Treat all three the same way: find out what changed, confirm support, back up, test.
+        </p>
+        <ol>
+          <li><strong>Read the release notes.</strong> Look for breaking changes, config changes and removed features.</li>
+          <li><strong>Check every plugin.</strong> A plugin without a build for the new Minecraft version is a reason to wait.</li>
+          <li><strong>Check Java.</strong> Newer Minecraft and Paper versions can require a newer runtime.</li>
+          <li><strong>Back up everything</strong> from the "what to back up" list, not just the world.</li>
+          <li><strong>Test on a copy</strong> if the server has players who care about the world.</li>
+        </ol>
+        <p>
+          Do not upgrade on the day a new version is released. Plugin authors need time to publish
+          compatible builds, and the first server releases often have fixes within days.
+        </p>
+      </section>
+
+      <section id="upgrade">
+        <h2>Step-by-step upgrade</h2>
+        <ol class="steps">
+          <li><strong>Announce and stop.</strong> Warn players, run <code>stop</code> and wait for the process to exit.</li>
+          <li><strong>Back up.</strong> Copy worlds, <code>plugins/</code>, configs and the old JAR to a dated folder.</li>
+          <li><strong>Replace the server JAR.</strong> Keep the old one. Download the new build for the target version.</li>
+          <li><strong>Update plugins.</strong> Replace only plugins that have a compatible build. Remove ones that do not.</li>
+          <li><strong>Start and watch.</strong> Read the console until <code>Done</code>. Note any plugin that fails to enable.</li>
+          <li><strong>Test in game.</strong> Check spawn, inventories, plugin commands and a few chunks in each dimension.</li>
+          <li><strong>Keep the old backup</strong> for at least a week after the upgrade looks healthy.</li>
+        </ol>
+      </section>
+
+      <section id="rollback">
+        <h2>Rolling back</h2>
+        <p>
+          If the new version fails, stop the server and restore the old JAR, old plugins and the
+          world from the backup taken before the upgrade. Do not try to downgrade a world that has
+          already been opened by a newer version unless you understand the risk: newer versions can
+          write data an older version cannot read.
+        </p>
+        <p>
+          This is why the backup must be taken before the first start on the new version. Once the
+          new server has generated or converted chunks, the old copy is the only safe rollback.
+        </p>
+      </section>
+
+      <section id="worldformat">
+        <h2>World format and version changes</h2>
+        <p>
+          Minecraft upgrades the world format when a newer version opens an older world. That
+          conversion is usually one-way. Going forward is supported; going back is not.
+        </p>
+        <ul>
+          <li>Keep a copy of the pre-upgrade world until you are sure you will not go back.</li>
+          <li>Do not open the world with a newer version "just to look" and then return to the old one.</li>
+          <li>Test the conversion on a copy when moving across major versions.</li>
+        </ul>
+        <p>
+          Plugins can also change their data format between versions. Restoring an old world with
+          new plugin data, or the reverse, can produce errors. Restore the world and plugins
+          together as a set.
+        </p>
+      </section>
+
+      <section id="automate">
+        <h2>Automating it</h2>
+        <p>
+          FerNode can take backups from its dashboard, which is enough for many small servers.
+          Whatever tool you use, make sure it:
+        </p>
+        <ul>
+          <li>Runs while the world is saved, or stops the server first.</li>
+          <li>Keeps more than one generation.</li>
+          <li>Writes to a location outside the server folder.</li>
+          <li>Reports failures instead of failing silently.</li>
+        </ul>
+        <p>
+          Check the backup folder after the first run. A scheduler that has been "working" for a
+          month while writing to a full disk is worse than no scheduler, because it creates false
+          confidence.
+        </p>
+      </section>
+
+      <section id="summary">
+        <h2>The short version</h2>
+        <p>
+          Back up worlds, plugins and configs together, keep several generations, store one copy
+          off the machine and test a restore. Before an upgrade, confirm plugin and Java support,
+          back up, replace the JAR and plugins, then test before inviting players. Keep the old
+          backup until the new version has proven itself.
+        </p>
+      </section>
+
+      <section id="tools">
+        <h2>Tools and a restore drill</h2>
+        <p>
+          The tool matters less than the habit. Any of these can work if it produces a complete,
+          restorable copy:
+        </p>
+        <ul>
+          <li><strong>FerNode's backup feature</strong> for a small server on your own PC.</li>
+          <li><strong>A manual ZIP</strong> of the world and <code>plugins/</code> while the server is stopped.</li>
+          <li><strong>The host panel's scheduler</strong> on a managed server, with off-site copies enabled.</li>
+          <li><strong>rsync or restic</strong> on a VPS, sending snapshots to separate storage.</li>
+        </ul>
+        <p>Run this restore drill once and write down how long it took:</p>
+        <ol>
+          <li>Copy the latest backup to a new folder.</li>
+          <li>Confirm <code>level.dat</code> exists in each world folder and that region files are present and non-zero.</li>
+          <li>Start a server from the copy on a spare port.</li>
+          <li>Join, check spawn, open a chest and walk across a few chunks.</li>
+          <li>Stop the test server and delete the copy.</li>
+        </ol>
+        <p>
+          If the drill fails, the backup was never real. Find out now, while the live server is
+          still healthy, rather than during an outage. A backup that has never been restored is only
+          a hope.
+        </p>
+      </section>
+
+      <section class="guide-related">
+        <h2>Related guides</h2>
+        <div class="related-list">
+          <a href="setup-server.html">Set up a Paper server<span>First start, ports and backups.</span></a>
+          <a href="paper-vs-spigot.html">Paper vs Spigot vs Vanilla<span>Choose the software before you upgrade.</span></a>
+          <a href="troubleshooting.html">Troubleshooting<span>Startup crashes and restore problems.</span></a>
+        </div>
+      </section>
+    </article>
+
+    <aside class="guide-toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <ol>
+        <li><a href="#why">Why it matters</a></li>
+        <li><a href="#what">What to back up</a></li>
+        <li><a href="#schedule">How often and where</a></li>
+        <li><a href="#restore">Test a restore</a></li>
+        <li><a href="#upgrade-prep">Plan an upgrade</a></li>
+        <li><a href="#upgrade">Step by step</a></li>
+        <li><a href="#rollback">Roll back</a></li>
+        <li><a href="#worldformat">World format</a></li>
+        <li><a href="#automate">Automating</a></li>
+        <li><a href="#tools">Restore drill</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="legal-footer">
+  <div class="legal-footer-inner">
+    <span>&copy; 2026 FerKunGsXD &middot; FerNode</span>
+    <a href="../index.html">Back to site</a>
+  </div>
+</footer>
+
+</body>
+</html>

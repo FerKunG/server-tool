@@ -256,6 +256,99 @@
         </p>
       </section>
 
+      <section id="memory">
+        <h2>OutOfMemoryError and heap size</h2>
+        <p>
+          <code>java.lang.OutOfMemoryError: Java heap space</code> means the server ran out of the
+          memory it was allowed to use. It is not a signal to add a huge number and move on; it is
+          a signal to find what is consuming memory.
+        </p>
+        <p>Common causes, roughly in order of frequency:</p>
+        <ul>
+          <li><strong>Too little heap for the player count.</strong> Each player loads chunks and entity data.</li>
+          <li><strong>View and simulation distance too high.</strong> Chunks stay loaded longer and cost more memory.</li>
+          <li><strong>Entity or item buildup.</strong> Large farms, dropped items and mob piles grow without a cleanup.</li>
+          <li><strong>A plugin leak.</strong> A plugin keeps references to players or worlds that should be gone.</li>
+          <li><strong>A very large world with many loaded chunks.</strong></li>
+        </ul>
+        <p>
+          Raise <code>-Xmx</code> only after leaving room for the operating system. On an 8 GB
+          machine, a 6 GB heap leaves little for Windows and can make things worse through
+          swapping. Then reduce view distance and check for entity buildup before raising it again.
+        </p>
+        <div class="callout">
+          <p><strong>Restarting hides the symptom.</strong> If memory climbs until the server dies every few hours, a bigger heap only delays the crash. Take a heap dump or use a profiler and find the object that keeps growing.</p>
+        </div>
+      </section>
+
+      <section id="port">
+        <h2>Port already in use</h2>
+        <p>
+          <code>java.net.BindException: Address already in use</code> means another process is
+          listening on the same port. Usually it is a second copy of the server that did not fully
+          shut down, or two servers configured for <code>25565</code>.
+        </p>
+        <p>On Windows, find the process holding the port:</p>
+        <pre><code>netstat -ano | findstr :25565</code></pre>
+        <p>
+          The last column is the process ID. Check it in Task Manager before ending it. If you
+          intentionally run two servers, give the second one a different <code>server-port</code>
+          and forward that port instead.
+        </p>
+        <p>
+          On a hosted server, a bind error can also mean the port is reserved by the panel. Use the
+          port the host assigned rather than changing it yourself.
+        </p>
+      </section>
+
+      <section id="chunks">
+        <h2>Corrupt chunks and region files</h2>
+        <p>
+          Signs of chunk corruption include players falling through the world, a region that will
+          not load, or log lines such as <code>Chunk file at ... is missing</code> or
+          <code>Region file ... is truncated</code>.
+        </p>
+        <p>Common causes:</p>
+        <ul>
+          <li>The server was killed or lost power while writing chunks.</li>
+          <li>The world was copied while the server was still running.</li>
+          <li><code>sync-chunk-writes</code> was disabled to improve performance.</li>
+          <li>The disk is failing or full.</li>
+        </ul>
+        <p>
+          Restoring the affected world folder from a backup is the reliable fix. Deleting a region
+          file makes the server regenerate that area, which removes both the corruption and every
+          build inside it. Only do that if you accept the loss and have a backup of the rest.
+        </p>
+        <p>
+          Prevent the next one: stop the server cleanly, keep <code>sync-chunk-writes</code> on
+          unless you understand the trade-off, and never copy a live world.
+        </p>
+      </section>
+
+      <section id="conflicts">
+        <h2>When two plugins disagree</h2>
+        <p>
+          Two plugins can listen to the same event: a block break, an inventory click or a player
+          join. One may cancel the event or change the result, and the other may act on the result
+          before or after it. The symptom is usually a feature that works alone but stops working
+          when another plugin is installed.
+        </p>
+        <p>Common examples:</p>
+        <ul>
+          <li>A region-protection plugin cancels block breaks, so tree felling appears to do nothing in protected areas.</li>
+          <li>Two stacking plugins both try to merge drops, producing odd counts or duplicate items.</li>
+          <li>An anti-cheat plugin flags fast inventory moves from an automatic refill.</li>
+          <li>Two plugins register the same command name, so only one of them responds.</li>
+        </ul>
+        <p>
+          To confirm a conflict, stop the server, remove one of the two plugins and reproduce the
+          behaviour. If the feature works, the problem is the interaction, not the config. Then read
+          both plugins' documentation for a world or region exclusion, and configure one of them to
+          stay out of the other's way rather than disabling a feature you need.
+        </p>
+      </section>
+
       <section class="guide-related">
         <h2>Related guides</h2>
         <div class="related-list">
@@ -277,6 +370,10 @@
         <li><a href="#autorefill">AutoRefill</a></li>
         <li><a href="#connection">Connection problems</a></li>
         <li><a href="#restore">Restore a backup</a></li>
+        <li><a href="#memory">Memory errors</a></li>
+        <li><a href="#port">Port in use</a></li>
+        <li><a href="#chunks">Corrupt chunks</a></li>
+        <li><a href="#conflicts">Plugin conflicts</a></li>
       </ol>
     </aside>
   </div>

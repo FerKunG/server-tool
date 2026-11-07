@@ -27,11 +27,17 @@ website/
 ├─ robots.txt                 crawl rules and sitemap location
 ├─ sitemap.xml                canonical page list
 ├─ guides/
-│  ├─ index.html              guide hub
-│  ├─ install-plugins.html    safe plugin install and rollback
+│  ├─ index.html              guide hub (10 articles)
 │  ├─ setup-server.html       first Paper server walkthrough
+│  ├─ install-plugins.html    safe plugin install and rollback
 │  ├─ plugin-settings.html    config, command and permission reference
-│  └─ troubleshooting.html    common plugin and server failures
+│  ├─ troubleshooting.html    common plugin and server failures
+│  ├─ paper-vs-spigot.html    server software comparison
+│  ├─ server-properties.html  configuration reference
+│  ├─ backups-upgrades.html   backups, restore tests and upgrades
+│  ├─ permissions-luckperms.html  permission groups and nodes
+│  ├─ read-logs.html          logs, stack traces and crash reports
+│  └─ hosting-options.html    home PC, VPS and managed hosting
 ├─ assets/
 │  ├─ favicon.svg             FerNode favicon
 │  ├─ hero-wide.webp          wide hero banner (2048 × 768)
@@ -117,10 +123,11 @@ version menu in the library toolbar when needed.
 
 ## Guides
 
-`guides/` holds the long-form content: safe plugin installation, first Paper server setup, a
-config/command/permission reference and troubleshooting. Each article is standalone HTML and
-shares `style.css` plus `guides.css`. The homepage links to the four articles from the Guides
-section.
+`guides/` holds the long-form content: first Paper server setup, safe plugin installation, a
+config/command/permission reference, troubleshooting, server software comparison, a
+`server.properties` reference, backups and upgrades, LuckPerms permissions, reading logs and
+hosting options. Each article is standalone HTML and shares `style.css` plus `guides.css`. The
+homepage links to six featured articles; the hub lists all ten.
 
 The guide pages are also the only pages that carry ad units. Do not add ads to the homepage,
 the guide hub, the about page, the privacy page or a download screen; those lack the publisher
