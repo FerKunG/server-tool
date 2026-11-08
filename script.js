@@ -17,7 +17,7 @@ const RELEASES = [
     exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.3.0/Server.Tool.Setup.1.3.0.exe',
     format: 'ZIP · portable',
     size: '149 MB',
-    sha256: '304DAF679255119022A8C49650B8DAEFDFCB56F1CDBEA2584FCD55911D7285DD',
+    sha256: 'C14927C535DED1340C9B6394A1F41D41DDDD83073D9312ABA5A1D99CF68BDDEC',
     note: 'Portable build. Extract the folder, then run the app.',
     noteHtml: 'Portable build. Extract the folder, then run the app.'
   },

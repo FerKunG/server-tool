@@ -147,7 +147,7 @@ Release data lives at the top of `script.js`:
   zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.3.0/Server-Tool-1.3.0-win-x64.zip',
   exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.3.0/Server.Tool.Setup.1.3.0.exe',
   size: '149 MB',
-  sha256: '304DAF679255119022A8C49650B8DAEFDFCB56F1CDBEA2584FCD55911D7285DD',
+  sha256: 'C14927C535DED1340C9B6394A1F41D41DDDD83073D9312ABA5A1D99CF68BDDEC',
   ...
 }
 ```
@@ -165,7 +165,7 @@ SHA-256 row has a copy button with a clipboard fallback and a toast confirmation
 `pro.html` is the paid edition page. It is deliberately separate from the free download panel
 and covers:
 
-- Launch pricing (฿399 one-time, regular ฿599) and what the license includes.
+- Launch pricing (฿289 one-time, regular ฿399) and what the license includes.
 - A full Free vs Pro comparison, including the enforced limits in the free build.
 - The one-time seven-day trial and how to start it.
 - Manual ordering instructions and license delivery.
