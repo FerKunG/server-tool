@@ -147,7 +147,7 @@ Release data lives at the top of `script.js`:
   zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.3.0/Server-Tool-1.3.0-win-x64.zip',
   exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.3.0/Server.Tool.Setup.1.3.0.exe',
   size: '149 MB',
-  sha256: 'C14927C535DED1340C9B6394A1F41D41DDDD83073D9312ABA5A1D99CF68BDDEC',
+  sha256: 'A5287A4AAD1DE904EA330C7EA7098143103A8F977AC07A0F4658DD15C26CB710',
   ...
 }
 ```
