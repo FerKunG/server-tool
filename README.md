@@ -9,7 +9,7 @@ The site has two main jobs:
 2. Offer the FerNode plugin library, with search, Minecraft version filtering and direct
    JAR downloads.
 
-> **Brand note:** the website is branded FerNode. The current 1.2.1 app downloads still
+> **Brand note:** the website is branded FerNode. The current 1.3.0 app downloads still
 > contain `Server Tool.exe` and use the original asset filenames. Rebuild and rename the app
 > before changing those download paths.
 
@@ -18,6 +18,9 @@ The site has two main jobs:
 ```text
 website/
 ├─ index.html                 homepage: hero, plugins, principles, app, gallery, guides, FAQ
+├─ pro.html                   Server Tool Pro storefront: pricing, comparison, trial, order
+├─ pro.css                    Pro storefront layout layered on top of style.css
+├─ terms.html                 Server Tool Pro license terms
 ├─ about.html                 project background, funding and support
 ├─ privacy.html               privacy policy (AdSense disclosure)
 ├─ style.css                  dark Manrope/DM Mono design system and responsive states
@@ -44,8 +47,8 @@ website/
 │  ├─ gallery/                voxel artwork for the gallery cards
 │  └─ plugins/                muted plugin demo clips
 └─ downloads/
-   ├─ Server-Tool-1.2.1-win-x64.zip     portable build (157 MB)
-   ├─ Server Tool Setup 1.2.1.exe       NSIS installer (117 MB)
+   ├─ Server-Tool-1.3.0-win-x64.zip     portable build (149 MB)
+   ├─ Server Tool Setup 1.3.0.exe       NSIS installer (117 MB)
    └─ plugins/
       ├─ autorefill-1.1.0.jar
       ├─ ferkungstacker-1.3.0.jar
@@ -140,11 +143,11 @@ Release data lives at the top of `script.js`:
 
 ```js
 {
-  version: '1.2.1',
-  zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.2.1/Server-Tool-1.2.1-win-x64.zip',
-  exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.2.1/Server.Tool.Setup.1.2.1.exe',
-  size: '157 MB',
-  sha256: '72CEF577C9A8B3747F57BA0C78CC67BA0CD840C1E8033045243786242625C580',
+  version: '1.3.0',
+  zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.3.0/Server-Tool-1.3.0-win-x64.zip',
+  exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.3.0/Server.Tool.Setup.1.3.0.exe',
+  size: '149 MB',
+  sha256: '304DAF679255119022A8C49650B8DAEFDFCB56F1CDBEA2584FCD55911D7285DD',
   ...
 }
 ```
@@ -156,6 +159,26 @@ version is stored in `localStorage` and in `?v=…`.
 
 The download panel is in the **Server tool** section; the hero CTA scrolls to it. The
 SHA-256 row has a copy button with a clipboard fallback and a toast confirmation.
+
+## Server Tool Pro storefront
+
+`pro.html` is the paid edition page. It is deliberately separate from the free download panel
+and covers:
+
+- Launch pricing (฿399 one-time, regular ฿599) and what the license includes.
+- A full Free vs Pro comparison, including the enforced limits in the free build.
+- The one-time seven-day trial and how to start it.
+- Manual ordering instructions and license delivery.
+- Direct Pro installer and portable ZIP links, plus the installer SHA-256.
+
+`pro.css` holds the storefront layout and depends on `style.css` for the site shell. The page
+uses `script.js` for the mobile menu and FAQ only; its checksum copy button is a small inline
+script with its own `#pro-hash-value` element so it does not collide with the free release data
+in `script.js`.
+
+The “Buy Pro” buttons inside the app open `https://fernode.online/pro.html` (configured in
+`App/shared/edition.ts`). Update the order CTA on `pro.html` when a hosted checkout replaces the
+manual YouTube ordering flow.
 
 ## Google AdSense
 

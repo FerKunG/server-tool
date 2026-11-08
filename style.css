@@ -1558,6 +1558,19 @@ section[id] {
   line-height: 1.55;
 }
 
+.pro-strip {
+  margin-bottom: 0;
+  border-color: rgba(131, 168, 255, .28);
+  background:
+    radial-gradient(circle at 0 50%, rgba(131, 168, 255, .14), transparent 45%),
+    linear-gradient(100deg, #141a2c, #121214);
+}
+
+.pro-strip .bundle-download {
+  border-color: rgba(131, 168, 255, .32);
+  background: rgba(131, 168, 255, .12);
+}
+
 .bundle-download {
   min-height: 48px;
   padding: 0 17px;
