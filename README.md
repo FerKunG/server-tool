@@ -9,7 +9,7 @@ The site has two main jobs:
 2. Offer the FerNode plugin library, with search, Minecraft version filtering and direct
    JAR downloads.
 
-> **Brand note:** the website is branded FerNode. The current 1.3.0 app downloads still
+> **Brand note:** the website is branded FerNode. The current 1.4.0 app downloads still
 > contain `Server Tool.exe` and use the original asset filenames. Rebuild and rename the app
 > before changing those download paths.
 
@@ -47,8 +47,8 @@ website/
 │  ├─ gallery/                voxel artwork for the gallery cards
 │  └─ plugins/                muted plugin demo clips
 └─ downloads/
-   ├─ Server-Tool-1.3.0-win-x64.zip     portable build (149 MB)
-   ├─ Server Tool Setup 1.3.0.exe       NSIS installer (117 MB)
+   ├─ Server-Tool-1.4.0-win-x64.zip     portable build (154 MB)
+   ├─ Server Tool Setup 1.4.0.exe       NSIS installer (117 MB)
    └─ plugins/
       ├─ autorefill-1.1.0.jar
       ├─ ferkungstacker-1.3.0.jar
@@ -143,11 +143,11 @@ Release data lives at the top of `script.js`:
 
 ```js
 {
-  version: '1.3.0',
-  zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.3.0/Server-Tool-1.3.0-win-x64.zip',
-  exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.3.0/Server.Tool.Setup.1.3.0.exe',
-  size: '149 MB',
-  sha256: 'A5287A4AAD1DE904EA330C7EA7098143103A8F977AC07A0F4658DD15C26CB710',
+  version: '1.4.0',
+  zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.0/Server-Tool-1.4.0-win-x64.zip',
+  exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.0/Server.Tool.Setup.1.4.0.exe',
+  size: '154 MB',
+  sha256: '732A7F1347C53D25F634CF13D80000768D4F783C0AD73A0D65C457543B5A0C26',
   ...
 }
 ```
@@ -166,7 +166,7 @@ SHA-256 row has a copy button with a clipboard fallback and a toast confirmation
 and covers:
 
 - Launch pricing (฿289 one-time, regular ฿399) and what the license includes.
-- A full Free vs Pro comparison, including the enforced limits in the free build.
+- A full Free vs Pro comparison, including the enforced limits in the free build and the Pro-only Bedrock server type and Discord crash/memory alerts.
 - The one-time seven-day trial and how to start it.
 - Manual ordering instructions and license delivery.
 - Direct Pro installer and portable ZIP links, plus the installer SHA-256.
