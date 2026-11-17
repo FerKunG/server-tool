@@ -802,3 +802,13 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+.price-trial a {
+  white-space: nowrap;
+}
+
+.plans-note strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+}
