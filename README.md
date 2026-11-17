@@ -9,7 +9,7 @@ The site has two main jobs:
 2. Offer the FerNode plugin library, with search, Minecraft version filtering and direct
    JAR downloads.
 
-> **Brand note:** the website is branded FerNode. The current 1.4.0 app downloads still
+> **Brand note:** the website is branded FerNode. The current 1.4.1 app downloads still
 > contain `Server Tool.exe` and use the original asset filenames. Rebuild and rename the app
 > before changing those download paths.
 
@@ -49,8 +49,8 @@ website/
 │  ├─ gallery/                voxel artwork for the gallery cards
 │  └─ plugins/                muted plugin demo clips
 └─ downloads/
-   ├─ Server-Tool-1.4.0-win-x64.zip     portable build (154 MB)
-   ├─ Server Tool Setup 1.4.0.exe       NSIS installer (117 MB)
+   ├─ Server-Tool-1.4.1-win-x64.zip     portable build (154 MB)
+   ├─ Server Tool Setup 1.4.1.exe       NSIS installer (117 MB)
    └─ plugins/
       ├─ autorefill-1.1.0.jar
       ├─ ferkungstacker-1.3.0.jar
@@ -145,11 +145,11 @@ Release data lives at the top of `script.js`:
 
 ```js
 {
-  version: '1.4.0',
-  zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.0/Server-Tool-1.4.0-win-x64.zip',
-  exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.0/Server.Tool.Setup.1.4.0.exe',
+  version: '1.4.1',
+  zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.1/Server-Tool-1.4.1-win-x64.zip',
+  exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.1/Server.Tool.Setup.1.4.1.exe',
   size: '154 MB',
-  sha256: '732A7F1347C53D25F634CF13D80000768D4F783C0AD73A0D65C457543B5A0C26',
+  sha256: '50A3E3289AE8E045EF243FE4F22375DCDF56FB82BB8948C2B402FF9732A02DA1',
   ...
 }
 ```

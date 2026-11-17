@@ -10,9 +10,21 @@
    Set them to null for versions that are not uploaded yet. */
 const RELEASES = [
   {
+    version: '1.4.1',
+    date: '2026-11-17',
+    latest: true,
+    zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.1/Server-Tool-1.4.1-win-x64.zip',
+    exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.1/Server.Tool.Setup.1.4.1.exe',
+    format: 'ZIP · portable',
+    size: '154 MB',
+    sha256: '50A3E3289AE8E045EF243FE4F22375DCDF56FB82BB8948C2B402FF9732A02DA1',
+    note: 'Portable build. Extract the folder, then run the app.',
+    noteHtml: 'Portable build. Extract the folder, then run the app.'
+  },
+  {
     version: '1.4.0',
     date: '2026-11-16',
-    latest: true,
+    latest: false,
     zip: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.0/Server-Tool-1.4.0-win-x64.zip',
     exe: 'https://github.com/FerKunG/server-tool/releases/download/v1.4.0/Server.Tool.Setup.1.4.0.exe',
     format: 'ZIP · portable',
@@ -54,8 +66,8 @@ const RELEASES = [
     format: 'ZIP · archived',
     size: null,
     sha256: null,
-    note: 'This build is archived and its installer has not been uploaded yet. Choose v1.4.0 from the version menu.',
-    noteHtml: 'This build is archived and its installer has not been uploaded yet. Choose v1.4.0 from the version menu.'
+    note: 'This build is archived and its installer has not been uploaded yet. Choose v1.4.1 from the version menu.',
+    noteHtml: 'This build is archived and its installer has not been uploaded yet. Choose v1.4.1 from the version menu.'
   },
   {
     version: '1.1.0',
@@ -66,8 +78,8 @@ const RELEASES = [
     format: 'ZIP · archived',
     size: null,
     sha256: null,
-    note: 'This build is archived and its installer has not been uploaded yet. Choose v1.4.0 from the version menu.',
-    noteHtml: 'This build is archived and its installer has not been uploaded yet. Choose v1.4.0 from the version menu.'
+    note: 'This build is archived and its installer has not been uploaded yet. Choose v1.4.1 from the version menu.',
+    noteHtml: 'This build is archived and its installer has not been uploaded yet. Choose v1.4.1 from the version menu.'
   },
   {
     version: '1.0.0',
