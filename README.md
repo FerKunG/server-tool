@@ -20,6 +20,8 @@ website/
 ├─ index.html                 homepage: hero, plugins, principles, app, gallery, guides, FAQ
 ├─ pro.html                   Server Tool Pro storefront: pricing, comparison, trial, order
 ├─ pro.css                    Pro storefront layout layered on top of style.css
+├─ track.html                 order lookup by order id + claim token (calls the payments API)
+├─ config.js                  public runtime config: FERNODE_PAYMENTS_API (empty until deployed)
 ├─ terms.html                 Server Tool Pro license terms
 ├─ about.html                 project background, funding and support
 ├─ privacy.html               privacy policy (AdSense disclosure)
@@ -168,7 +170,8 @@ and covers:
 - Launch pricing (฿289 one-time, regular ฿399) and what the license includes.
 - A full Free vs Pro comparison, including the enforced limits in the free build and the Pro-only Bedrock server type and Discord crash/memory alerts.
 - The one-time seven-day trial and how to start it.
-- Manual ordering instructions and license delivery.
+- Manual ordering instructions, delivery expectations, refunds/reissues and a link to order tracking.
+- A **planned** monthly pricing block (Starter ฿99, Pro ฿149, Business ฿199) marked "not on sale yet".
 - Direct Pro installer and portable ZIP links, plus the installer SHA-256.
 
 `pro.css` holds the storefront layout and depends on `style.css` for the site shell. The page
@@ -179,6 +182,57 @@ in `script.js`.
 The “Buy Pro” buttons inside the app open `https://fernode.online/pro.html` (configured in
 `App/shared/edition.ts`). Update the order CTA on `pro.html` when a hosted checkout replaces the
 manual YouTube ordering flow.
+
+### Wiring `pro.html` to the payments service
+
+`payments/` (see `payments/README.md`) exposes the hosted checkout API. No deployed URL is
+checked into this repository — set it when the service has a public HTTPS host. The storefront
+flow is:
+
+1. `GET /api/plans` on page load to render prices and hide plans where `purchasable` is `false`
+   (for example the monthly plan when no Stripe recurring price is configured).
+2. `POST /api/checkout` with a JSON body `{ "plan": "pro_lifetime", "email": "…", "name": "…" }`
+   and a unique `Idempotency-Key` header (8–128 chars: letters, digits, `.`, `:`, `_`, `-`).
+   Generate one per click (for example `crypto.randomUUID()`), persist it for the retry, and
+   reuse it only when retrying that same request.
+3. On `201`, redirect the browser to the returned `checkoutUrl`. Do not mark the order paid or
+   show a licence in the page — activation only happens when Stripe's verified webhook lands.
+4. On `409 IDEMPOTENCY_KEY_REUSED`, generate a new key. On `502 CHECKOUT_FAILED` or `503`, show
+   an error and let the customer retry; never fake a checkout URL.
+
+Keep the call server-to-server or from an allowed browser origin. If the page calls the API
+directly from the browser, add the exact site origin to the payments service's `ALLOWED_ORIGINS`
+(comma-separated, no `*`). Stripe redirects back to `/checkout/success` and `/checkout/cancel`
+on the payments host, so `pro.html` only starts the flow.
+
+The service never returns the Stripe secret, webhook secret, admin token or price ids to the
+page. A purchase notification is posted to Discord by the service, not by the site. Email
+delivery is optional and opt-in: when the operator configures `EMAIL_PROVIDER`, the service
+emails the claim link; otherwise point customers at the claim page / support. The website must
+not claim that an email was sent unless email delivery is configured and enabled.
+
+### Monthly plans section
+
+`pro.html` shows three planned monthly tiers (Starter ฿99, Pro ฿149, Business ฿199) with an
+explicit **"Planned · not on sale yet"** badge. Keep that badge until a real Stripe recurring
+price exists and `POST /api/checkout` accepts the monthly plan code; then swap the badge for a
+purchase button and remove the "not on sale yet" sentences in the section note and FAQ 06.
+Prices and limits live only in `pro.html`; change them in one place and keep the FAQ consistent.
+
+### Order tracking (`track.html`)
+
+`track.html` calls `GET {FERNODE_PAYMENTS_API}/api/orders/:id?token=…` and renders status, plan,
+amount, dates and a claim link. It never displays a licence key.
+
+- `config.js` holds `window.FERNODE_PAYMENTS_API`. It is **empty** in the repository, so the page
+  shows an honest "online order tracking is not open yet" notice and disables the form.
+- Set it to the public HTTPS origin of the deployed payments service (for example
+  `https://pay.fernode.online`) once that host exists. Do not put secrets in `config.js`; it is
+  public.
+- The payments service must allow `https://fernode.online` in `ALLOWED_ORIGINS` for the browser
+  call to succeed, and the page needs the Stripe-era claim token from the customer's message.
+- The page is `noindex` and intentionally absent from `sitemap.xml`, because it renders
+  query-string tokens.
 
 ## Google AdSense
 

@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=1.3.0-dark">
-<link rel="stylesheet" href="pro.css?v=1.0.0">
+<link rel="stylesheet" href="pro.css?v=1.1.0">
 
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -112,6 +112,7 @@
       </ul>
       <a class="primary-cta pro-buy-cta" href="#buy">Order Pro <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a>
       <small class="price-trial">Try everything free for 7 days. No card required.</small>
+      <small class="price-trial">Monthly tiers are planned, not on sale yet. <a href="#monthly">Compare monthly plans</a>.</small>
     </aside>
   </section>
 
@@ -278,6 +279,8 @@
         Order by message <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg>
       </a>
       <p class="buy-note">Message <strong>@FerKunGsXD</strong> on YouTube with “Server Tool Pro” and the email address for your license. We confirm the total, arrange payment, then send your key. We aim to reply within 24 hours.</p>
+      <p class="buy-note">Online card checkout is not open yet, so every order is handled by message. Nothing is charged until you have confirmed the total with us, and you receive the exact ฿289 launch price in writing before paying.</p>
+      <p class="buy-note">Already ordered? <a href="track.html">Track your order</a> with the order id and token from your confirmation message.</p>
     </div>
 
     <div class="buy-details reveal">
@@ -292,18 +295,85 @@
       <h3>Already downloaded the trial?</h3>
       <p>Keep using the same installation. Activating a key does not reinstall the app or move your servers.</p>
 
+      <h3>Tracking an order</h3>
+      <p>Keep the confirmation message: it carries your order id and a private link. Open that link again, or paste the order id and token into <a href="track.html">order tracking</a>, to see whether the order is pending, paid, cancelled or refunded and to fetch a fresh claim link.</p>
+
       <h3>Payment and delivery</h3>
       <p>Payment methods are confirmed in the order conversation. License keys are delivered manually, so keep the email you used in your order. If a key does not activate, send it back and we will reissue it.</p>
+
+      <h3>Refunds and reissues</h3>
+      <p>Ask about a refund window before paying. A reissue for a key that will not activate is always free. A refunded order revokes the matching license record, so keep the key from the order you are keeping.</p>
 
       <h3>License terms</h3>
       <p>A Pro key is a perpetual license for one person. It is not tied to a machine, so you can move it to a new PC. Keys are not refundable after delivery; see the <a href="terms.html">license terms</a>.</p>
     </div>
   </section>
 
+  <section class="plans-section" id="monthly" aria-labelledby="plans-title">
+    <div class="section-heading reveal">
+      <div>
+        <span class="section-index">04 / Monthly plans</span>
+        <h2 id="plans-title">Monthly plans,<br>when you need them.</h2>
+        <span class="plan-status-pill">Planned &middot; not on sale yet</span>
+      </div>
+      <p>Three monthly tiers are planned for people who would rather pay a smaller amount each month than ฿289 once. Monthly billing opens together with online card checkout. Until then the lifetime licence is the only plan you can buy, and the 7-day trial covers trying Pro first.</p>
+    </div>
+
+    <div class="plan-grid reveal">
+      <article class="plan-card">
+        <div class="plan-head">
+          <h3>Starter</h3>
+          <span class="plan-tag">2 servers</span>
+        </div>
+        <div class="plan-price"><span>฿</span>99<small>/month</small></div>
+        <ul class="plan-list">
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Up to 2 server profiles</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Discord crash and memory alerts</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Scheduled automatic backups</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Standard support</li>
+        </ul>
+        <p class="plan-foot">Renews monthly. Cancel any time before the next renewal.</p>
+      </article>
+
+      <article class="plan-card is-featured">
+        <div class="plan-head">
+          <h3>Pro</h3>
+          <span class="plan-tag">5 servers</span>
+        </div>
+        <div class="plan-price"><span>฿</span>149<small>/month</small></div>
+        <ul class="plan-list">
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Up to 5 server profiles</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Everything in Starter</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Console commands and file editing</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> One-click Fabric mod installs</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Priority support</li>
+        </ul>
+        <p class="plan-foot">The tier most single-server owners would pick.</p>
+      </article>
+
+      <article class="plan-card">
+        <div class="plan-head">
+          <h3>Business</h3>
+          <span class="plan-tag">15 servers</span>
+        </div>
+        <div class="plan-price"><span>฿</span>199<small>/month</small></div>
+        <ul class="plan-list">
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Up to 15 server profiles</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Everything in Pro</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Scheduled backups for every profile</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Priority support</li>
+        </ul>
+        <p class="plan-foot">For networks and people running several servers.</p>
+      </article>
+    </div>
+
+    <p class="plans-note reveal"><strong>Read this before planning a purchase.</strong> Monthly pricing is a launch proposal: the tiers, limits and prices can still change before they go on sale, and no monthly plan can be bought on this page today. A ฿289 lifetime licence stays perpetual, is not limited by a monthly server cap, and is not affected if you never subscribe. When monthly billing opens it will be handled by Stripe with card and PromptPay, and you will be able to cancel from the billing portal.</p>
+  </section>
+
   <section class="download-section" id="download" aria-labelledby="download-title">
     <div class="section-heading reveal">
       <div>
-        <span class="section-index">04 / Download</span>
+        <span class="section-index">05 / Download</span>
         <h2 id="download-title">Server Tool Pro<br>v1.4.0</h2>
       </div>
       <p>Install the Pro build to start the trial or activate a key. The free edition is available on the <a href="index.html#server-tool">main page</a>.</p>
@@ -335,7 +405,7 @@
 
   <section class="faq-section" id="faq" aria-labelledby="pro-faq-title">
     <div class="faq-heading reveal">
-      <span class="section-index">05 / Good to know</span>
+      <span class="section-index">06 / Good to know</span>
       <h2 id="pro-faq-title">Pro questions,<br>answered.</h2>
       <a href="https://github.com/FerKunG/server-tool/issues" target="_blank" rel="noopener noreferrer">Open an issue <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a>
     </div>
@@ -400,6 +470,18 @@
           <p>Yes. They use separate data folders and can run side by side. Server folders are stored as absolute paths, so existing worlds keep working after you switch.</p>
         </div>
       </article>
+
+      <article class="faq-item">
+        <h3>
+          <button type="button" id="pro-faq-6-button" aria-expanded="false" aria-controls="pro-faq-6-answer">
+            <span><small>06</small>Can I buy monthly instead of paying once?</span>
+            <svg class="icon faq-icon" aria-hidden="true" focusable="false"><use href="#i-plus"></use></svg>
+          </button>
+        </h3>
+        <div class="faq-answer" id="pro-faq-6-answer" role="region" aria-labelledby="pro-faq-6-button">
+          <p>Not yet. Monthly tiers are planned but not on sale, because online card checkout is not live. Today the only purchase is the ฿289 lifetime licence, which never renews. When monthly billing opens, a monthly licence will expire at the end of the paid period and can be cancelled before the next renewal, while a lifetime licence stays perpetual regardless.</p>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -418,6 +500,7 @@
       <a href="index.html#plugins">Plugins</a>
       <a href="index.html#server-tool">Server tool</a>
       <a href="pro.html">Pro</a>
+      <a href="track.html">Track order</a>
       <a href="guides/index.html">Guides</a>
       <a href="terms.html">License terms</a>
       <a href="privacy.html">Privacy</a>
