@@ -21,6 +21,7 @@ website/
 ├─ pro.html                   Server Tool Pro storefront: pricing, comparison, trial, order
 ├─ pro.css                    Pro storefront layout layered on top of style.css
 ├─ track.html                 order lookup by order id + claim token (calls the payments API)
+├─ account.html               sign-in, order history and internal credit (calls the payments API)
 ├─ config.js                  public runtime config: FERNODE_PAYMENTS_API (empty until deployed)
 ├─ terms.html                 Server Tool Pro license terms
 ├─ about.html                 project background, funding and support
@@ -233,6 +234,30 @@ amount, dates and a claim link. It never displays a licence key.
   call to succeed, and the page needs the Stripe-era claim token from the customer's message.
 - The page is `noindex` and intentionally absent from `sitemap.xml`, because it renders
   query-string tokens.
+
+### Accounts and internal credit (`account.html`)
+
+`account.html` handles registration, sign-in, order history and buying a one-time licence with
+credit. It is linked from the nav and footer of every page.
+
+- Like `track.html`, it reads `window.FERNODE_PAYMENTS_API` from `config.js`. While that is empty
+  the page shows **"Accounts are not open yet"** and hides the sign-in form. Do not remove that
+  notice without a working API origin.
+- Sessions use an `HttpOnly`, `SameSite=Lax` cookie, so the API must be on the **same site** as the
+  page (for example `pay.fernode.online` next to `fernode.online`). A different domain breaks the
+  cookie, and the browser also needs the page origin listed in `ALLOWED_ORIGINS`.
+- Orders appear only when they were created while signed in (`orders.account_id`). Guest orders and
+  orders from before registration are never attached by email, because there is no email
+  verification.
+- The page never displays a licence key. A paid order offers a fresh signed claim link; opening the
+  page again mints a new one.
+- **Credit is added by the seller, not bought on the site.** `account.html` has no top-up form and
+  no card fields. The seller adds credit from the admin **Customers** tab after a bank transfer or
+  PromptPay payment arrives, and the customer then clicks *Buy* on the page. Credit is
+  non-withdrawable, cannot move between accounts, and only buys one-time plans — the page hides the
+  button and explains why for subscription plans (`creditPurchasable: false`).
+- Credit purchases send an `Idempotency-Key` per click; the balance and the append-only history
+  come from `GET /api/account/credit`, so the page can always explain the balance it shows.
 
 ## Google AdSense
 

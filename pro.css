@@ -874,6 +874,66 @@
   word-break: break-all;
 }
 
+.account-head .field-label {
+  display: block;
+  margin-top: 0;
+}
+
+.account-balance {
+  margin-left: auto;
+  text-align: right;
+}
+
+.account-balance strong {
+  font-family: var(--font-mono);
+  font-size: 16px;
+}
+
+.account-buy-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .02);
+}
+
+.account-buy-row > div {
+  flex: 1 1 220px;
+}
+
+.account-buy-row .track-note {
+  margin-top: 4px;
+}
+
+.account-buy-price {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.account-buy-row .account-claim {
+  width: auto;
+  margin-top: 0;
+  padding-left: 18px;
+  padding-right: 18px;
+  white-space: nowrap;
+}
+
+.account-credit-amount {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: #ffb3b3;
+  white-space: nowrap;
+}
+
+.account-credit-amount.is-positive {
+  color: var(--green);
+}
+
 .account-orders-title {
   margin: 22px 0 4px;
   font-size: 20px;
