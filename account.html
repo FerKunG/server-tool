@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your account and orders | FerNode</title>
+<meta name="description" content="Sign in to see your Server Tool Pro orders and claim links. A purchase never requires an account, so you can keep ordering by message.">
+<meta name="theme-color" content="#09090A">
+<meta name="google-adsense-account" content="ca-pub-1821900542837424">
+<link rel="canonical" href="https://fernode.online/account.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="noindex,follow">
+
+<meta property="og:title" content="Your account and orders">
+<meta property="og:description" content="Sign in to see your Server Tool Pro orders and claim links.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fernode.online/account.html">
+<meta property="og:image" content="https://fernode.online/assets/hero-wide.webp">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="pro.css?v=1.1.2">
+
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.6 2.8 8.1 7 10 4.2-1.9 7-5.4 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+</svg>
+
+<div class="site-shell">
+
+<header class="topbar">
+  <a class="brand" href="index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+
+  <nav class="desktop-nav" aria-label="Primary">
+    <a href="index.html#plugins">Plugins</a>
+    <a href="index.html#server-tool">Server tool</a>
+    <a href="guides/index.html">Guides</a>
+    <a href="pro.html">Pro</a>
+    <a href="account.html" aria-current="page">Account</a>
+    <a href="index.html#about">About</a>
+  </nav>
+
+  <a class="header-download" href="pro.html#buy">Buy Pro <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a>
+
+  <button class="menu-button" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+    <svg class="icon menu-open-icon" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg>
+    <svg class="icon menu-close-icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
+  </button>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+    <a href="index.html#plugins">Plugins</a>
+    <a href="index.html#server-tool">Server tool</a>
+    <a href="guides/index.html">Guides</a>
+    <a href="pro.html">Pro</a>
+    <a href="account.html" aria-current="page">Account</a>
+    <a href="index.html#about">About</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="account-section" aria-labelledby="account-title">
+    <div class="section-heading reveal">
+      <div>
+        <span class="section-index">Account</span>
+        <h1 id="account-title">Your orders.</h1>
+      </div>
+      <p>Sign in to see the Pro orders you placed while signed in, and open a fresh claim link for a paid order. Buying never requires an account — this page is only a shortcut.</p>
+    </div>
+
+    <p class="track-offline" id="account-offline" hidden>
+      <strong>Accounts are not open yet.</strong>
+      Sign-in switches on when the checkout service is deployed. Until then every order is handled by message and your key is sent to the email address on the order.
+    </p>
+
+    <div class="account-grid" id="account-signed-out">
+      <form class="track-card reveal" id="auth-form" novalidate>
+        <div class="auth-tabs" role="tablist" aria-label="Sign in or create an account">
+          <button class="auth-tab is-active" id="tab-login" type="button" role="tab" aria-selected="true" aria-controls="auth-form">Sign in</button>
+          <button class="auth-tab" id="tab-register" type="button" role="tab" aria-selected="false" aria-controls="auth-form">Create account</button>
+        </div>
+
+        <label class="field-label" for="auth-email">Email</label>
+        <input class="field" id="auth-email" name="email" type="email" autocomplete="email" spellcheck="false" placeholder="you@example.com" required>
+
+        <label class="field-label" for="auth-password">Password</label>
+        <input class="field" id="auth-password" name="password" type="password" autocomplete="current-password" placeholder="At least 10 characters" required>
+        <p class="field-help" id="auth-password-help" hidden>Use at least 10 characters. A password manager works well here.</p>
+
+        <div id="auth-name-row" hidden>
+          <label class="field-label" for="auth-name">Name (optional)</label>
+          <input class="field" id="auth-name" name="name" type="text" autocomplete="name" placeholder="Name on the licence">
+        </div>
+
+        <button class="primary-cta pro-buy-cta" id="auth-submit" type="submit">
+          Sign in <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg>
+        </button>
+
+        <p class="status-note" id="auth-error" hidden></p>
+      </form>
+
+      <aside class="track-card reveal">
+        <h2>What an account adds</h2>
+        <ul class="price-list">
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Order history for purchases made while signed in</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> A fresh claim link without digging through old messages</li>
+          <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> The same offline licence — the app never needs an account</li>
+        </ul>
+        <p class="track-note">Orders placed before you created an account are not imported automatically, because this service does not verify email addresses yet. Keep the claim link from your purchase message, or <a href="track.html">look the order up with its token</a>.</p>
+        <p class="track-note">No store account yet? <a href="pro.html#buy">See how ordering works</a>.</p>
+      </aside>
+    </div>
+
+    <div class="account-grid" id="account-signed-in" hidden>
+      <div class="track-card reveal">
+        <div class="account-head">
+          <div>
+            <span class="field-label">Signed in as</span>
+            <strong id="account-email">—</strong>
+          </div>
+          <button class="copy-button" id="account-signout" type="button">Sign out</button>
+        </div>
+
+        <h2 class="account-orders-title">Orders</h2>
+        <p class="track-note" id="account-empty" hidden>No orders yet. Orders appear here when you buy while signed in.</p>
+        <div class="account-orders" id="account-orders" aria-live="polite"></div>
+        <p class="status-note" id="account-error" hidden></p>
+      </div>
+
+      <aside class="track-card reveal">
+        <h2>How keys are delivered</h2>
+        <p class="track-note">A paid order shows a claim button. The link is signed, tied to that one order and expires after a few days; open this page again for a new one.</p>
+        <p class="track-note">This page never displays the licence key itself. Paste the key into Server Tool Pro once and it stays valid offline.</p>
+        <p class="track-note">Payment questions, refunds or a key that will not activate? Open an <a href="https://github.com/FerKunG/server-tool/issues" target="_blank" rel="noopener noreferrer">issue</a> with the order id.</p>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <a class="brand footer-brand" href="index.html" aria-label="FerNode home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+        <span>FERNODE</span>
+      </a>
+      <p>Sharp tools for better Minecraft servers.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="index.html#plugins">Plugins</a>
+      <a href="index.html#server-tool">Server tool</a>
+      <a href="pro.html">Pro</a>
+      <a href="account.html">Account</a>
+      <a href="track.html">Track order</a>
+      <a href="guides/index.html">Guides</a>
+      <a href="terms.html">License terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="https://www.youtube.com/@FerKunGsXD" target="_blank" rel="noopener noreferrer">YouTube</a>
+    </nav>
+  </div>
+  <span class="footer-legal">&copy; 2026 FerNode by FerKunGsXD. Not affiliated with Mojang or Microsoft.</span>
+</footer>
+
+</div>
+
+<noscript>
+  <p class="noscript-note">JavaScript is off. Sign-in needs JavaScript; message us instead and we will check an order for you.</p>
+</noscript>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js?v=1.3.1"></script>
+<script src="config.js"></script>
+<script>
+  (function () {
+    var API = (window.FERNODE_PAYMENTS_API || '').replace(/\/+$/, '');
+    var offline = document.getElementById('account-offline');
+    var signedOut = document.getElementById('account-signed-out');
+    var signedIn = document.getElementById('account-signed-in');
+    var form = document.getElementById('auth-form');
+    var emailInput = document.getElementById('auth-email');
+    var passwordInput = document.getElementById('auth-password');
+    var nameRow = document.getElementById('auth-name-row');
+    var nameInput = document.getElementById('auth-name');
+    var submit = document.getElementById('auth-submit');
+    var passwordHelp = document.getElementById('auth-password-help');
+    var errorBox = document.getElementById('auth-error');
+    var tabLogin = document.getElementById('tab-login');
+    var tabRegister = document.getElementById('tab-register');
+    var emailLabel = document.getElementById('account-email');
+    var ordersBox = document.getElementById('account-orders');
+    var emptyNote = document.getElementById('account-empty');
+    var accountError = document.getElementById('account-error');
+    var signOutButton = document.getElementById('account-signout');
+    var mode = 'login';
+
+    if (!API) {
+      offline.hidden = false;
+      signedOut.hidden = true;
+      signedIn.hidden = true;
+      return;
+    }
+
+    function setMode(next) {
+      mode = next;
+      var registering = next === 'register';
+      tabLogin.classList.toggle('is-active', !registering);
+      tabRegister.classList.toggle('is-active', registering);
+      tabLogin.setAttribute('aria-selected', String(!registering));
+      tabRegister.setAttribute('aria-selected', String(registering));
+      nameRow.hidden = !registering;
+      passwordHelp.hidden = !registering;
+      passwordInput.setAttribute('autocomplete', registering ? 'new-password' : 'current-password');
+      submit.firstChild.textContent = registering ? 'Create account ' : 'Sign in ';
+      clearError();
+    }
+
+    function showError(message) {
+      errorBox.textContent = message;
+      errorBox.hidden = false;
+      errorBox.classList.add('is-warn');
+    }
+
+    function clearError() {
+      errorBox.textContent = '';
+      errorBox.hidden = true;
+      errorBox.classList.remove('is-warn');
+    }
+
+    function showAccountError(message) {
+      accountError.textContent = message;
+      accountError.hidden = false;
+      accountError.classList.add('is-warn');
+    }
+
+    function formatMoney(satang, currency) {
+      var amount = (Number(satang) || 0) / 100;
+      var code = (currency || 'thb').toUpperCase();
+      try {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: code }).format(amount);
+      } catch (error) {
+        return code + ' ' + amount.toFixed(2);
+      }
+    }
+
+    function formatDate(value) {
+      if (!value) return '—';
+      var date = new Date(value);
+      if (Number.isNaN(date.getTime())) return '—';
+      return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    function request(path, options) {
+      var config = options || {};
+      return fetch(API + path, {
+        method: config.method || 'GET',
+        credentials: 'include',
+        headers: config.body ? { 'content-type': 'application/json', accept: 'application/json' } : { accept: 'application/json' },
+        body: config.body ? JSON.stringify(config.body) : undefined
+      }).then(function (response) {
+        return response.json().catch(function () { return {}; }).then(function (body) {
+          if (!response.ok) {
+            var message = body && body.error && body.error.message;
+            var code = body && body.error && body.error.code;
+            if (code === 'INVALID_CREDENTIALS') message = 'Email or password is incorrect.';
+            if (code === 'EMAIL_TAKEN') message = 'An account with this email already exists. Sign in instead.';
+            if (code === 'WEAK_PASSWORD') message = 'Use a password with at least 10 characters.';
+            if (code === 'INVALID_EMAIL') message = 'Enter a valid email address.';
+            if (code === 'RATE_LIMITED') message = 'Too many attempts. Wait a minute and try again.';
+            if (response.status === 401) message = message || 'Sign in again to continue.';
+            var error = new Error(message || 'Request failed (' + response.status + ').');
+            error.status = response.status;
+            error.code = code;
+            throw error;
+          }
+          return body;
+        });
+      });
+    }
+
+    function renderSignedOut() {
+      signedIn.hidden = true;
+      signedOut.hidden = false;
+    }
+
+    function renderOrders(orders) {
+      ordersBox.replaceChildren();
+      emptyNote.hidden = orders.length > 0;
+
+      orders.forEach(function (order) {
+        var card = document.createElement('div');
+        card.className = 'account-order';
+
+        var head = document.createElement('div');
+        head.className = 'account-order-head';
+        var title = document.createElement('strong');
+        title.textContent = order.planName || order.planCode;
+        var badge = document.createElement('span');
+        badge.className = 'track-badge track-badge-' + String(order.status || '').toLowerCase();
+        badge.textContent = String(order.status || 'unknown').toUpperCase();
+        head.appendChild(title);
+        head.appendChild(badge);
+        card.appendChild(head);
+
+        var meta = document.createElement('p');
+        meta.className = 'account-order-meta';
+        meta.textContent = formatMoney(order.amountSatang, order.currency) + ' · placed ' + formatDate(order.createdAt) + (order.paidAt ? ' · paid ' + formatDate(order.paidAt) : '');
+        card.appendChild(meta);
+
+        var ref = document.createElement('code');
+        ref.className = 'account-order-id';
+        ref.textContent = order.orderId;
+        card.appendChild(ref);
+
+        if (order.claimUrl) {
+          var claim = document.createElement('button');
+          claim.type = 'button';
+          claim.className = 'primary-cta pro-buy-cta account-claim';
+          claim.textContent = 'Claim license key';
+          claim.addEventListener('click', function () {
+            claim.disabled = true;
+            claim.textContent = 'Opening…';
+            request('/api/account/orders/' + encodeURIComponent(order.orderId) + '/claim-link', { method: 'POST', body: {} })
+              .then(function (data) { window.location.href = data.url; })
+              .catch(function (error) {
+                claim.disabled = false;
+                claim.textContent = 'Claim license key';
+                showAccountError(error.message);
+              });
+          });
+          card.appendChild(claim);
+        } else if (order.status === 'paid') {
+          var note = document.createElement('p');
+          note.className = 'track-note';
+          note.textContent = 'Payment received. The claim button appears once the licence has been issued — reload in a moment.';
+          card.appendChild(note);
+        } else if (order.status === 'pending') {
+          var pending = document.createElement('p');
+          pending.className = 'track-note';
+          pending.textContent = 'Waiting for payment confirmation.';
+          card.appendChild(pending);
+        }
+
+        ordersBox.appendChild(card);
+      });
+    }
+
+    function loadOrders() {
+      accountError.hidden = true;
+      return request('/api/account/orders').then(function (data) {
+        emailLabel.textContent = data.account.email;
+        signedOut.hidden = true;
+        signedIn.hidden = false;
+        renderOrders(data.orders || []);
+      });
+    }
+
+    function afterSignIn(data) {
+      emailLabel.textContent = data.account.email;
+      signedOut.hidden = true;
+      signedIn.hidden = false;
+      form.reset();
+      loadOrders().catch(function (error) {
+        if (error.status === 401) renderSignedOut();
+        else showAccountError(error.message);
+      });
+    }
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      clearError();
+      var email = emailInput.value.trim();
+      var password = passwordInput.value;
+      if (!email || !password) {
+        showError('Enter your email and password.');
+        return;
+      }
+      submit.disabled = true;
+      var path = mode === 'register' ? '/api/auth/register' : '/api/auth/login';
+      var body = { email: email, password: password };
+      if (mode === 'register' && nameInput.value.trim()) body.name = nameInput.value.trim();
+      request(path, { method: 'POST', body: body })
+        .then(afterSignIn)
+        .catch(function (error) { showError(error.message); })
+        .then(function () { submit.disabled = false; });
+    });
+
+    tabLogin.addEventListener('click', function () { setMode('login'); });
+    tabRegister.addEventListener('click', function () { setMode('register'); });
+
+    signOutButton.addEventListener('click', function () {
+      signOutButton.disabled = true;
+      request('/api/auth/logout', { method: 'POST', body: {} })
+        .catch(function () { /* clearing the local view is enough */ })
+        .then(function () {
+          signOutButton.disabled = false;
+          ordersBox.replaceChildren();
+          emailLabel.textContent = '—';
+          renderSignedOut();
+        });
+    });
+
+    request('/api/auth/me')
+      .then(function (data) {
+        if (data.account) {
+          emailLabel.textContent = data.account.email;
+          signedOut.hidden = true;
+          signedIn.hidden = false;
+          loadOrders().catch(function (error) {
+            if (error.status === 401) renderSignedOut();
+            else showAccountError(error.message);
+          });
+        } else {
+          renderSignedOut();
+        }
+      })
+      .catch(function () {
+        renderSignedOut();
+      });
+  })();
+</script>
+</body>
+</html>
