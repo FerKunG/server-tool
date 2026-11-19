@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart — FerNode Shop</title>
+<meta name="description" content="Your FerNode Shop cart. Pay with account credit or a card and receive the Server Tool Pro licence key right after payment.">
+<meta name="theme-color" content="#09090A">
+<meta name="google-adsense-account" content="ca-pub-1821900542837424">
+<link rel="canonical" href="https://fernode.online/cart.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="noindex,follow">
+<meta property="og:title" content="Cart — FerNode Shop">
+<meta property="og:description" content="Pay with account credit or a card and receive your licence key after payment.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fernode.online/cart.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=1.3.0-dark">
+<link rel="stylesheet" href="pro.css?v=1.1.3">
+<link rel="stylesheet" href="shop.css?v=1.0.1">
+
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Z"/><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 19h16"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M18.5 9A7 7 0 0 0 6 6.5L4 9M5.5 15A7 7 0 0 0 18 17.5l2-2.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.6 2.8 8.1 7 10 4.2-1.9 7-5.4 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-5"/></symbol>
+  <symbol id="i-tree" viewBox="0 0 24 24"><path d="M12 3 6 11h3l-4 6h14l-4-6h3L12 3Z"/><path d="M12 17v4"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+</svg>
+
+<div class="site-shell">
+
+<header class="topbar">
+  <a class="brand" href="index.html" aria-label="FerNode home">
+    <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+    <span>FERNODE</span>
+  </a>
+
+  <nav class="desktop-nav" aria-label="Main navigation">
+    <a href="products.html">Shop</a>
+    <a href="pro.html">Pro</a>
+    <a href="guides/index.html">Guides</a>
+    <a href="account.html">Account</a>
+    <a href="index.html#about">About</a>
+  </nav>
+
+  <a class="cart-link" href="cart.html" data-cart-link aria-current="page">
+    <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cart"></use></svg>
+    <span data-cart-label>Cart</span>
+  </a>
+
+  <button class="menu-button" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+    <svg class="icon menu-open-icon" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg>
+    <svg class="icon menu-close-icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
+  </button>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+    <a href="products.html">Shop</a>
+    <a href="cart.html" aria-current="page">Cart</a>
+    <a href="pro.html">Pro</a>
+    <a href="guides/index.html">Guides</a>
+    <a href="account.html">Account</a>
+    <a href="track.html">Track order</a>
+    <a href="index.html#about">About</a>
+  </nav>
+</header>
+
+<main id="main" class="shop-main">
+  <div class="shop-wrap">
+
+    <nav class="shop-breadcrumb" aria-label="Breadcrumb">
+      <a href="products.html">Shop</a>
+      <svg class="icon" aria-hidden="true" focusable="false" style="width:12px;height:12px"><use href="#i-chevron"></use></svg>
+      <span>Cart</span>
+    </nav>
+
+    <div class="section-heading reveal" style="margin-bottom:22px">
+      <div>
+        <span class="section-index">Cart</span>
+        <h1 id="cart-title">Your cart.</h1>
+      </div>
+      <p>One licence per order. Credit is added by the seller after a transfer is confirmed; it is not a cash balance and cannot be withdrawn.</p>
+    </div>
+
+    <div class="shop-empty" id="cart-empty" hidden>
+      <h2>Your cart is empty</h2>
+      <p>Add the Server Tool Pro licence from the shop, or download a free plugin without an account.</p>
+      <a class="primary-cta" href="products.html">Browse the shop <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a>
+    </div>
+
+    <div class="shop-cart-layout" id="cart-layout" hidden>
+      <section class="shop-cart-list" id="cart-list" aria-label="Items in your cart"></section>
+
+      <aside class="shop-summary-card" aria-labelledby="summary-title">
+        <h2 id="summary-title">Summary</h2>
+        <div class="shop-summary-row"><span>Items</span><strong id="summary-count">0</strong></div>
+        <div class="shop-summary-row"><span>Delivery</span><strong>Instant, in this page</strong></div>
+        <div class="shop-summary-total"><span>Total</span><strong id="summary-total">—</strong></div>
+
+        <p class="shop-summary-row" id="summary-credit-row" hidden>
+          <span>Your credit</span><strong id="summary-credit">—</strong>
+        </p>
+
+        <div id="cart-actions"></div>
+
+        <div id="cart-card-form" hidden>
+          <label class="field-label" for="cart-email">Email for the receipt</label>
+          <input class="field" id="cart-email" name="email" type="email" autocomplete="email" spellcheck="false" placeholder="you@example.com">
+          <label class="field-label" for="cart-name">Name (optional)</label>
+          <input class="field" id="cart-name" name="name" type="text" autocomplete="name" placeholder="Name on the order">
+          <button class="shop-secondary" id="cart-card-submit" type="button">Continue to card payment</button>
+        </div>
+
+        <p class="shop-buy-note" id="cart-note"></p>
+        <p class="shop-status" id="cart-status" role="status" hidden></p>
+      </aside>
+    </div>
+
+    <p class="shop-status" id="shop-notice" hidden></p>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <a class="brand footer-brand" href="index.html" aria-label="FerNode home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"></use></svg></span>
+        <span>FERNODE</span>
+      </a>
+      <p>Sharp tools for better Minecraft servers.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="products.html">Shop</a>
+      <a href="pro.html">Pro</a>
+      <a href="guides/index.html">Guides</a>
+      <a href="account.html">Account</a>
+      <a href="track.html">Track order</a>
+      <a href="terms.html">License terms</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="https://github.com/FerKunG/server-tool/issues" target="_blank" rel="noopener noreferrer">Support</a>
+      <a href="https://www.youtube.com/@FerKunGsXD" target="_blank" rel="noopener noreferrer">YouTube</a>
+    </nav>
+  </div>
+  <span class="footer-legal">&copy; 2026 FerNode by FerKunGsXD. Not affiliated with Mojang or Microsoft.</span>
+</footer>
+
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js?v=1.3.1"></script>
+<script src="config.js"></script>
+<script src="shop.js?v=1.0.1"></script>
+<script>
+  (function () {
+    var shop = window.FerShop;
+    var layout = document.getElementById('cart-layout');
+    var empty = document.getElementById('cart-empty');
+    var list = document.getElementById('cart-list');
+    var countLabel = document.getElementById('summary-count');
+    var totalLabel = document.getElementById('summary-total');
+    var creditRow = document.getElementById('summary-credit-row');
+    var creditLabel = document.getElementById('summary-credit');
+    var actions = document.getElementById('cart-actions');
+    var cardForm = document.getElementById('cart-card-form');
+    var emailInput = document.getElementById('cart-email');
+    var nameInput = document.getElementById('cart-name');
+    var cardSubmit = document.getElementById('cart-card-submit');
+    var note = document.getElementById('cart-note');
+    var status = document.getElementById('cart-status');
+    var notice = document.getElementById('shop-notice');
+
+    var store = { plans: {}, offline: true };
+    var account = null;
+
+    function setStatus(message, tone) {
+      status.hidden = !message;
+      status.className = 'shop-status' + (tone ? ' is-' + tone : '');
+      status.textContent = message || '';
+    }
+
+    function money(satang) {
+      return shop.formatMoney(satang);
+    }
+
+    function entries() {
+      return shop.cartEntries();
+    }
+
+    function signInUrl() {
+      return 'account.html?next=' + encodeURIComponent('/cart.html');
+    }
+
+    function renderRows() {
+      list.replaceChildren();
+      var items = entries();
+      countLabel.textContent = String(items.length);
+      totalLabel.textContent = items.length ? money(shop.cartTotalSatang(store.plans)) : '—';
+
+      items.forEach(function (item) {
+        var row = shop.el('div', 'shop-cart-row');
+
+        var thumb = shop.el('div', 'shop-cart-thumb');
+        thumb.appendChild(shop.icon(item.icon));
+
+        var info = document.createElement('div');
+        var name = shop.el('p', 'shop-cart-name');
+        var link = shop.el('a', null, item.name);
+        link.href = 'product.html?p=' + encodeURIComponent(item.slug);
+        name.appendChild(link);
+        info.appendChild(name);
+        info.appendChild(
+          shop.el(
+            'p',
+            'shop-cart-sub',
+            item.kind + ' · instant key delivery'
+          )
+        );
+        var remove = shop.el('button', 'shop-cart-remove', 'Remove');
+        remove.type = 'button';
+        remove.addEventListener('click', function () {
+          shop.removeFromCart(item.slug);
+          setStatus('', null);
+          renderAll();
+        });
+        info.appendChild(remove);
+
+        var price = shop.el('div', 'shop-cart-price', money(shop.cartTotalSatang(store.plans)));
+
+        row.appendChild(thumb);
+        row.appendChild(info);
+        row.appendChild(price);
+        list.appendChild(row);
+      });
+    }
+
+    function renderActions() {
+      actions.replaceChildren();
+      cardForm.hidden = true;
+      note.className = 'shop-buy-note';
+      note.textContent = '';
+
+      var items = entries();
+      if (!items.length) return;
+      var item = items[0];
+      var state = shop.planState(item, store);
+
+      if (!state.purchasable && !state.creditPurchasable) {
+        var blocked = shop.el('button', 'primary-cta', 'Checkout not connected');
+        blocked.type = 'button';
+        blocked.disabled = true;
+        actions.appendChild(blocked);
+        note.className = 'shop-buy-note is-warn';
+        note.textContent = shop.apiEnabled()
+          ? state.reason || 'This licence cannot be bought right now.'
+          : 'The checkout service is not connected on this copy of the site yet. Your cart is saved in this browser until checkout opens.';
+        return;
+      }
+
+      if (state.creditPurchasable && account) {
+        var affordable = (account.creditSatang || 0) >= state.priceSatang;
+        var credit = shop.el(
+          'button',
+          'primary-cta',
+          affordable ? 'Pay with credit — ' + money(state.priceSatang) : 'Need ' + money(state.priceSatang - (account.creditSatang || 0)) + ' more credit'
+        );
+        credit.type = 'button';
+        credit.disabled = !affordable;
+        if (affordable) {
+          credit.addEventListener('click', function () {
+            if (!window.confirm('Use ' + money(state.priceSatang) + ' credit for ' + item.name + '? Credit cannot be withdrawn or moved to another account.')) return;
+            credit.disabled = true;
+            credit.textContent = 'Buying…';
+            setStatus('', null);
+            shop.buyWithCredit(item.slug)
+              .then(function (result) {
+                shop.clearCart();
+                renderAll();
+                var text = document.createTextNode(
+                  'Paid with credit. Order ' + result.orderId + ' is ready — open your orders to claim the key. '
+                );
+                var link = shop.el('a', null, 'Open my orders');
+                link.href = 'account.html';
+                notice.hidden = false;
+                notice.className = 'shop-status is-ok';
+                notice.replaceChildren(text, link);
+              })
+              .catch(function (error) {
+                credit.disabled = false;
+                credit.textContent = 'Pay with credit — ' + money(state.priceSatang);
+                setStatus(error.message, 'error');
+              });
+          });
+        } else {
+          note.textContent = 'Credit is added by the seller after a transfer is confirmed. Contact the seller with your account email, then reload this page.';
+        }
+        actions.appendChild(credit);
+      } else if (state.creditPurchasable) {
+        var signIn = shop.el('a', 'primary-cta', 'Sign in to pay with credit');
+        signIn.href = signInUrl();
+        actions.appendChild(signIn);
+        note.textContent = 'Credit is added by the seller after a transfer is confirmed. Sign in to see your balance.';
+      }
+
+      if (state.purchasable) {
+        var card = shop.el('button', 'shop-secondary', 'Pay by card');
+        card.type = 'button';
+        card.addEventListener('click', function () {
+          cardForm.hidden = !cardForm.hidden;
+          if (!cardForm.hidden) emailInput.focus();
+        });
+        actions.appendChild(card);
+        if (account && !emailInput.value) emailInput.value = account.email;
+        if (!note.textContent) note.textContent = 'Card payment opens a secure Stripe checkout. The key is issued after payment is confirmed.';
+      }
+    }
+
+    function renderAll() {
+      var items = entries();
+      var hasItems = items.length > 0;
+      empty.hidden = hasItems;
+      layout.hidden = !hasItems;
+
+      if (account) {
+        creditRow.hidden = false;
+        creditLabel.textContent = money(account.creditSatang || 0);
+      } else {
+        creditRow.hidden = true;
+      }
+
+      if (!hasItems) {
+        actions.replaceChildren();
+        shop.updateCartLink(document.querySelector('[data-cart-link]'));
+        return;
+      }
+      renderRows();
+      renderActions();
+      shop.updateCartLink(document.querySelector('[data-cart-link]'));
+    }
+
+    cardSubmit.addEventListener('click', function () {
+      var items = entries();
+      if (!items.length) return;
+      var email = emailInput.value.trim();
+      if (!email || email.indexOf('@') === -1) {
+        setStatus('Enter the email address for the receipt.', 'error');
+        emailInput.focus();
+        return;
+      }
+      cardSubmit.disabled = true;
+      cardSubmit.textContent = 'Opening checkout…';
+      setStatus('', null);
+      shop.startCardCheckout(items[0].slug, email, nameInput.value.trim())
+        .then(function (result) {
+          window.location.href = result.checkoutUrl;
+        })
+        .catch(function (error) {
+          cardSubmit.disabled = false;
+          cardSubmit.textContent = 'Continue to card payment';
+          setStatus(error.message, 'error');
+        });
+    });
+
+    shop.loadPlans().then(function (loaded) {
+      store = loaded;
+      renderAll();
+      if (!shop.apiEnabled()) {
+        notice.hidden = false;
+        notice.textContent =
+          'Card and credit checkout are not connected on this copy of the site yet. Your cart stays in this browser and the shop still lists every product.';
+        return;
+      }
+      shop.currentSession().then(function (session) {
+        account = session;
+        renderAll();
+      });
+    });
+  })();
+</script>
+</body>
+</html>
