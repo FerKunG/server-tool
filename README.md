@@ -3,11 +3,13 @@
 The public site for **FerNode** by **FerKunGsXD**. Plain HTML, CSS and vanilla
 JavaScript — no build step and no framework.
 
-The site has two main jobs:
+The site has three main jobs:
 
 1. Offer the FerNode Windows app download, with version history and a SHA-256 checksum.
 2. Offer the FerNode plugin library, with search, Minecraft version filtering and direct
    JAR downloads.
+3. Run the shop: the Pro licence and the free plugins as product pages, with a cart,
+   sign-in, credit checkout and order history.
 
 > **Brand note:** the website is branded FerNode. The current 1.4.1 app downloads still
 > contain `Server Tool.exe` and use the original asset filenames. Rebuild and rename the app
@@ -20,6 +22,11 @@ website/
 ├─ index.html                 homepage: hero, plugins, principles, app, gallery, guides, FAQ
 ├─ pro.html                   Server Tool Pro storefront: pricing, comparison, trial, order
 ├─ pro.css                    Pro storefront layout layered on top of style.css
+├─ products.html              shop grid: filters, search, sort and product cards
+├─ product.html               product detail (`?p=slug`): media, price, buy, cart, related
+├─ cart.html                  cart and checkout (noindex)
+├─ shop.css                   storefront, product and cart styles
+├─ shop.js                    product catalog, cart storage and checkout helpers
 ├─ track.html                 order lookup by order id + claim token (calls the payments API)
 ├─ account.html               sign-in, order history and internal credit (calls the payments API)
 ├─ config.js                  public runtime config: FERNODE_PAYMENTS_API (empty until deployed)
@@ -234,6 +241,32 @@ amount, dates and a claim link. It never displays a licence key.
   call to succeed, and the page needs the Stripe-era claim token from the customer's message.
 - The page is `noindex` and intentionally absent from `sitemap.xml`, because it renders
   query-string tokens.
+
+### Shop (`products.html`, `product.html`, `cart.html`)
+
+The shop turns the same catalogue into a storefront without adding a build step:
+
+- `shop.js` holds one entry per product: `server-tool-pro-lifetime` (launch price),
+  `server-tool-pro-monthly` (planned, not on sale) and the three free plugins plus the bundle.
+  Licence cards read the live price and availability from `GET /api/plans`; the static fallback
+  is only the price already published on `pro.html`.
+- `products.html` renders the grid with category chips, search and sorting. Every card links to
+  `product.html?p=<slug>`.
+- `product.html` renders the media, highlights, details and buy box. A licence can be bought with
+  account credit (sign-in required) or by card when `purchasable` is true. The planned monthly
+  plan is disabled with an explicit "not on sale yet" note.
+- `cart.html` keeps **one licence** in `localStorage` (`fernnode-cart-v1`); adding another licence
+  replaces it, because each licence needs its own payment. Free plugins are direct downloads and
+  never enter the cart.
+- Credit checkout calls `POST /api/account/purchase` with a per-click `Idempotency-Key` and only
+  reports success after the service returns a paid order. The order then appears on
+  `account.html` with a fresh claim link. Card checkout calls `POST /api/checkout` and redirects
+  to the returned Stripe URL; nothing is marked paid on the site.
+- `config.js` is still the only switch. While `FERNODE_PAYMENTS_API` is empty, shop buttons are
+  disabled and the page states that checkout is not connected. No order, key or "paid" state is
+  ever simulated in the browser.
+- `products.html` is in `sitemap.xml`; `product.html` uses it as the canonical URL; `cart.html`
+  is `noindex`. The cart badge and header cart link are wired with `data-cart-link`.
 
 ### Accounts and internal credit (`account.html`)
 

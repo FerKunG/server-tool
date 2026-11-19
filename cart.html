@@ -384,7 +384,7 @@
       if (!shop.apiEnabled()) {
         notice.hidden = false;
         notice.textContent =
-          'Card and credit checkout are not connected on this copy of the site yet. Your cart stays in this browser and the shop still lists every product.';
+          'Card and credit checkout are not connected yet. Your cart stays in this browser and the shop still lists every product.';
         return;
       }
       shop.currentSession().then(function (session) {

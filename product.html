@@ -359,7 +359,7 @@
         note.className = 'shop-buy-note is-warn';
         note.textContent = shop.apiEnabled()
           ? state.reason || 'This licence cannot be bought right now.'
-          : 'The checkout service is not connected on this copy of the site yet. The licence details and free downloads still work.';
+          : 'Checkout is not connected yet. The licence details and free downloads still work.';
         return;
       }
 
@@ -480,7 +480,7 @@
       if (!shop.apiEnabled()) {
         notice.hidden = false;
         notice.textContent =
-          'Card and credit checkout are not connected on this copy of the site yet. Licence details and free plugin downloads still work.';
+          'Card and credit checkout are not connected yet. Licence details and free plugin downloads still work.';
         return;
       }
       shop.currentSession().then(function (session) {
